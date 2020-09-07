@@ -1,0 +1,1429 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+span,
+button,
+textarea {
+  margin: 0.5em;
+}
+
+@mixin themable(
+  $theme-name,
+  $body-bg,
+  $body-color,
+  $square-bg,
+  $square-border,
+  $square-hover,
+  $card-red,
+  $card-yellow,
+  $card-green,
+  $card-blue,
+  $card-purple,
+  $card-black
+) {
+  body {
+    // background-color: $body-bg;
+    margin: 0;
+  }
+
+  .#{$theme-name} {
+    text-align: center;
+    color: $body-color;
+    font-family: monospace;
+    font-size: 1.25em;
+    background-color: $body-bg;
+
+    // menu
+    .menu {
+      .action {
+        margin: 0.5em auto;
+      }
+    }
+
+    // palette: color selector component
+    .palette {
+      width: max-content;
+
+      .swatch {
+        display: inline-block;
+        position: relative;
+        margin: 0.75em 1em 2em 1em;
+        cursor: pointer;
+
+        .paper {
+          width: 1em;
+          height: 1em;
+        }
+
+        .border {
+          padding: 0.9em;
+          border: 0.165em solid transparent;
+          margin: -0.6em;
+          &.selected,
+          &:hover {
+            border-color: white;
+            border-radius: 1em;
+          }
+        }
+
+        .label {
+          margin-top: 0.75em;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    }
+
+    // mission: cards that are missions
+    .mission {
+      .badge {
+        height: 1.5em;
+        margin-right: 0.5em;
+        position: relative;
+        bottom: -0.33em;
+      }
+    }
+
+    // card: main element
+    .card {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: -moz-fit-content;
+      width: fit-content;
+      padding: 0.5em 1.5em;
+      background-color: black;
+      margin-bottom: 1em;
+
+      &.full,
+      &.face {
+        min-height: 6em;
+        max-width: 98vw;
+
+        @media only screen and (min-width: 600px) {
+          min-width: 30em;
+        }
+
+        & > .hud > .coin > .hodls {
+          top: 0.65em;
+        }
+      }
+
+      &.full {
+        box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+
+        .priority {
+          min-height: 2.325em;
+
+          .coin {
+            margin-top: 0;
+            .hodls {
+              top: 0.375em;
+            }
+          }
+        }
+      }
+
+      &.compact {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 8em;
+        height: 8em;
+        overflow: hidden;
+        transform: unset;
+
+        .coin {
+          position: absolute;
+        }
+      }
+
+      &.priority,
+      &.context,
+      &.mission {
+        position: relative;
+        margin-top: 0.25em;
+        text-align: left;
+        min-height: 0;
+        width: 100%;
+        min-width: unset;
+
+        .content,
+        .content > p {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+        .stack {
+          margin-right: 1em;
+          margin-left: 1em;
+        }
+      }
+
+      &.priority,
+      &.mission {
+        padding: 0;
+        margin-bottom: 0.5em;
+
+        &.padbottom {
+          padding-bottom: 0.25em;
+        }
+
+        .content {
+          padding: 0.55em 1em 0.55em 1em;
+        }
+
+        .coin {
+          width: 2em;
+          height: 2em;
+          transform: unset;
+          margin: 0;
+          left: -0.5em;
+          bottom: 0;
+          top: -0.35em;
+          display: inline-block;
+          float: left;
+        }
+
+        & > .hud {
+          z-index: 1;
+          position: relative;
+          float: right;
+          margin-left: 0.5em;
+
+          .mission,
+          .preview,
+          .countdown,
+          .value,
+          .checkbox,
+          .cardMenuButton {
+            display: inline-block;
+          }
+
+          .mission,
+          .preview,
+          .countdown,
+          .value {
+            font-size: 0.8em;
+          }
+
+          .mission,
+          .preview,
+          .countdown {
+            margin-right: 0.75em;
+          }
+
+          .mission {
+            .badge {
+              height: 1.5em;
+              margin-right: 0.25em;
+              position: relative;
+              top: 0.31em;
+            }
+          }
+
+          .value {
+            margin-right: 0.5em;
+          }
+
+          .checkbox {
+            position: relative;
+            top: 0.4em;
+          }
+
+          .cardMenuButton {
+            font-size: 1.15em;
+            padding: 0.35em 0.25em;
+          }
+
+          .action {
+            display: inline;
+            margin-right: 0.5em;
+            padding-bottom: 0.25em;
+          }
+        }
+      }
+
+      &.priority {
+        min-height: 2.325em;
+      }
+
+      &.mission {
+        .coin {
+          .hodls {
+            top: 0.25em;
+          }
+        }
+      }
+
+      .context {
+        max-height: 3.5em;
+        overflow-y: hidden;
+      }
+
+      &.mini {
+        position: absolute;
+        top: 0;
+        background-color: black;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+
+        &:hover {
+        }
+
+        & > .content {
+          position: relative;
+          font-size: 0.8em;
+          margin: 0;
+          height: 100%;
+
+          h1 {
+            font-size: 1.1em;
+          }
+
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            font-size: 1.05em;
+          }
+        }
+
+        & > .hud {
+          position: relative;
+          pointer-events: none;
+
+          &.mini.before {
+            .seen {
+              position: absolute;
+              content: '';
+              top: 0.25em;
+              left: 0.25em;
+              height: 0.375em;
+              width: 0.375em;
+              border-radius: 50%;
+              background-color: rgba(255, 10, 10, 0.85);
+            }
+
+            & > .mission,
+            & > .countdown,
+            & > .value {
+              background-color: rgba(0, 0, 0, 0.2);
+              font-size: 0.75em;
+              padding: 0.25em;
+              margin: 0;
+            }
+
+            & > .countdown,
+            & > .mission {
+              float: left;
+              pointer-events: none;
+            }
+
+            & > .mission {
+              text-align: left;
+              .badge {
+                height: 1.1em;
+                margin-right: 0.25em;
+                position: relative;
+                top: 0.2em;
+                left: 0.05em;
+              }
+            }
+
+            & > .value {
+              font-size: 0.6em;
+              float: right;
+            }
+
+            & > .checkbox {
+              float: right;
+              height: 0.75em;
+              width: 0.75em;
+              opacity: 0.75;
+              display: inline;
+              pointer-events: none;
+              padding-top: 0.175em;
+              padding-right: 0.15em;
+            }
+          }
+
+          &.mini.after {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            pointer-events: auto;
+
+            .countdown {
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              background-color: rgba(0, 0, 0, 0.2);
+              font-size: 0.6em;
+              padding: 0.25em;
+              margin: 0 1em 0 0;
+              width: max-content;
+            }
+
+            & > .preview {
+              position: absolute;
+              right: 1.2em;
+              bottom: 0;
+              font-size: 0.75em;
+              padding: 0.25em;
+              // pointer-events: none;
+              margin: 0;
+              background-color: rgba(0, 0, 0, 0.2);
+
+              & .nopad {
+                padding-left: 0;
+                padding-right: 0;
+              }
+            }
+
+            & > .cardMenuButton {
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              font-size: 0.9em;
+              padding: 0.1em 0;
+            }
+          }
+        }
+      }
+
+      .content {
+        position: relative;
+        margin: 1em auto;
+        max-width: 28em;
+
+        a {
+          text-shadow: 0 0 1em #fff, 0 0 0.5em #fff;
+          overflow-wrap: break-word;
+          word-break: break-all;
+        }
+
+        p img {
+          max-width: 100%;
+        }
+
+        .mission {
+          .badge {
+            height: 1.5em;
+            margin-right: 0.5em;
+            position: relative;
+            top: 0.33em;
+          }
+        }
+      }
+
+      .stack > .dropZone > .action,
+      .grid .menu .action {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .stack > .dropZone {
+        position: relative;
+      }
+
+      .hud {
+        .cardMenuButton {
+          padding: 0.5em;
+          font-size: 1.15em;
+          font-size: 1.25em;
+          font-weight: bold;
+          cursor: pointer;
+          user-select: none;
+          color: rgba(255, 255, 255, 0.8);
+
+          &:hover {
+            color: white;
+          }
+        }
+
+        &.full.before,
+        &.face.before {
+          position: absolute;
+          right: 0.5em;
+          top: 0.5em;
+
+          .countdown,
+          .value,
+          .checkbox {
+            font-size: 0.9em;
+            display: inline-block;
+          }
+
+          .countdown,
+          .value {
+            position: relative;
+            top: -0.4em;
+            margin-right: 0.5em;
+          }
+        }
+
+        &.face.before {
+          .value {
+            margin-left: 0.5em;
+          }
+        }
+
+        &.full.after,
+        &.face.after {
+          .preview {
+            position: absolute;
+            right: 2em;
+            bottom: 0.75em;
+          }
+
+          .cardMenuButton {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+          }
+        }
+      }
+
+      .value,
+      .value.full {
+        font-size: 0.9em;
+
+        &.menu {
+          float: none;
+          font-size: 1em;
+        }
+
+        &.collapsed {
+          font-size: 0.8em;
+          .action {
+            cursor: default;
+            text-decoration: none;
+            padding: 0.25em;
+          }
+        }
+      }
+
+      .checkbox {
+        height: 1.5em;
+        width: 1.5em;
+        cursor: pointer;
+        opacity: 0.5;
+        user-select: none;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .coin {
+        width: 2.5em;
+        height: 2.5em;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0.75em;
+        margin-top: 1.5em;
+        cursor: pointer;
+        user-select: none;
+
+        &.ungrabbed {
+          opacity: 0.3;
+        }
+
+        img {
+          animation: spin 32s linear infinite;
+        }
+
+        .hodls {
+          position: absolute;
+          left: 50%;
+          top: 0.25em;
+          transform: translateX(-50%);
+          text-align: center;
+          width: 2.75em;
+          bottom: 0.25em;
+          padding-bottom: 0.4em;
+          margin-bottom: 0;
+          font-weight: bold;
+          color: rgba(255, 255, 255, 1);
+          pointer-events: none;
+          text-shadow: -0.2em 0.2em 0.2em #000;
+        }
+      }
+
+      .hourglass {
+        img {
+          width: 2em;
+        }
+
+        .history {
+          display: none;
+          position: absolute;
+          left: 100%;
+          top: 0;
+          width: 24em;
+          background-color: rgba(22, 22, 22, 0.4);
+        }
+
+        .action:hover + .history {
+          display: block;
+        }
+
+        .stopped {
+        }
+
+        .started {
+        }
+
+        .cardTimeLog {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          margin-left: auto;
+          margin-right: auto;
+          .cardTimeLogDate {
+            align-self: left;
+            margin-left: 10px;
+          }
+          .cardTimeLogDateNull {
+            align-self: left;
+
+            &.orangeLog {
+              color: orange;
+            }
+          }
+        }
+      }
+
+      .gridContainer {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min-content;
+        margin-top: 1em;
+        z-index: 1; // So grid resize button show above of main stack drop zone.
+
+        &.padbottom {
+          margin-bottom: 2em;
+        }
+
+        & > .grid {
+          display: grid;
+
+          & > .zone,
+          & > .dropZone.grid {
+            position: relative;
+            background: $square-bg;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: $square-border;
+            color: $body-color;
+
+            &.empty {
+              cursor: text;
+
+              .dzu-dropzone {
+                width: 100%;
+                height: 100%;
+
+                &:hover .dzu-inputLabel {
+                  visibility: visible;
+                  margin-top: 50%;
+                  transform: translateY(-50%);
+                }
+
+                .dzu-inputLabel {
+                  visibility: hidden;
+                  font-size: 0.8em;
+                }
+
+                img {
+                  max-width: 100%;
+                  max-height: 100%;
+                }
+              }
+            }
+
+            .hud .menu .action {
+              left: unset;
+              transform: unset;
+            }
+          }
+        }
+        .resizer {
+          position: absolute;
+          margin-top: -4.75em;
+          right: 0;
+          transform: translateX(100%);
+
+          button {
+            display: block;
+          }
+
+          .minus,
+          .plus {
+            outline: none;
+            font-family: monospace;
+            margin: 0;
+            position: relative;
+          }
+
+          .columns {
+            .minus,
+            .plus {
+              right: -0.275em;
+              margin-top: 0.25em;
+              padding-left: 0.25em;
+              padding-right: 0.25em;
+            }
+          }
+
+          .rows {
+            .minus,
+            .plus {
+              display: inline;
+              left: -5.5em;
+              margin-top: 0.6em;
+              margin-right: 0.25em;
+              padding: 0 0.75em;
+            }
+          }
+        }
+      }
+    }
+
+    // home: home link, currently unused
+    #home {
+      position: fixed;
+      top: 0.5em;
+      left: 1em;
+    }
+
+    // main menu in bottom right of screen
+    #mainMenuButton {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      font-size: 1.75em;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0.5em;
+      user-select: none;
+    }
+
+    // main menu, inside a Tippy
+    #mainMenu {
+      padding: 0.25em 0em;
+      .action {
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+        width: calc(100% - 1.25em);
+      }
+
+      .password {
+        input {
+          display: block;
+        }
+      }
+    }
+
+    // connection status indicator, currently unused
+    #status {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      margin-left: 0.5em;
+      margin-bottom: 0.3em;
+      cursor: pointer;
+      height: 3em;
+    }
+
+    // theme changer, in main menu?
+    #themer {
+    }
+
+    // mute button, in main menu?
+    #volume {
+      margin-right: 0.5em;
+      margin-bottom: 0.3em;
+      cursor: pointer;
+      img {
+        height: 2em;
+        fill: #fff;
+        margin-top: -0.2em;
+        vertical-align: middle;
+      }
+    }
+
+    //
+    #hub,
+    #members,
+    #missions,
+    #calendar,
+    #search,
+    #returnPile,
+    #shitposts {
+      z-index: 1;
+
+      .actionCircle {
+        position: fixed;
+        left: 0.5em;
+      }
+
+      .popupPanel {
+        max-height: 96vh;
+      }
+    }
+
+    // community hub popup panel
+    #hub {
+      .actionCircle {
+        top: 0.5em;
+        width: 3.5em;
+        height: 3.5em;
+
+        &.open {
+          img {
+            width: 5em;
+            height: 5em;
+            left: -0.75em;
+            top: -0.75em;
+          }
+        }
+      }
+
+      .popupPanel {
+        width: 90vw;
+        height: 96vh;
+      }
+    }
+
+    // members popup panel
+    #members {
+      .actionCircle {
+        left: 0.5em;
+        transform: translateY(-50%);
+        top: 45vh;
+      }
+
+      .popupPanel input {
+        margin: 0.5em 0.5em 0.5em 5em;
+      }
+    }
+
+    // missions popup panel
+    #missions,
+    .popupPanel > .right > .stack .card.mission {
+      .actionCircle {
+        top: calc(45vh - 6em);
+      }
+
+      .mission.summary.collapsed {
+        display: inline-block;
+      }
+
+      .content {
+        min-width: 24em;
+        padding-bottom: 0;
+
+        & > .coin {
+          margin-top: 0.25em;
+        }
+
+        & > .preview {
+          clear: both;
+          & > .action {
+            &:first-child {
+              float: left;
+              margin-left: 10%;
+            }
+            &:nth-child(2) {
+              margin-left: 60%;
+              margin-bottom: 0;
+            }
+            font-size: 0.8em;
+            padding: 0.3em;
+          }
+        }
+      }
+
+      .stack {
+        clear: both;
+      }
+    }
+
+    // calendar popup panel
+    #calendar {
+      .actionCircle {
+        top: calc(45vh + 2.5em);
+      }
+
+      .card {
+        min-width: 28em;
+      }
+
+      .results.empty {
+        max-width: 18em;
+        margin: 1em;
+      }
+
+      .agendaTail .stack {
+        margin-top: 1em;
+
+        .action.open {
+          font-size: 1.5em;
+          font-weight: bold;
+          padding: 0.25em 0.5em;
+          background: none;
+          border: none;
+          text-shadow: none;
+
+          // &:hover {
+          //   text-decoration: none;
+          // }
+        }
+      }
+    }
+
+    // search popup panel
+    #search {
+      .popupPanel {
+        max-height: unset;
+
+        .results {
+          padding-top: 0.5em;
+          padding-right: 0.5em;
+
+          div:first-child {
+            margin-bottom: 0.25em;
+          }
+
+          &.empty {
+            opacity: 0.8;
+          }
+        }
+      }
+
+      .actionCircle {
+        top: unset;
+        bottom: 0.5em;
+      }
+      input {
+        margin: 0.5em;
+      }
+    }
+
+    #returnPile {
+      .actionCircle {
+        top: unset;
+        bottom: 0.5em;
+        left: 5em;
+      }
+    }
+
+    .previewPopup {
+      & > p {
+        max-width: 9em;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    // tickers hud region containing multiple ticker spots
+    #tickers {
+      position: fixed;
+      top: 45vh;
+      right: 1.5em;
+      transform: translateY(-50%);
+
+      .ticker {
+        margin-top: 0.7em;
+        margin-bottom: 0.7em;
+        position: relative;
+
+        .actionCircle {
+          height: 3em;
+          width: 3em;
+
+          p {
+            font-size: 0.7em;
+          }
+
+          // a + button that adds a new item to whatever the context is (e.g., a new crypto ticker)
+          &.newEntry {
+            p {
+              font-size: 2em;
+              font-weight: bold;
+              position: relative;
+              top: -0.8em;
+            }
+          }
+        }
+
+        textarea {
+          border-radius: 50%;
+          overflow: hidden;
+          height: 2.25em;
+          width: 3.5em;
+          font-size: 1em;
+          outline: none;
+          text-align: center;
+          display: inline-block;
+          vertical-align: middle;
+          padding-top: 1.25em;
+          resize: none;
+          margin: 0;
+        }
+
+        .error {
+          color: $card-red;
+          font-weight: bold;
+          position: absolute;
+          top: 90%;
+          left: 45%;
+        }
+      }
+    }
+
+    #shitposts {
+      .actionCircle {
+        left: unset;
+        right: 1.5em;
+        bottom: 5em;
+      }
+    }
+
+    // score / points in bottom right of screen
+    #score {
+      position: fixed;
+      right: 5em;
+      bottom: 1em;
+      font-size: 1.2em;
+      cursor: default;
+    }
+
+    // logout button in main menu
+    #logout {
+    }
+
+    // invisible/black discard zone behind everything on the page
+    .discard {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      min-height: 97vh;
+      > .dragZone {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    // context / history stack above the current card on the page
+    #context .stack {
+      margin-top: 0.5em;
+      margin-bottom: 0;
+
+      .zone,
+      .dropZone {
+        margin: 0 auto;
+
+        .content > p {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: center;
+        }
+      }
+      .card {
+        margin-top: 0;
+
+        &.context {
+          margin-top: 0;
+          margin-bottom: 0;
+          box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+        }
+      }
+    }
+
+    // the Grid
+    .grid {
+      max-width: 75vw;
+      overflow-x: auto;
+
+      .stack {
+        .card {
+          &.priority {
+            min-width: 26em;
+            font-size: 0.9em;
+          }
+        }
+      }
+    }
+
+    // the Stack
+    .stack {
+      .card {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        max-width: 30em;
+        &.priority {
+          min-width: 20em;
+          margin-top: 0.375em;
+          margin-bottom: 0.375em;
+        }
+      }
+      textarea {
+        position: relative;
+        min-height: 7em;
+        margin-top: 2.35em;
+        width: 39em;
+      }
+    }
+
+    // drop shadow on cards in the context stack
+    .context.stack ~ .card {
+      box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+    }
+
+    // background to every card
+    .paper {
+      img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        opacity: 0.25;
+      }
+
+      .color {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        opacity: 0.25;
+
+        &.red {
+          background-color: $card-red;
+        }
+
+        &.yellow {
+          background-color: $card-yellow;
+        }
+
+        &.green {
+          background-color: $card-green;
+        }
+
+        &.blue {
+          background-color: $card-blue;
+        }
+
+        &.purple {
+          background-color: $card-purple;
+        }
+
+        &.black {
+          background-color: $card-black;
+        }
+      }
+    }
+
+    // info summary / action button, used everywhere for consistency
+    .action,
+    .summary {
+      position: relative;
+      display: block;
+      width: -moz-fit-content;
+      width: fit-content;
+      color: white;
+      margin: 0 auto;
+      user-select: none;
+    }
+
+    // action button
+    .action {
+      background-color: rgba(0, 0, 0, 0.25);
+      border: 0.15em solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.5em;
+      text-shadow: -0.2em 0.2em 0.2em #000;
+      padding: 0.5em;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &.selected {
+        border: none;
+        font-weight: bold;
+        background: none;
+        cursor: default;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    // action button inside a toolbar, currently only used on .mission-style card
+    .toolbar {
+      .action {
+        display: inline-block;
+        margin-right: 0.5em;
+        padding: 0.25em 0.5em;
+      }
+    }
+
+    // action button inside a preview (count of cards inside a card)
+    .preview {
+      .action {
+        font-size: 0.9em;
+        margin-bottom: 0.5em;
+      }
+    }
+
+    // action inside stack inside of a Tippy popup (to make show/hide button on grid priority popup smaller)
+    .tippy-content {
+      .stack > .dropZone > .action {
+        padding-top: 0.25em;
+        margin-bottom: 0.25em;
+        font-size: 0.9em;
+      }
+    }
+
+    // circlular icon that opens one of the main popups
+    .actionCircle {
+      background-color: rgba(255, 255, 255, 0.25);
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 0.5em;
+      user-select: none;
+      width: 2.5em;
+      height: 2.5em;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      &.open {
+        img {
+          width: 4.5em;
+          height: 4.5em;
+          position: relative;
+          left: -1em;
+          top: -1em;
+        }
+
+        .badge {
+          font-size: 1.5em;
+          padding: 0.25em 0.45em;
+        }
+      }
+
+      .badge {
+        position: absolute;
+        top: -0.5em;
+        right: -0.5em;
+        background-color: rgba(255, 10, 10, 0.85);
+        border-radius: 5em;
+        color: white;
+        font-size: 0.9em;
+        padding: 0.2em 0.4em;
+        transform: translateX(50%);
+        width: max-content;
+        max-width: 4em;
+      }
+    }
+
+    // panel opened by an .actionCircle button
+    .popupPanel {
+      overflow-y: auto;
+
+      .left {
+        width: 55%;
+        float: left;
+
+        & > .action {
+          position: absolute;
+          left: 30%;
+          top: 50%;
+          transform: translateX(-50%);
+          background-color: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+      }
+
+      .right {
+        width: 45%;
+        float: right;
+      }
+    }
+
+    // section of a card containing completed cards, which display as checkmarks
+    .completed {
+      max-width: 30em;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .action {
+        margin-bottom: 1em;
+      }
+
+      .dragZone {
+        display: inline;
+
+        .card.checkmark {
+          background: unset;
+          display: inline-block;
+          margin: 0;
+          padding: 0 0.25em;
+          transform: unset;
+          left: unset;
+          line-height: 2em;
+
+          img {
+            width: 1.5em;
+          }
+        }
+      }
+    }
+
+    // attempt to change the color of a hardcoded SVG, failed and currently unused
+    .checkmarkImage {
+      height: 2em;
+      fill: white;
+      margin-top: 0.75em;
+      outline: none;
+
+      &.red {
+        fill: $card-red;
+      }
+
+      &.yellow {
+        fill: $card-yellow;
+      }
+
+      &.green {
+        fill: $card-green;
+      }
+
+      &.blue {
+        fill: $card-blue;
+      }
+
+      &.purple {
+        fill: $card-purple;
+      }
+
+      &.black {
+        fill: $card-black;
+      }
+    }
+
+    // ghost image when dragging and dropping, shown as the drag image.
+    // need to hide it somewhere while it exists as part of the document body.
+    #dragGhost {
+      position: fixed;
+      left: -1000em;
+      top: -1000em;
+    }
+
+    // limit iframe size on cards so that embeds show up correctly on small cards (.grid, .compact)
+    .card iframe {
+      max-width: calc(100% - 2em);
+      max-height: calc(100% - 2em);
+      margin: 1em;
+    }
+
+    // outline around any card currently in search results
+    .card.searchedOnPage:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 5;
+      border: 0.2em solid yellow;
+      pointer-events: none;
+    }
+
+    // search results section. id is used by infinite scrolling library.
+    #searchResults {
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    // search results and grid scrollbars
+    #search .popupPanel .results,
+    .grid {
+      &::-webkit-scrollbar {
+        background-color: rgba(22, 22, 22, 0.4);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(89, 89, 89, 0.4);
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.75);
+      }
+    }
+
+    // overlay on drop zones
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      color: #ddd;
+      z-index: 3;
+
+      .label {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+// Future Update: procedurally map through the css/themes folder and map all filenames found there into an array
+// Change theme names to the name of their file (without the underscore)
+// Run through the theme array (or have a drop down) to apply specific & names themes
+// Theme generator page/applet allows one to construct a new theme
+// New theme is generated as an scss file in the themes folder, and imported above in styles.scss
+
+@import './themes/dark';
+@import './themes/light';
+@import './themes/green';

@@ -1,0 +1,3433 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+span,
+button,
+textarea {
+  margin: 0.5em;
+}
+
+body {
+  margin: 0;
+}
+
+.theme-1 {
+  text-align: center;
+  color: white;
+  font-family: monospace;
+  font-size: 1.25em;
+  background-color: #000;
+}
+.theme-1 .menu .action {
+  margin: 0.5em auto;
+}
+.theme-1 .palette {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.theme-1 .palette .swatch {
+  display: inline-block;
+  position: relative;
+  margin: 0.75em 1em 2em 1em;
+  cursor: pointer;
+}
+.theme-1 .palette .swatch .paper {
+  width: 1em;
+  height: 1em;
+}
+.theme-1 .palette .swatch .border {
+  padding: 0.9em;
+  border: 0.165em solid transparent;
+  margin: -0.6em;
+}
+.theme-1 .palette .swatch .border.selected, .theme-1 .palette .swatch .border:hover {
+  border-color: white;
+  border-radius: 1em;
+}
+.theme-1 .palette .swatch .label {
+  margin-top: 0.75em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-1 .mission .badge {
+  height: 1.5em;
+  margin-right: 0.5em;
+  position: relative;
+  bottom: -0.33em;
+}
+.theme-1 .card {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  padding: 0.5em 1.5em;
+  background-color: black;
+  margin-bottom: 1em;
+}
+.theme-1 .card.full, .theme-1 .card.face {
+  min-height: 6em;
+  max-width: 98vw;
+}
+@media only screen and (min-width: 600px) {
+  .theme-1 .card.full, .theme-1 .card.face {
+    min-width: 30em;
+  }
+}
+.theme-1 .card.full > .hud > .coin > .hodls, .theme-1 .card.face > .hud > .coin > .hodls {
+  top: 0.65em;
+}
+.theme-1 .card.full {
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-1 .card.full .priority {
+  min-height: 2.325em;
+}
+.theme-1 .card.full .priority .coin {
+  margin-top: 0;
+}
+.theme-1 .card.full .priority .coin .hodls {
+  top: 0.375em;
+}
+.theme-1 .card.compact {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 8em;
+  height: 8em;
+  overflow: hidden;
+  transform: unset;
+}
+.theme-1 .card.compact .coin {
+  position: absolute;
+}
+.theme-1 .card.priority, .theme-1 .card.context, .theme-1 .card.mission {
+  position: relative;
+  margin-top: 0.25em;
+  text-align: left;
+  min-height: 0;
+  width: 100%;
+  min-width: unset;
+}
+.theme-1 .card.priority .content,
+.theme-1 .card.priority .content > p, .theme-1 .card.context .content,
+.theme-1 .card.context .content > p, .theme-1 .card.mission .content,
+.theme-1 .card.mission .content > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.theme-1 .card.priority .stack, .theme-1 .card.context .stack, .theme-1 .card.mission .stack {
+  margin-right: 1em;
+  margin-left: 1em;
+}
+.theme-1 .card.priority, .theme-1 .card.mission {
+  padding: 0;
+  margin-bottom: 0.5em;
+}
+.theme-1 .card.priority.padbottom, .theme-1 .card.mission.padbottom {
+  padding-bottom: 0.25em;
+}
+.theme-1 .card.priority .content, .theme-1 .card.mission .content {
+  padding: 0.55em 1em 0.55em 1em;
+}
+.theme-1 .card.priority .coin, .theme-1 .card.mission .coin {
+  width: 2em;
+  height: 2em;
+  transform: unset;
+  margin: 0;
+  left: -0.5em;
+  bottom: 0;
+  top: -0.35em;
+  display: inline-block;
+  float: left;
+}
+.theme-1 .card.priority > .hud, .theme-1 .card.mission > .hud {
+  z-index: 1;
+  position: relative;
+  float: right;
+  margin-left: 0.5em;
+}
+.theme-1 .card.priority > .hud .mission,
+.theme-1 .card.priority > .hud .preview,
+.theme-1 .card.priority > .hud .countdown,
+.theme-1 .card.priority > .hud .value,
+.theme-1 .card.priority > .hud .checkbox,
+.theme-1 .card.priority > .hud .cardMenuButton, .theme-1 .card.mission > .hud .mission,
+.theme-1 .card.mission > .hud .preview,
+.theme-1 .card.mission > .hud .countdown,
+.theme-1 .card.mission > .hud .value,
+.theme-1 .card.mission > .hud .checkbox,
+.theme-1 .card.mission > .hud .cardMenuButton {
+  display: inline-block;
+}
+.theme-1 .card.priority > .hud .mission,
+.theme-1 .card.priority > .hud .preview,
+.theme-1 .card.priority > .hud .countdown,
+.theme-1 .card.priority > .hud .value, .theme-1 .card.mission > .hud .mission,
+.theme-1 .card.mission > .hud .preview,
+.theme-1 .card.mission > .hud .countdown,
+.theme-1 .card.mission > .hud .value {
+  font-size: 0.8em;
+}
+.theme-1 .card.priority > .hud .mission,
+.theme-1 .card.priority > .hud .preview,
+.theme-1 .card.priority > .hud .countdown, .theme-1 .card.mission > .hud .mission,
+.theme-1 .card.mission > .hud .preview,
+.theme-1 .card.mission > .hud .countdown {
+  margin-right: 0.75em;
+}
+.theme-1 .card.priority > .hud .mission .badge, .theme-1 .card.mission > .hud .mission .badge {
+  height: 1.5em;
+  margin-right: 0.25em;
+  position: relative;
+  top: 0.31em;
+}
+.theme-1 .card.priority > .hud .value, .theme-1 .card.mission > .hud .value {
+  margin-right: 0.5em;
+}
+.theme-1 .card.priority > .hud .checkbox, .theme-1 .card.mission > .hud .checkbox {
+  position: relative;
+  top: 0.4em;
+}
+.theme-1 .card.priority > .hud .cardMenuButton, .theme-1 .card.mission > .hud .cardMenuButton {
+  font-size: 1.15em;
+  padding: 0.35em 0.25em;
+}
+.theme-1 .card.priority > .hud .action, .theme-1 .card.mission > .hud .action {
+  display: inline;
+  margin-right: 0.5em;
+  padding-bottom: 0.25em;
+}
+.theme-1 .card.priority {
+  min-height: 2.325em;
+}
+.theme-1 .card.mission .coin .hodls {
+  top: 0.25em;
+}
+.theme-1 .card .context {
+  max-height: 3.5em;
+  overflow-y: hidden;
+}
+.theme-1 .card.mini {
+  position: absolute;
+  top: 0;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.theme-1 .card.mini > .content {
+  position: relative;
+  font-size: 0.8em;
+  margin: 0;
+  height: 100%;
+}
+.theme-1 .card.mini > .content h1 {
+  font-size: 1.1em;
+}
+.theme-1 .card.mini > .content h2,
+.theme-1 .card.mini > .content h3,
+.theme-1 .card.mini > .content h4,
+.theme-1 .card.mini > .content h5,
+.theme-1 .card.mini > .content h6 {
+  font-size: 1.05em;
+}
+.theme-1 .card.mini > .hud {
+  position: relative;
+  pointer-events: none;
+}
+.theme-1 .card.mini > .hud.mini.before .seen {
+  position: absolute;
+  content: "";
+  top: 0.25em;
+  left: 0.25em;
+  height: 0.375em;
+  width: 0.375em;
+  border-radius: 50%;
+  background-color: rgba(255, 10, 10, 0.85);
+}
+.theme-1 .card.mini > .hud.mini.before > .mission, .theme-1 .card.mini > .hud.mini.before > .countdown, .theme-1 .card.mini > .hud.mini.before > .value {
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.75em;
+  padding: 0.25em;
+  margin: 0;
+}
+.theme-1 .card.mini > .hud.mini.before > .countdown, .theme-1 .card.mini > .hud.mini.before > .mission {
+  float: left;
+  pointer-events: none;
+}
+.theme-1 .card.mini > .hud.mini.before > .mission {
+  text-align: left;
+}
+.theme-1 .card.mini > .hud.mini.before > .mission .badge {
+  height: 1.1em;
+  margin-right: 0.25em;
+  position: relative;
+  top: 0.2em;
+  left: 0.05em;
+}
+.theme-1 .card.mini > .hud.mini.before > .value {
+  font-size: 0.6em;
+  float: right;
+}
+.theme-1 .card.mini > .hud.mini.before > .checkbox {
+  float: right;
+  height: 0.75em;
+  width: 0.75em;
+  opacity: 0.75;
+  display: inline;
+  pointer-events: none;
+  padding-top: 0.175em;
+  padding-right: 0.15em;
+}
+.theme-1 .card.mini > .hud.mini.after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+}
+.theme-1 .card.mini > .hud.mini.after .countdown {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.6em;
+  padding: 0.25em;
+  margin: 0 1em 0 0;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.theme-1 .card.mini > .hud.mini.after > .preview {
+  position: absolute;
+  right: 1.2em;
+  bottom: 0;
+  font-size: 0.75em;
+  padding: 0.25em;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.theme-1 .card.mini > .hud.mini.after > .preview .nopad {
+  padding-left: 0;
+  padding-right: 0;
+}
+.theme-1 .card.mini > .hud.mini.after > .cardMenuButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 0.9em;
+  padding: 0.1em 0;
+}
+.theme-1 .card .content {
+  position: relative;
+  margin: 1em auto;
+  max-width: 28em;
+}
+.theme-1 .card .content a {
+  text-shadow: 0 0 1em #fff, 0 0 0.5em #fff;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+.theme-1 .card .content p img {
+  max-width: 100%;
+}
+.theme-1 .card .content .mission .badge {
+  height: 1.5em;
+  margin-right: 0.5em;
+  position: relative;
+  top: 0.33em;
+}
+.theme-1 .card .stack > .dropZone > .action,
+.theme-1 .card .grid .menu .action {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.theme-1 .card .stack > .dropZone {
+  position: relative;
+}
+.theme-1 .card .hud .cardMenuButton {
+  padding: 0.5em;
+  font-size: 1.15em;
+  font-size: 1.25em;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+.theme-1 .card .hud .cardMenuButton:hover {
+  color: white;
+}
+.theme-1 .card .hud.full.before, .theme-1 .card .hud.face.before {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+.theme-1 .card .hud.full.before .countdown,
+.theme-1 .card .hud.full.before .value,
+.theme-1 .card .hud.full.before .checkbox, .theme-1 .card .hud.face.before .countdown,
+.theme-1 .card .hud.face.before .value,
+.theme-1 .card .hud.face.before .checkbox {
+  font-size: 0.9em;
+  display: inline-block;
+}
+.theme-1 .card .hud.full.before .countdown,
+.theme-1 .card .hud.full.before .value, .theme-1 .card .hud.face.before .countdown,
+.theme-1 .card .hud.face.before .value {
+  position: relative;
+  top: -0.4em;
+  margin-right: 0.5em;
+}
+.theme-1 .card .hud.face.before .value {
+  margin-left: 0.5em;
+}
+.theme-1 .card .hud.full.after .preview, .theme-1 .card .hud.face.after .preview {
+  position: absolute;
+  right: 2em;
+  bottom: 0.75em;
+}
+.theme-1 .card .hud.full.after .cardMenuButton, .theme-1 .card .hud.face.after .cardMenuButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.theme-1 .card .value,
+.theme-1 .card .value.full {
+  font-size: 0.9em;
+}
+.theme-1 .card .value.menu,
+.theme-1 .card .value.full.menu {
+  float: none;
+  font-size: 1em;
+}
+.theme-1 .card .value.collapsed,
+.theme-1 .card .value.full.collapsed {
+  font-size: 0.8em;
+}
+.theme-1 .card .value.collapsed .action,
+.theme-1 .card .value.full.collapsed .action {
+  cursor: default;
+  text-decoration: none;
+  padding: 0.25em;
+}
+.theme-1 .card .checkbox {
+  height: 1.5em;
+  width: 1.5em;
+  cursor: pointer;
+  opacity: 0.5;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+@-webkit-keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.theme-1 .card .coin {
+  width: 2.5em;
+  height: 2.5em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0.75em;
+  margin-top: 1.5em;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-1 .card .coin.ungrabbed {
+  opacity: 0.3;
+}
+.theme-1 .card .coin img {
+  -webkit-animation: spin 32s linear infinite;
+          animation: spin 32s linear infinite;
+}
+.theme-1 .card .coin .hodls {
+  position: absolute;
+  left: 50%;
+  top: 0.25em;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 2.75em;
+  bottom: 0.25em;
+  padding-bottom: 0.4em;
+  margin-bottom: 0;
+  font-weight: bold;
+  color: white;
+  pointer-events: none;
+  text-shadow: -0.2em 0.2em 0.2em #000;
+}
+.theme-1 .card .hourglass img {
+  width: 2em;
+}
+.theme-1 .card .hourglass .history {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 24em;
+  background-color: rgba(22, 22, 22, 0.4);
+}
+.theme-1 .card .hourglass .action:hover + .history {
+  display: block;
+}
+.theme-1 .card .hourglass .cardTimeLog {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.theme-1 .card .hourglass .cardTimeLog .cardTimeLogDate {
+  align-self: left;
+  margin-left: 10px;
+}
+.theme-1 .card .hourglass .cardTimeLog .cardTimeLogDateNull {
+  align-self: left;
+}
+.theme-1 .card .hourglass .cardTimeLog .cardTimeLogDateNull.orangeLog {
+  color: orange;
+}
+.theme-1 .card .gridContainer {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  margin-top: 1em;
+  z-index: 1;
+}
+.theme-1 .card .gridContainer.padbottom {
+  margin-bottom: 2em;
+}
+.theme-1 .card .gridContainer > .grid {
+  display: grid;
+}
+.theme-1 .card .gridContainer > .grid > .zone, .theme-1 .card .gridContainer > .grid > .dropZone.grid {
+  position: relative;
+  background: rgba(255, 255, 255, 0.075);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+.theme-1 .card .gridContainer > .grid > .zone.empty, .theme-1 .card .gridContainer > .grid > .dropZone.grid.empty {
+  cursor: text;
+}
+.theme-1 .card .gridContainer > .grid > .zone.empty .dzu-dropzone, .theme-1 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone {
+  width: 100%;
+  height: 100%;
+}
+.theme-1 .card .gridContainer > .grid > .zone.empty .dzu-dropzone:hover .dzu-inputLabel, .theme-1 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone:hover .dzu-inputLabel {
+  visibility: visible;
+  margin-top: 50%;
+  transform: translateY(-50%);
+}
+.theme-1 .card .gridContainer > .grid > .zone.empty .dzu-dropzone .dzu-inputLabel, .theme-1 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone .dzu-inputLabel {
+  visibility: hidden;
+  font-size: 0.8em;
+}
+.theme-1 .card .gridContainer > .grid > .zone.empty .dzu-dropzone img, .theme-1 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.theme-1 .card .gridContainer > .grid > .zone .hud .menu .action, .theme-1 .card .gridContainer > .grid > .dropZone.grid .hud .menu .action {
+  left: unset;
+  transform: unset;
+}
+.theme-1 .card .gridContainer .resizer {
+  position: absolute;
+  margin-top: -4.75em;
+  right: 0;
+  transform: translateX(100%);
+}
+.theme-1 .card .gridContainer .resizer button {
+  display: block;
+}
+.theme-1 .card .gridContainer .resizer .minus,
+.theme-1 .card .gridContainer .resizer .plus {
+  outline: none;
+  font-family: monospace;
+  margin: 0;
+  position: relative;
+}
+.theme-1 .card .gridContainer .resizer .columns .minus,
+.theme-1 .card .gridContainer .resizer .columns .plus {
+  right: -0.275em;
+  margin-top: 0.25em;
+  padding-left: 0.25em;
+  padding-right: 0.25em;
+}
+.theme-1 .card .gridContainer .resizer .rows .minus,
+.theme-1 .card .gridContainer .resizer .rows .plus {
+  display: inline;
+  left: -5.5em;
+  margin-top: 0.6em;
+  margin-right: 0.25em;
+  padding: 0 0.75em;
+}
+.theme-1 #home {
+  position: fixed;
+  top: 0.5em;
+  left: 1em;
+}
+.theme-1 #mainMenuButton {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  font-size: 1.75em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-1 #mainMenu {
+  padding: 0.25em 0em;
+}
+.theme-1 #mainMenu .action {
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  width: calc(100% - 1.25em);
+}
+.theme-1 #mainMenu .password input {
+  display: block;
+}
+.theme-1 #status {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-left: 0.5em;
+  margin-bottom: 0.3em;
+  cursor: pointer;
+  height: 3em;
+}
+.theme-1 #volume {
+  margin-right: 0.5em;
+  margin-bottom: 0.3em;
+  cursor: pointer;
+}
+.theme-1 #volume img {
+  height: 2em;
+  fill: #fff;
+  margin-top: -0.2em;
+  vertical-align: middle;
+}
+.theme-1 #hub,
+.theme-1 #members,
+.theme-1 #missions,
+.theme-1 #calendar,
+.theme-1 #search,
+.theme-1 #returnPile,
+.theme-1 #shitposts {
+  z-index: 1;
+}
+.theme-1 #hub .actionCircle,
+.theme-1 #members .actionCircle,
+.theme-1 #missions .actionCircle,
+.theme-1 #calendar .actionCircle,
+.theme-1 #search .actionCircle,
+.theme-1 #returnPile .actionCircle,
+.theme-1 #shitposts .actionCircle {
+  position: fixed;
+  left: 0.5em;
+}
+.theme-1 #hub .popupPanel,
+.theme-1 #members .popupPanel,
+.theme-1 #missions .popupPanel,
+.theme-1 #calendar .popupPanel,
+.theme-1 #search .popupPanel,
+.theme-1 #returnPile .popupPanel,
+.theme-1 #shitposts .popupPanel {
+  max-height: 96vh;
+}
+.theme-1 #hub .actionCircle {
+  top: 0.5em;
+  width: 3.5em;
+  height: 3.5em;
+}
+.theme-1 #hub .actionCircle.open img {
+  width: 5em;
+  height: 5em;
+  left: -0.75em;
+  top: -0.75em;
+}
+.theme-1 #hub .popupPanel {
+  width: 90vw;
+  height: 96vh;
+}
+.theme-1 #members .actionCircle {
+  left: 0.5em;
+  transform: translateY(-50%);
+  top: 45vh;
+}
+.theme-1 #members .popupPanel input {
+  margin: 0.5em 0.5em 0.5em 5em;
+}
+.theme-1 #missions .actionCircle,
+.theme-1 .popupPanel > .right > .stack .card.mission .actionCircle {
+  top: calc(45vh - 6em);
+}
+.theme-1 #missions .mission.summary.collapsed,
+.theme-1 .popupPanel > .right > .stack .card.mission .mission.summary.collapsed {
+  display: inline-block;
+}
+.theme-1 #missions .content,
+.theme-1 .popupPanel > .right > .stack .card.mission .content {
+  min-width: 24em;
+  padding-bottom: 0;
+}
+.theme-1 #missions .content > .coin,
+.theme-1 .popupPanel > .right > .stack .card.mission .content > .coin {
+  margin-top: 0.25em;
+}
+.theme-1 #missions .content > .preview,
+.theme-1 .popupPanel > .right > .stack .card.mission .content > .preview {
+  clear: both;
+}
+.theme-1 #missions .content > .preview > .action,
+.theme-1 .popupPanel > .right > .stack .card.mission .content > .preview > .action {
+  font-size: 0.8em;
+  padding: 0.3em;
+}
+.theme-1 #missions .content > .preview > .action:first-child,
+.theme-1 .popupPanel > .right > .stack .card.mission .content > .preview > .action:first-child {
+  float: left;
+  margin-left: 10%;
+}
+.theme-1 #missions .content > .preview > .action:nth-child(2),
+.theme-1 .popupPanel > .right > .stack .card.mission .content > .preview > .action:nth-child(2) {
+  margin-left: 60%;
+  margin-bottom: 0;
+}
+.theme-1 #missions .stack,
+.theme-1 .popupPanel > .right > .stack .card.mission .stack {
+  clear: both;
+}
+.theme-1 #calendar .actionCircle {
+  top: calc(45vh + 2.5em);
+}
+.theme-1 #calendar .card {
+  min-width: 28em;
+}
+.theme-1 #calendar .results.empty {
+  max-width: 18em;
+  margin: 1em;
+}
+.theme-1 #calendar .agendaTail .stack {
+  margin-top: 1em;
+}
+.theme-1 #calendar .agendaTail .stack .action.open {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0.25em 0.5em;
+  background: none;
+  border: none;
+  text-shadow: none;
+}
+.theme-1 #search .popupPanel {
+  max-height: unset;
+}
+.theme-1 #search .popupPanel .results {
+  padding-top: 0.5em;
+  padding-right: 0.5em;
+}
+.theme-1 #search .popupPanel .results div:first-child {
+  margin-bottom: 0.25em;
+}
+.theme-1 #search .popupPanel .results.empty {
+  opacity: 0.8;
+}
+.theme-1 #search .actionCircle {
+  top: unset;
+  bottom: 0.5em;
+}
+.theme-1 #search input {
+  margin: 0.5em;
+}
+.theme-1 #returnPile .actionCircle {
+  top: unset;
+  bottom: 0.5em;
+  left: 5em;
+}
+.theme-1 .previewPopup > p {
+  max-width: 9em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-1 #tickers {
+  position: fixed;
+  top: 45vh;
+  right: 1.5em;
+  transform: translateY(-50%);
+}
+.theme-1 #tickers .ticker {
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
+  position: relative;
+}
+.theme-1 #tickers .ticker .actionCircle {
+  height: 3em;
+  width: 3em;
+}
+.theme-1 #tickers .ticker .actionCircle p {
+  font-size: 0.7em;
+}
+.theme-1 #tickers .ticker .actionCircle.newEntry p {
+  font-size: 2em;
+  font-weight: bold;
+  position: relative;
+  top: -0.8em;
+}
+.theme-1 #tickers .ticker textarea {
+  border-radius: 50%;
+  overflow: hidden;
+  height: 2.25em;
+  width: 3.5em;
+  font-size: 1em;
+  outline: none;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 1.25em;
+  resize: none;
+  margin: 0;
+}
+.theme-1 #tickers .ticker .error {
+  color: #912c3e;
+  font-weight: bold;
+  position: absolute;
+  top: 90%;
+  left: 45%;
+}
+.theme-1 #shitposts .actionCircle {
+  left: unset;
+  right: 1.5em;
+  bottom: 5em;
+}
+.theme-1 #score {
+  position: fixed;
+  right: 5em;
+  bottom: 1em;
+  font-size: 1.2em;
+  cursor: default;
+}
+.theme-1 .discard {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 97vh;
+}
+.theme-1 .discard > .dragZone {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.theme-1 #context .stack {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+.theme-1 #context .stack .zone,
+.theme-1 #context .stack .dropZone {
+  margin: 0 auto;
+}
+.theme-1 #context .stack .zone .content > p,
+.theme-1 #context .stack .dropZone .content > p {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.theme-1 #context .stack .card {
+  margin-top: 0;
+}
+.theme-1 #context .stack .card.context {
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-1 .grid {
+  max-width: 75vw;
+  overflow-x: auto;
+}
+.theme-1 .grid .stack .card.priority {
+  min-width: 26em;
+  font-size: 0.9em;
+}
+.theme-1 .stack .card {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  max-width: 30em;
+}
+.theme-1 .stack .card.priority {
+  min-width: 20em;
+  margin-top: 0.375em;
+  margin-bottom: 0.375em;
+}
+.theme-1 .stack textarea {
+  position: relative;
+  min-height: 7em;
+  margin-top: 2.35em;
+  width: 39em;
+}
+.theme-1 .context.stack ~ .card {
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-1 .paper img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.25;
+}
+.theme-1 .paper .color {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.25;
+}
+.theme-1 .paper .color.red {
+  background-color: #912c3e;
+}
+.theme-1 .paper .color.yellow {
+  background-color: #9e8600;
+}
+.theme-1 .paper .color.green {
+  background-color: #276b16;
+}
+.theme-1 .paper .color.blue {
+  background-color: #1c4eb0;
+}
+.theme-1 .paper .color.purple {
+  background-color: #8642a9;
+}
+.theme-1 .paper .color.black {
+  background-color: black;
+}
+.theme-1 .action,
+.theme-1 .summary {
+  position: relative;
+  display: block;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  color: white;
+  margin: 0 auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-1 .action {
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 0.15em solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  text-shadow: -0.2em 0.2em 0.2em #000;
+  padding: 0.5em;
+  cursor: pointer;
+}
+.theme-1 .action:hover {
+  text-decoration: underline;
+}
+.theme-1 .action.selected {
+  border: none;
+  font-weight: bold;
+  background: none;
+  cursor: default;
+}
+.theme-1 .action.selected:hover {
+  text-decoration: none;
+}
+.theme-1 .toolbar .action {
+  display: inline-block;
+  margin-right: 0.5em;
+  padding: 0.25em 0.5em;
+}
+.theme-1 .preview .action {
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+.theme-1 .tippy-content .stack > .dropZone > .action {
+  padding-top: 0.25em;
+  margin-bottom: 0.25em;
+  font-size: 0.9em;
+}
+.theme-1 .actionCircle {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 2.5em;
+  height: 2.5em;
+}
+.theme-1 .actionCircle img {
+  width: 100%;
+  height: 100%;
+}
+.theme-1 .actionCircle.open img {
+  width: 4.5em;
+  height: 4.5em;
+  position: relative;
+  left: -1em;
+  top: -1em;
+}
+.theme-1 .actionCircle.open .badge {
+  font-size: 1.5em;
+  padding: 0.25em 0.45em;
+}
+.theme-1 .actionCircle .badge {
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  background-color: rgba(255, 10, 10, 0.85);
+  border-radius: 5em;
+  color: white;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  transform: translateX(50%);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 4em;
+}
+.theme-1 .popupPanel {
+  overflow-y: auto;
+}
+.theme-1 .popupPanel .left {
+  width: 55%;
+  float: left;
+}
+.theme-1 .popupPanel .left > .action {
+  position: absolute;
+  left: 30%;
+  top: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.theme-1 .popupPanel .right {
+  width: 45%;
+  float: right;
+}
+.theme-1 .completed {
+  max-width: 30em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-1 .completed .action {
+  margin-bottom: 1em;
+}
+.theme-1 .completed .dragZone {
+  display: inline;
+}
+.theme-1 .completed .dragZone .card.checkmark {
+  background: unset;
+  display: inline-block;
+  margin: 0;
+  padding: 0 0.25em;
+  transform: unset;
+  left: unset;
+  line-height: 2em;
+}
+.theme-1 .completed .dragZone .card.checkmark img {
+  width: 1.5em;
+}
+.theme-1 .checkmarkImage {
+  height: 2em;
+  fill: white;
+  margin-top: 0.75em;
+  outline: none;
+}
+.theme-1 .checkmarkImage.red {
+  fill: #912c3e;
+}
+.theme-1 .checkmarkImage.yellow {
+  fill: #9e8600;
+}
+.theme-1 .checkmarkImage.green {
+  fill: #276b16;
+}
+.theme-1 .checkmarkImage.blue {
+  fill: #1c4eb0;
+}
+.theme-1 .checkmarkImage.purple {
+  fill: #8642a9;
+}
+.theme-1 .checkmarkImage.black {
+  fill: black;
+}
+.theme-1 #dragGhost {
+  position: fixed;
+  left: -1000em;
+  top: -1000em;
+}
+.theme-1 .card iframe {
+  max-width: calc(100% - 2em);
+  max-height: calc(100% - 2em);
+  margin: 1em;
+}
+.theme-1 .card.searchedOnPage:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  border: 0.2em solid yellow;
+  pointer-events: none;
+}
+.theme-1 #searchResults {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+.theme-1 #search .popupPanel .results::-webkit-scrollbar,
+.theme-1 .grid::-webkit-scrollbar {
+  background-color: rgba(22, 22, 22, 0.4);
+}
+.theme-1 #search .popupPanel .results::-webkit-scrollbar-thumb,
+.theme-1 .grid::-webkit-scrollbar-thumb {
+  background-color: rgba(89, 89, 89, 0.4);
+}
+.theme-1 #search .popupPanel .results::-webkit-scrollbar-thumb:hover,
+.theme-1 .grid::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.theme-1 .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  color: #ddd;
+  z-index: 3;
+}
+.theme-1 .overlay .label {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+body {
+  margin: 0;
+}
+
+.theme-2 {
+  text-align: center;
+  color: black;
+  font-family: monospace;
+  font-size: 1.25em;
+  background-color: #ffe9c4;
+}
+.theme-2 .menu .action {
+  margin: 0.5em auto;
+}
+.theme-2 .palette {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.theme-2 .palette .swatch {
+  display: inline-block;
+  position: relative;
+  margin: 0.75em 1em 2em 1em;
+  cursor: pointer;
+}
+.theme-2 .palette .swatch .paper {
+  width: 1em;
+  height: 1em;
+}
+.theme-2 .palette .swatch .border {
+  padding: 0.9em;
+  border: 0.165em solid transparent;
+  margin: -0.6em;
+}
+.theme-2 .palette .swatch .border.selected, .theme-2 .palette .swatch .border:hover {
+  border-color: white;
+  border-radius: 1em;
+}
+.theme-2 .palette .swatch .label {
+  margin-top: 0.75em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-2 .mission .badge {
+  height: 1.5em;
+  margin-right: 0.5em;
+  position: relative;
+  bottom: -0.33em;
+}
+.theme-2 .card {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  padding: 0.5em 1.5em;
+  background-color: black;
+  margin-bottom: 1em;
+}
+.theme-2 .card.full, .theme-2 .card.face {
+  min-height: 6em;
+  max-width: 98vw;
+}
+@media only screen and (min-width: 600px) {
+  .theme-2 .card.full, .theme-2 .card.face {
+    min-width: 30em;
+  }
+}
+.theme-2 .card.full > .hud > .coin > .hodls, .theme-2 .card.face > .hud > .coin > .hodls {
+  top: 0.65em;
+}
+.theme-2 .card.full {
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-2 .card.full .priority {
+  min-height: 2.325em;
+}
+.theme-2 .card.full .priority .coin {
+  margin-top: 0;
+}
+.theme-2 .card.full .priority .coin .hodls {
+  top: 0.375em;
+}
+.theme-2 .card.compact {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 8em;
+  height: 8em;
+  overflow: hidden;
+  transform: unset;
+}
+.theme-2 .card.compact .coin {
+  position: absolute;
+}
+.theme-2 .card.priority, .theme-2 .card.context, .theme-2 .card.mission {
+  position: relative;
+  margin-top: 0.25em;
+  text-align: left;
+  min-height: 0;
+  width: 100%;
+  min-width: unset;
+}
+.theme-2 .card.priority .content,
+.theme-2 .card.priority .content > p, .theme-2 .card.context .content,
+.theme-2 .card.context .content > p, .theme-2 .card.mission .content,
+.theme-2 .card.mission .content > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.theme-2 .card.priority .stack, .theme-2 .card.context .stack, .theme-2 .card.mission .stack {
+  margin-right: 1em;
+  margin-left: 1em;
+}
+.theme-2 .card.priority, .theme-2 .card.mission {
+  padding: 0;
+  margin-bottom: 0.5em;
+}
+.theme-2 .card.priority.padbottom, .theme-2 .card.mission.padbottom {
+  padding-bottom: 0.25em;
+}
+.theme-2 .card.priority .content, .theme-2 .card.mission .content {
+  padding: 0.55em 1em 0.55em 1em;
+}
+.theme-2 .card.priority .coin, .theme-2 .card.mission .coin {
+  width: 2em;
+  height: 2em;
+  transform: unset;
+  margin: 0;
+  left: -0.5em;
+  bottom: 0;
+  top: -0.35em;
+  display: inline-block;
+  float: left;
+}
+.theme-2 .card.priority > .hud, .theme-2 .card.mission > .hud {
+  z-index: 1;
+  position: relative;
+  float: right;
+  margin-left: 0.5em;
+}
+.theme-2 .card.priority > .hud .mission,
+.theme-2 .card.priority > .hud .preview,
+.theme-2 .card.priority > .hud .countdown,
+.theme-2 .card.priority > .hud .value,
+.theme-2 .card.priority > .hud .checkbox,
+.theme-2 .card.priority > .hud .cardMenuButton, .theme-2 .card.mission > .hud .mission,
+.theme-2 .card.mission > .hud .preview,
+.theme-2 .card.mission > .hud .countdown,
+.theme-2 .card.mission > .hud .value,
+.theme-2 .card.mission > .hud .checkbox,
+.theme-2 .card.mission > .hud .cardMenuButton {
+  display: inline-block;
+}
+.theme-2 .card.priority > .hud .mission,
+.theme-2 .card.priority > .hud .preview,
+.theme-2 .card.priority > .hud .countdown,
+.theme-2 .card.priority > .hud .value, .theme-2 .card.mission > .hud .mission,
+.theme-2 .card.mission > .hud .preview,
+.theme-2 .card.mission > .hud .countdown,
+.theme-2 .card.mission > .hud .value {
+  font-size: 0.8em;
+}
+.theme-2 .card.priority > .hud .mission,
+.theme-2 .card.priority > .hud .preview,
+.theme-2 .card.priority > .hud .countdown, .theme-2 .card.mission > .hud .mission,
+.theme-2 .card.mission > .hud .preview,
+.theme-2 .card.mission > .hud .countdown {
+  margin-right: 0.75em;
+}
+.theme-2 .card.priority > .hud .mission .badge, .theme-2 .card.mission > .hud .mission .badge {
+  height: 1.5em;
+  margin-right: 0.25em;
+  position: relative;
+  top: 0.31em;
+}
+.theme-2 .card.priority > .hud .value, .theme-2 .card.mission > .hud .value {
+  margin-right: 0.5em;
+}
+.theme-2 .card.priority > .hud .checkbox, .theme-2 .card.mission > .hud .checkbox {
+  position: relative;
+  top: 0.4em;
+}
+.theme-2 .card.priority > .hud .cardMenuButton, .theme-2 .card.mission > .hud .cardMenuButton {
+  font-size: 1.15em;
+  padding: 0.35em 0.25em;
+}
+.theme-2 .card.priority > .hud .action, .theme-2 .card.mission > .hud .action {
+  display: inline;
+  margin-right: 0.5em;
+  padding-bottom: 0.25em;
+}
+.theme-2 .card.priority {
+  min-height: 2.325em;
+}
+.theme-2 .card.mission .coin .hodls {
+  top: 0.25em;
+}
+.theme-2 .card .context {
+  max-height: 3.5em;
+  overflow-y: hidden;
+}
+.theme-2 .card.mini {
+  position: absolute;
+  top: 0;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.theme-2 .card.mini > .content {
+  position: relative;
+  font-size: 0.8em;
+  margin: 0;
+  height: 100%;
+}
+.theme-2 .card.mini > .content h1 {
+  font-size: 1.1em;
+}
+.theme-2 .card.mini > .content h2,
+.theme-2 .card.mini > .content h3,
+.theme-2 .card.mini > .content h4,
+.theme-2 .card.mini > .content h5,
+.theme-2 .card.mini > .content h6 {
+  font-size: 1.05em;
+}
+.theme-2 .card.mini > .hud {
+  position: relative;
+  pointer-events: none;
+}
+.theme-2 .card.mini > .hud.mini.before .seen {
+  position: absolute;
+  content: "";
+  top: 0.25em;
+  left: 0.25em;
+  height: 0.375em;
+  width: 0.375em;
+  border-radius: 50%;
+  background-color: rgba(255, 10, 10, 0.85);
+}
+.theme-2 .card.mini > .hud.mini.before > .mission, .theme-2 .card.mini > .hud.mini.before > .countdown, .theme-2 .card.mini > .hud.mini.before > .value {
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.75em;
+  padding: 0.25em;
+  margin: 0;
+}
+.theme-2 .card.mini > .hud.mini.before > .countdown, .theme-2 .card.mini > .hud.mini.before > .mission {
+  float: left;
+  pointer-events: none;
+}
+.theme-2 .card.mini > .hud.mini.before > .mission {
+  text-align: left;
+}
+.theme-2 .card.mini > .hud.mini.before > .mission .badge {
+  height: 1.1em;
+  margin-right: 0.25em;
+  position: relative;
+  top: 0.2em;
+  left: 0.05em;
+}
+.theme-2 .card.mini > .hud.mini.before > .value {
+  font-size: 0.6em;
+  float: right;
+}
+.theme-2 .card.mini > .hud.mini.before > .checkbox {
+  float: right;
+  height: 0.75em;
+  width: 0.75em;
+  opacity: 0.75;
+  display: inline;
+  pointer-events: none;
+  padding-top: 0.175em;
+  padding-right: 0.15em;
+}
+.theme-2 .card.mini > .hud.mini.after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+}
+.theme-2 .card.mini > .hud.mini.after .countdown {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.6em;
+  padding: 0.25em;
+  margin: 0 1em 0 0;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.theme-2 .card.mini > .hud.mini.after > .preview {
+  position: absolute;
+  right: 1.2em;
+  bottom: 0;
+  font-size: 0.75em;
+  padding: 0.25em;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.theme-2 .card.mini > .hud.mini.after > .preview .nopad {
+  padding-left: 0;
+  padding-right: 0;
+}
+.theme-2 .card.mini > .hud.mini.after > .cardMenuButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 0.9em;
+  padding: 0.1em 0;
+}
+.theme-2 .card .content {
+  position: relative;
+  margin: 1em auto;
+  max-width: 28em;
+}
+.theme-2 .card .content a {
+  text-shadow: 0 0 1em #fff, 0 0 0.5em #fff;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+.theme-2 .card .content p img {
+  max-width: 100%;
+}
+.theme-2 .card .content .mission .badge {
+  height: 1.5em;
+  margin-right: 0.5em;
+  position: relative;
+  top: 0.33em;
+}
+.theme-2 .card .stack > .dropZone > .action,
+.theme-2 .card .grid .menu .action {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.theme-2 .card .stack > .dropZone {
+  position: relative;
+}
+.theme-2 .card .hud .cardMenuButton {
+  padding: 0.5em;
+  font-size: 1.15em;
+  font-size: 1.25em;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+.theme-2 .card .hud .cardMenuButton:hover {
+  color: white;
+}
+.theme-2 .card .hud.full.before, .theme-2 .card .hud.face.before {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+.theme-2 .card .hud.full.before .countdown,
+.theme-2 .card .hud.full.before .value,
+.theme-2 .card .hud.full.before .checkbox, .theme-2 .card .hud.face.before .countdown,
+.theme-2 .card .hud.face.before .value,
+.theme-2 .card .hud.face.before .checkbox {
+  font-size: 0.9em;
+  display: inline-block;
+}
+.theme-2 .card .hud.full.before .countdown,
+.theme-2 .card .hud.full.before .value, .theme-2 .card .hud.face.before .countdown,
+.theme-2 .card .hud.face.before .value {
+  position: relative;
+  top: -0.4em;
+  margin-right: 0.5em;
+}
+.theme-2 .card .hud.face.before .value {
+  margin-left: 0.5em;
+}
+.theme-2 .card .hud.full.after .preview, .theme-2 .card .hud.face.after .preview {
+  position: absolute;
+  right: 2em;
+  bottom: 0.75em;
+}
+.theme-2 .card .hud.full.after .cardMenuButton, .theme-2 .card .hud.face.after .cardMenuButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.theme-2 .card .value,
+.theme-2 .card .value.full {
+  font-size: 0.9em;
+}
+.theme-2 .card .value.menu,
+.theme-2 .card .value.full.menu {
+  float: none;
+  font-size: 1em;
+}
+.theme-2 .card .value.collapsed,
+.theme-2 .card .value.full.collapsed {
+  font-size: 0.8em;
+}
+.theme-2 .card .value.collapsed .action,
+.theme-2 .card .value.full.collapsed .action {
+  cursor: default;
+  text-decoration: none;
+  padding: 0.25em;
+}
+.theme-2 .card .checkbox {
+  height: 1.5em;
+  width: 1.5em;
+  cursor: pointer;
+  opacity: 0.5;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.theme-2 .card .coin {
+  width: 2.5em;
+  height: 2.5em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0.75em;
+  margin-top: 1.5em;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-2 .card .coin.ungrabbed {
+  opacity: 0.3;
+}
+.theme-2 .card .coin img {
+  -webkit-animation: spin 32s linear infinite;
+          animation: spin 32s linear infinite;
+}
+.theme-2 .card .coin .hodls {
+  position: absolute;
+  left: 50%;
+  top: 0.25em;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 2.75em;
+  bottom: 0.25em;
+  padding-bottom: 0.4em;
+  margin-bottom: 0;
+  font-weight: bold;
+  color: white;
+  pointer-events: none;
+  text-shadow: -0.2em 0.2em 0.2em #000;
+}
+.theme-2 .card .hourglass img {
+  width: 2em;
+}
+.theme-2 .card .hourglass .history {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 24em;
+  background-color: rgba(22, 22, 22, 0.4);
+}
+.theme-2 .card .hourglass .action:hover + .history {
+  display: block;
+}
+.theme-2 .card .hourglass .cardTimeLog {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.theme-2 .card .hourglass .cardTimeLog .cardTimeLogDate {
+  align-self: left;
+  margin-left: 10px;
+}
+.theme-2 .card .hourglass .cardTimeLog .cardTimeLogDateNull {
+  align-self: left;
+}
+.theme-2 .card .hourglass .cardTimeLog .cardTimeLogDateNull.orangeLog {
+  color: orange;
+}
+.theme-2 .card .gridContainer {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  margin-top: 1em;
+  z-index: 1;
+}
+.theme-2 .card .gridContainer.padbottom {
+  margin-bottom: 2em;
+}
+.theme-2 .card .gridContainer > .grid {
+  display: grid;
+}
+.theme-2 .card .gridContainer > .grid > .zone, .theme-2 .card .gridContainer > .grid > .dropZone.grid {
+  position: relative;
+  background: rgba(15, 15, 15, 0.075);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(15, 15, 15, 0.3);
+  color: black;
+}
+.theme-2 .card .gridContainer > .grid > .zone.empty, .theme-2 .card .gridContainer > .grid > .dropZone.grid.empty {
+  cursor: text;
+}
+.theme-2 .card .gridContainer > .grid > .zone.empty .dzu-dropzone, .theme-2 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone {
+  width: 100%;
+  height: 100%;
+}
+.theme-2 .card .gridContainer > .grid > .zone.empty .dzu-dropzone:hover .dzu-inputLabel, .theme-2 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone:hover .dzu-inputLabel {
+  visibility: visible;
+  margin-top: 50%;
+  transform: translateY(-50%);
+}
+.theme-2 .card .gridContainer > .grid > .zone.empty .dzu-dropzone .dzu-inputLabel, .theme-2 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone .dzu-inputLabel {
+  visibility: hidden;
+  font-size: 0.8em;
+}
+.theme-2 .card .gridContainer > .grid > .zone.empty .dzu-dropzone img, .theme-2 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.theme-2 .card .gridContainer > .grid > .zone .hud .menu .action, .theme-2 .card .gridContainer > .grid > .dropZone.grid .hud .menu .action {
+  left: unset;
+  transform: unset;
+}
+.theme-2 .card .gridContainer .resizer {
+  position: absolute;
+  margin-top: -4.75em;
+  right: 0;
+  transform: translateX(100%);
+}
+.theme-2 .card .gridContainer .resizer button {
+  display: block;
+}
+.theme-2 .card .gridContainer .resizer .minus,
+.theme-2 .card .gridContainer .resizer .plus {
+  outline: none;
+  font-family: monospace;
+  margin: 0;
+  position: relative;
+}
+.theme-2 .card .gridContainer .resizer .columns .minus,
+.theme-2 .card .gridContainer .resizer .columns .plus {
+  right: -0.275em;
+  margin-top: 0.25em;
+  padding-left: 0.25em;
+  padding-right: 0.25em;
+}
+.theme-2 .card .gridContainer .resizer .rows .minus,
+.theme-2 .card .gridContainer .resizer .rows .plus {
+  display: inline;
+  left: -5.5em;
+  margin-top: 0.6em;
+  margin-right: 0.25em;
+  padding: 0 0.75em;
+}
+.theme-2 #home {
+  position: fixed;
+  top: 0.5em;
+  left: 1em;
+}
+.theme-2 #mainMenuButton {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  font-size: 1.75em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-2 #mainMenu {
+  padding: 0.25em 0em;
+}
+.theme-2 #mainMenu .action {
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  width: calc(100% - 1.25em);
+}
+.theme-2 #mainMenu .password input {
+  display: block;
+}
+.theme-2 #status {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-left: 0.5em;
+  margin-bottom: 0.3em;
+  cursor: pointer;
+  height: 3em;
+}
+.theme-2 #volume {
+  margin-right: 0.5em;
+  margin-bottom: 0.3em;
+  cursor: pointer;
+}
+.theme-2 #volume img {
+  height: 2em;
+  fill: #fff;
+  margin-top: -0.2em;
+  vertical-align: middle;
+}
+.theme-2 #hub,
+.theme-2 #members,
+.theme-2 #missions,
+.theme-2 #calendar,
+.theme-2 #search,
+.theme-2 #returnPile,
+.theme-2 #shitposts {
+  z-index: 1;
+}
+.theme-2 #hub .actionCircle,
+.theme-2 #members .actionCircle,
+.theme-2 #missions .actionCircle,
+.theme-2 #calendar .actionCircle,
+.theme-2 #search .actionCircle,
+.theme-2 #returnPile .actionCircle,
+.theme-2 #shitposts .actionCircle {
+  position: fixed;
+  left: 0.5em;
+}
+.theme-2 #hub .popupPanel,
+.theme-2 #members .popupPanel,
+.theme-2 #missions .popupPanel,
+.theme-2 #calendar .popupPanel,
+.theme-2 #search .popupPanel,
+.theme-2 #returnPile .popupPanel,
+.theme-2 #shitposts .popupPanel {
+  max-height: 96vh;
+}
+.theme-2 #hub .actionCircle {
+  top: 0.5em;
+  width: 3.5em;
+  height: 3.5em;
+}
+.theme-2 #hub .actionCircle.open img {
+  width: 5em;
+  height: 5em;
+  left: -0.75em;
+  top: -0.75em;
+}
+.theme-2 #hub .popupPanel {
+  width: 90vw;
+  height: 96vh;
+}
+.theme-2 #members .actionCircle {
+  left: 0.5em;
+  transform: translateY(-50%);
+  top: 45vh;
+}
+.theme-2 #members .popupPanel input {
+  margin: 0.5em 0.5em 0.5em 5em;
+}
+.theme-2 #missions .actionCircle,
+.theme-2 .popupPanel > .right > .stack .card.mission .actionCircle {
+  top: calc(45vh - 6em);
+}
+.theme-2 #missions .mission.summary.collapsed,
+.theme-2 .popupPanel > .right > .stack .card.mission .mission.summary.collapsed {
+  display: inline-block;
+}
+.theme-2 #missions .content,
+.theme-2 .popupPanel > .right > .stack .card.mission .content {
+  min-width: 24em;
+  padding-bottom: 0;
+}
+.theme-2 #missions .content > .coin,
+.theme-2 .popupPanel > .right > .stack .card.mission .content > .coin {
+  margin-top: 0.25em;
+}
+.theme-2 #missions .content > .preview,
+.theme-2 .popupPanel > .right > .stack .card.mission .content > .preview {
+  clear: both;
+}
+.theme-2 #missions .content > .preview > .action,
+.theme-2 .popupPanel > .right > .stack .card.mission .content > .preview > .action {
+  font-size: 0.8em;
+  padding: 0.3em;
+}
+.theme-2 #missions .content > .preview > .action:first-child,
+.theme-2 .popupPanel > .right > .stack .card.mission .content > .preview > .action:first-child {
+  float: left;
+  margin-left: 10%;
+}
+.theme-2 #missions .content > .preview > .action:nth-child(2),
+.theme-2 .popupPanel > .right > .stack .card.mission .content > .preview > .action:nth-child(2) {
+  margin-left: 60%;
+  margin-bottom: 0;
+}
+.theme-2 #missions .stack,
+.theme-2 .popupPanel > .right > .stack .card.mission .stack {
+  clear: both;
+}
+.theme-2 #calendar .actionCircle {
+  top: calc(45vh + 2.5em);
+}
+.theme-2 #calendar .card {
+  min-width: 28em;
+}
+.theme-2 #calendar .results.empty {
+  max-width: 18em;
+  margin: 1em;
+}
+.theme-2 #calendar .agendaTail .stack {
+  margin-top: 1em;
+}
+.theme-2 #calendar .agendaTail .stack .action.open {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0.25em 0.5em;
+  background: none;
+  border: none;
+  text-shadow: none;
+}
+.theme-2 #search .popupPanel {
+  max-height: unset;
+}
+.theme-2 #search .popupPanel .results {
+  padding-top: 0.5em;
+  padding-right: 0.5em;
+}
+.theme-2 #search .popupPanel .results div:first-child {
+  margin-bottom: 0.25em;
+}
+.theme-2 #search .popupPanel .results.empty {
+  opacity: 0.8;
+}
+.theme-2 #search .actionCircle {
+  top: unset;
+  bottom: 0.5em;
+}
+.theme-2 #search input {
+  margin: 0.5em;
+}
+.theme-2 #returnPile .actionCircle {
+  top: unset;
+  bottom: 0.5em;
+  left: 5em;
+}
+.theme-2 .previewPopup > p {
+  max-width: 9em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-2 #tickers {
+  position: fixed;
+  top: 45vh;
+  right: 1.5em;
+  transform: translateY(-50%);
+}
+.theme-2 #tickers .ticker {
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
+  position: relative;
+}
+.theme-2 #tickers .ticker .actionCircle {
+  height: 3em;
+  width: 3em;
+}
+.theme-2 #tickers .ticker .actionCircle p {
+  font-size: 0.7em;
+}
+.theme-2 #tickers .ticker .actionCircle.newEntry p {
+  font-size: 2em;
+  font-weight: bold;
+  position: relative;
+  top: -0.8em;
+}
+.theme-2 #tickers .ticker textarea {
+  border-radius: 50%;
+  overflow: hidden;
+  height: 2.25em;
+  width: 3.5em;
+  font-size: 1em;
+  outline: none;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 1.25em;
+  resize: none;
+  margin: 0;
+}
+.theme-2 #tickers .ticker .error {
+  color: #ffb0b0;
+  font-weight: bold;
+  position: absolute;
+  top: 90%;
+  left: 45%;
+}
+.theme-2 #shitposts .actionCircle {
+  left: unset;
+  right: 1.5em;
+  bottom: 5em;
+}
+.theme-2 #score {
+  position: fixed;
+  right: 5em;
+  bottom: 1em;
+  font-size: 1.2em;
+  cursor: default;
+}
+.theme-2 .discard {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 97vh;
+}
+.theme-2 .discard > .dragZone {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.theme-2 #context .stack {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+.theme-2 #context .stack .zone,
+.theme-2 #context .stack .dropZone {
+  margin: 0 auto;
+}
+.theme-2 #context .stack .zone .content > p,
+.theme-2 #context .stack .dropZone .content > p {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.theme-2 #context .stack .card {
+  margin-top: 0;
+}
+.theme-2 #context .stack .card.context {
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-2 .grid {
+  max-width: 75vw;
+  overflow-x: auto;
+}
+.theme-2 .grid .stack .card.priority {
+  min-width: 26em;
+  font-size: 0.9em;
+}
+.theme-2 .stack .card {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  max-width: 30em;
+}
+.theme-2 .stack .card.priority {
+  min-width: 20em;
+  margin-top: 0.375em;
+  margin-bottom: 0.375em;
+}
+.theme-2 .stack textarea {
+  position: relative;
+  min-height: 7em;
+  margin-top: 2.35em;
+  width: 39em;
+}
+.theme-2 .context.stack ~ .card {
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-2 .paper img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.25;
+}
+.theme-2 .paper .color {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.25;
+}
+.theme-2 .paper .color.red {
+  background-color: #ffb0b0;
+}
+.theme-2 .paper .color.yellow {
+  background-color: #fff89c;
+}
+.theme-2 .paper .color.green {
+  background-color: #c2ffc2;
+}
+.theme-2 .paper .color.blue {
+  background-color: #8ab7ff;
+}
+.theme-2 .paper .color.purple {
+  background-color: #c0b3ff;
+}
+.theme-2 .paper .color.black {
+  background-color: black;
+}
+.theme-2 .action,
+.theme-2 .summary {
+  position: relative;
+  display: block;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  color: white;
+  margin: 0 auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-2 .action {
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 0.15em solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  text-shadow: -0.2em 0.2em 0.2em #000;
+  padding: 0.5em;
+  cursor: pointer;
+}
+.theme-2 .action:hover {
+  text-decoration: underline;
+}
+.theme-2 .action.selected {
+  border: none;
+  font-weight: bold;
+  background: none;
+  cursor: default;
+}
+.theme-2 .action.selected:hover {
+  text-decoration: none;
+}
+.theme-2 .toolbar .action {
+  display: inline-block;
+  margin-right: 0.5em;
+  padding: 0.25em 0.5em;
+}
+.theme-2 .preview .action {
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+.theme-2 .tippy-content .stack > .dropZone > .action {
+  padding-top: 0.25em;
+  margin-bottom: 0.25em;
+  font-size: 0.9em;
+}
+.theme-2 .actionCircle {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 2.5em;
+  height: 2.5em;
+}
+.theme-2 .actionCircle img {
+  width: 100%;
+  height: 100%;
+}
+.theme-2 .actionCircle.open img {
+  width: 4.5em;
+  height: 4.5em;
+  position: relative;
+  left: -1em;
+  top: -1em;
+}
+.theme-2 .actionCircle.open .badge {
+  font-size: 1.5em;
+  padding: 0.25em 0.45em;
+}
+.theme-2 .actionCircle .badge {
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  background-color: rgba(255, 10, 10, 0.85);
+  border-radius: 5em;
+  color: white;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  transform: translateX(50%);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 4em;
+}
+.theme-2 .popupPanel {
+  overflow-y: auto;
+}
+.theme-2 .popupPanel .left {
+  width: 55%;
+  float: left;
+}
+.theme-2 .popupPanel .left > .action {
+  position: absolute;
+  left: 30%;
+  top: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.theme-2 .popupPanel .right {
+  width: 45%;
+  float: right;
+}
+.theme-2 .completed {
+  max-width: 30em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-2 .completed .action {
+  margin-bottom: 1em;
+}
+.theme-2 .completed .dragZone {
+  display: inline;
+}
+.theme-2 .completed .dragZone .card.checkmark {
+  background: unset;
+  display: inline-block;
+  margin: 0;
+  padding: 0 0.25em;
+  transform: unset;
+  left: unset;
+  line-height: 2em;
+}
+.theme-2 .completed .dragZone .card.checkmark img {
+  width: 1.5em;
+}
+.theme-2 .checkmarkImage {
+  height: 2em;
+  fill: white;
+  margin-top: 0.75em;
+  outline: none;
+}
+.theme-2 .checkmarkImage.red {
+  fill: #ffb0b0;
+}
+.theme-2 .checkmarkImage.yellow {
+  fill: #fff89c;
+}
+.theme-2 .checkmarkImage.green {
+  fill: #c2ffc2;
+}
+.theme-2 .checkmarkImage.blue {
+  fill: #8ab7ff;
+}
+.theme-2 .checkmarkImage.purple {
+  fill: #c0b3ff;
+}
+.theme-2 .checkmarkImage.black {
+  fill: black;
+}
+.theme-2 #dragGhost {
+  position: fixed;
+  left: -1000em;
+  top: -1000em;
+}
+.theme-2 .card iframe {
+  max-width: calc(100% - 2em);
+  max-height: calc(100% - 2em);
+  margin: 1em;
+}
+.theme-2 .card.searchedOnPage:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  border: 0.2em solid yellow;
+  pointer-events: none;
+}
+.theme-2 #searchResults {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+.theme-2 #search .popupPanel .results::-webkit-scrollbar,
+.theme-2 .grid::-webkit-scrollbar {
+  background-color: rgba(22, 22, 22, 0.4);
+}
+.theme-2 #search .popupPanel .results::-webkit-scrollbar-thumb,
+.theme-2 .grid::-webkit-scrollbar-thumb {
+  background-color: rgba(89, 89, 89, 0.4);
+}
+.theme-2 #search .popupPanel .results::-webkit-scrollbar-thumb:hover,
+.theme-2 .grid::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.theme-2 .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  color: #ddd;
+  z-index: 3;
+}
+.theme-2 .overlay .label {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.theme-2 .card.searchedOnPage:after {
+  border: 0.2em solid green;
+}
+
+body {
+  margin: 0;
+}
+
+.theme-3 {
+  text-align: center;
+  color: white;
+  font-family: monospace;
+  font-size: 1.25em;
+  background-color: #001a00;
+}
+.theme-3 .menu .action {
+  margin: 0.5em auto;
+}
+.theme-3 .palette {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.theme-3 .palette .swatch {
+  display: inline-block;
+  position: relative;
+  margin: 0.75em 1em 2em 1em;
+  cursor: pointer;
+}
+.theme-3 .palette .swatch .paper {
+  width: 1em;
+  height: 1em;
+}
+.theme-3 .palette .swatch .border {
+  padding: 0.9em;
+  border: 0.165em solid transparent;
+  margin: -0.6em;
+}
+.theme-3 .palette .swatch .border.selected, .theme-3 .palette .swatch .border:hover {
+  border-color: white;
+  border-radius: 1em;
+}
+.theme-3 .palette .swatch .label {
+  margin-top: 0.75em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-3 .mission .badge {
+  height: 1.5em;
+  margin-right: 0.5em;
+  position: relative;
+  bottom: -0.33em;
+}
+.theme-3 .card {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  padding: 0.5em 1.5em;
+  background-color: black;
+  margin-bottom: 1em;
+}
+.theme-3 .card.full, .theme-3 .card.face {
+  min-height: 6em;
+  max-width: 98vw;
+}
+@media only screen and (min-width: 600px) {
+  .theme-3 .card.full, .theme-3 .card.face {
+    min-width: 30em;
+  }
+}
+.theme-3 .card.full > .hud > .coin > .hodls, .theme-3 .card.face > .hud > .coin > .hodls {
+  top: 0.65em;
+}
+.theme-3 .card.full {
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-3 .card.full .priority {
+  min-height: 2.325em;
+}
+.theme-3 .card.full .priority .coin {
+  margin-top: 0;
+}
+.theme-3 .card.full .priority .coin .hodls {
+  top: 0.375em;
+}
+.theme-3 .card.compact {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 8em;
+  height: 8em;
+  overflow: hidden;
+  transform: unset;
+}
+.theme-3 .card.compact .coin {
+  position: absolute;
+}
+.theme-3 .card.priority, .theme-3 .card.context, .theme-3 .card.mission {
+  position: relative;
+  margin-top: 0.25em;
+  text-align: left;
+  min-height: 0;
+  width: 100%;
+  min-width: unset;
+}
+.theme-3 .card.priority .content,
+.theme-3 .card.priority .content > p, .theme-3 .card.context .content,
+.theme-3 .card.context .content > p, .theme-3 .card.mission .content,
+.theme-3 .card.mission .content > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.theme-3 .card.priority .stack, .theme-3 .card.context .stack, .theme-3 .card.mission .stack {
+  margin-right: 1em;
+  margin-left: 1em;
+}
+.theme-3 .card.priority, .theme-3 .card.mission {
+  padding: 0;
+  margin-bottom: 0.5em;
+}
+.theme-3 .card.priority.padbottom, .theme-3 .card.mission.padbottom {
+  padding-bottom: 0.25em;
+}
+.theme-3 .card.priority .content, .theme-3 .card.mission .content {
+  padding: 0.55em 1em 0.55em 1em;
+}
+.theme-3 .card.priority .coin, .theme-3 .card.mission .coin {
+  width: 2em;
+  height: 2em;
+  transform: unset;
+  margin: 0;
+  left: -0.5em;
+  bottom: 0;
+  top: -0.35em;
+  display: inline-block;
+  float: left;
+}
+.theme-3 .card.priority > .hud, .theme-3 .card.mission > .hud {
+  z-index: 1;
+  position: relative;
+  float: right;
+  margin-left: 0.5em;
+}
+.theme-3 .card.priority > .hud .mission,
+.theme-3 .card.priority > .hud .preview,
+.theme-3 .card.priority > .hud .countdown,
+.theme-3 .card.priority > .hud .value,
+.theme-3 .card.priority > .hud .checkbox,
+.theme-3 .card.priority > .hud .cardMenuButton, .theme-3 .card.mission > .hud .mission,
+.theme-3 .card.mission > .hud .preview,
+.theme-3 .card.mission > .hud .countdown,
+.theme-3 .card.mission > .hud .value,
+.theme-3 .card.mission > .hud .checkbox,
+.theme-3 .card.mission > .hud .cardMenuButton {
+  display: inline-block;
+}
+.theme-3 .card.priority > .hud .mission,
+.theme-3 .card.priority > .hud .preview,
+.theme-3 .card.priority > .hud .countdown,
+.theme-3 .card.priority > .hud .value, .theme-3 .card.mission > .hud .mission,
+.theme-3 .card.mission > .hud .preview,
+.theme-3 .card.mission > .hud .countdown,
+.theme-3 .card.mission > .hud .value {
+  font-size: 0.8em;
+}
+.theme-3 .card.priority > .hud .mission,
+.theme-3 .card.priority > .hud .preview,
+.theme-3 .card.priority > .hud .countdown, .theme-3 .card.mission > .hud .mission,
+.theme-3 .card.mission > .hud .preview,
+.theme-3 .card.mission > .hud .countdown {
+  margin-right: 0.75em;
+}
+.theme-3 .card.priority > .hud .mission .badge, .theme-3 .card.mission > .hud .mission .badge {
+  height: 1.5em;
+  margin-right: 0.25em;
+  position: relative;
+  top: 0.31em;
+}
+.theme-3 .card.priority > .hud .value, .theme-3 .card.mission > .hud .value {
+  margin-right: 0.5em;
+}
+.theme-3 .card.priority > .hud .checkbox, .theme-3 .card.mission > .hud .checkbox {
+  position: relative;
+  top: 0.4em;
+}
+.theme-3 .card.priority > .hud .cardMenuButton, .theme-3 .card.mission > .hud .cardMenuButton {
+  font-size: 1.15em;
+  padding: 0.35em 0.25em;
+}
+.theme-3 .card.priority > .hud .action, .theme-3 .card.mission > .hud .action {
+  display: inline;
+  margin-right: 0.5em;
+  padding-bottom: 0.25em;
+}
+.theme-3 .card.priority {
+  min-height: 2.325em;
+}
+.theme-3 .card.mission .coin .hodls {
+  top: 0.25em;
+}
+.theme-3 .card .context {
+  max-height: 3.5em;
+  overflow-y: hidden;
+}
+.theme-3 .card.mini {
+  position: absolute;
+  top: 0;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.theme-3 .card.mini > .content {
+  position: relative;
+  font-size: 0.8em;
+  margin: 0;
+  height: 100%;
+}
+.theme-3 .card.mini > .content h1 {
+  font-size: 1.1em;
+}
+.theme-3 .card.mini > .content h2,
+.theme-3 .card.mini > .content h3,
+.theme-3 .card.mini > .content h4,
+.theme-3 .card.mini > .content h5,
+.theme-3 .card.mini > .content h6 {
+  font-size: 1.05em;
+}
+.theme-3 .card.mini > .hud {
+  position: relative;
+  pointer-events: none;
+}
+.theme-3 .card.mini > .hud.mini.before .seen {
+  position: absolute;
+  content: "";
+  top: 0.25em;
+  left: 0.25em;
+  height: 0.375em;
+  width: 0.375em;
+  border-radius: 50%;
+  background-color: rgba(255, 10, 10, 0.85);
+}
+.theme-3 .card.mini > .hud.mini.before > .mission, .theme-3 .card.mini > .hud.mini.before > .countdown, .theme-3 .card.mini > .hud.mini.before > .value {
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.75em;
+  padding: 0.25em;
+  margin: 0;
+}
+.theme-3 .card.mini > .hud.mini.before > .countdown, .theme-3 .card.mini > .hud.mini.before > .mission {
+  float: left;
+  pointer-events: none;
+}
+.theme-3 .card.mini > .hud.mini.before > .mission {
+  text-align: left;
+}
+.theme-3 .card.mini > .hud.mini.before > .mission .badge {
+  height: 1.1em;
+  margin-right: 0.25em;
+  position: relative;
+  top: 0.2em;
+  left: 0.05em;
+}
+.theme-3 .card.mini > .hud.mini.before > .value {
+  font-size: 0.6em;
+  float: right;
+}
+.theme-3 .card.mini > .hud.mini.before > .checkbox {
+  float: right;
+  height: 0.75em;
+  width: 0.75em;
+  opacity: 0.75;
+  display: inline;
+  pointer-events: none;
+  padding-top: 0.175em;
+  padding-right: 0.15em;
+}
+.theme-3 .card.mini > .hud.mini.after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+}
+.theme-3 .card.mini > .hud.mini.after .countdown {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.6em;
+  padding: 0.25em;
+  margin: 0 1em 0 0;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.theme-3 .card.mini > .hud.mini.after > .preview {
+  position: absolute;
+  right: 1.2em;
+  bottom: 0;
+  font-size: 0.75em;
+  padding: 0.25em;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.theme-3 .card.mini > .hud.mini.after > .preview .nopad {
+  padding-left: 0;
+  padding-right: 0;
+}
+.theme-3 .card.mini > .hud.mini.after > .cardMenuButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 0.9em;
+  padding: 0.1em 0;
+}
+.theme-3 .card .content {
+  position: relative;
+  margin: 1em auto;
+  max-width: 28em;
+}
+.theme-3 .card .content a {
+  text-shadow: 0 0 1em #fff, 0 0 0.5em #fff;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+.theme-3 .card .content p img {
+  max-width: 100%;
+}
+.theme-3 .card .content .mission .badge {
+  height: 1.5em;
+  margin-right: 0.5em;
+  position: relative;
+  top: 0.33em;
+}
+.theme-3 .card .stack > .dropZone > .action,
+.theme-3 .card .grid .menu .action {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.theme-3 .card .stack > .dropZone {
+  position: relative;
+}
+.theme-3 .card .hud .cardMenuButton {
+  padding: 0.5em;
+  font-size: 1.15em;
+  font-size: 1.25em;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+.theme-3 .card .hud .cardMenuButton:hover {
+  color: white;
+}
+.theme-3 .card .hud.full.before, .theme-3 .card .hud.face.before {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+.theme-3 .card .hud.full.before .countdown,
+.theme-3 .card .hud.full.before .value,
+.theme-3 .card .hud.full.before .checkbox, .theme-3 .card .hud.face.before .countdown,
+.theme-3 .card .hud.face.before .value,
+.theme-3 .card .hud.face.before .checkbox {
+  font-size: 0.9em;
+  display: inline-block;
+}
+.theme-3 .card .hud.full.before .countdown,
+.theme-3 .card .hud.full.before .value, .theme-3 .card .hud.face.before .countdown,
+.theme-3 .card .hud.face.before .value {
+  position: relative;
+  top: -0.4em;
+  margin-right: 0.5em;
+}
+.theme-3 .card .hud.face.before .value {
+  margin-left: 0.5em;
+}
+.theme-3 .card .hud.full.after .preview, .theme-3 .card .hud.face.after .preview {
+  position: absolute;
+  right: 2em;
+  bottom: 0.75em;
+}
+.theme-3 .card .hud.full.after .cardMenuButton, .theme-3 .card .hud.face.after .cardMenuButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.theme-3 .card .value,
+.theme-3 .card .value.full {
+  font-size: 0.9em;
+}
+.theme-3 .card .value.menu,
+.theme-3 .card .value.full.menu {
+  float: none;
+  font-size: 1em;
+}
+.theme-3 .card .value.collapsed,
+.theme-3 .card .value.full.collapsed {
+  font-size: 0.8em;
+}
+.theme-3 .card .value.collapsed .action,
+.theme-3 .card .value.full.collapsed .action {
+  cursor: default;
+  text-decoration: none;
+  padding: 0.25em;
+}
+.theme-3 .card .checkbox {
+  height: 1.5em;
+  width: 1.5em;
+  cursor: pointer;
+  opacity: 0.5;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.theme-3 .card .coin {
+  width: 2.5em;
+  height: 2.5em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0.75em;
+  margin-top: 1.5em;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-3 .card .coin.ungrabbed {
+  opacity: 0.3;
+}
+.theme-3 .card .coin img {
+  -webkit-animation: spin 32s linear infinite;
+          animation: spin 32s linear infinite;
+}
+.theme-3 .card .coin .hodls {
+  position: absolute;
+  left: 50%;
+  top: 0.25em;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 2.75em;
+  bottom: 0.25em;
+  padding-bottom: 0.4em;
+  margin-bottom: 0;
+  font-weight: bold;
+  color: white;
+  pointer-events: none;
+  text-shadow: -0.2em 0.2em 0.2em #000;
+}
+.theme-3 .card .hourglass img {
+  width: 2em;
+}
+.theme-3 .card .hourglass .history {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 24em;
+  background-color: rgba(22, 22, 22, 0.4);
+}
+.theme-3 .card .hourglass .action:hover + .history {
+  display: block;
+}
+.theme-3 .card .hourglass .cardTimeLog {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.theme-3 .card .hourglass .cardTimeLog .cardTimeLogDate {
+  align-self: left;
+  margin-left: 10px;
+}
+.theme-3 .card .hourglass .cardTimeLog .cardTimeLogDateNull {
+  align-self: left;
+}
+.theme-3 .card .hourglass .cardTimeLog .cardTimeLogDateNull.orangeLog {
+  color: orange;
+}
+.theme-3 .card .gridContainer {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  margin-top: 1em;
+  z-index: 1;
+}
+.theme-3 .card .gridContainer.padbottom {
+  margin-bottom: 2em;
+}
+.theme-3 .card .gridContainer > .grid {
+  display: grid;
+}
+.theme-3 .card .gridContainer > .grid > .zone, .theme-3 .card .gridContainer > .grid > .dropZone.grid {
+  position: relative;
+  background: rgba(255, 255, 255, 0.075);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+.theme-3 .card .gridContainer > .grid > .zone.empty, .theme-3 .card .gridContainer > .grid > .dropZone.grid.empty {
+  cursor: text;
+}
+.theme-3 .card .gridContainer > .grid > .zone.empty .dzu-dropzone, .theme-3 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone {
+  width: 100%;
+  height: 100%;
+}
+.theme-3 .card .gridContainer > .grid > .zone.empty .dzu-dropzone:hover .dzu-inputLabel, .theme-3 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone:hover .dzu-inputLabel {
+  visibility: visible;
+  margin-top: 50%;
+  transform: translateY(-50%);
+}
+.theme-3 .card .gridContainer > .grid > .zone.empty .dzu-dropzone .dzu-inputLabel, .theme-3 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone .dzu-inputLabel {
+  visibility: hidden;
+  font-size: 0.8em;
+}
+.theme-3 .card .gridContainer > .grid > .zone.empty .dzu-dropzone img, .theme-3 .card .gridContainer > .grid > .dropZone.grid.empty .dzu-dropzone img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.theme-3 .card .gridContainer > .grid > .zone .hud .menu .action, .theme-3 .card .gridContainer > .grid > .dropZone.grid .hud .menu .action {
+  left: unset;
+  transform: unset;
+}
+.theme-3 .card .gridContainer .resizer {
+  position: absolute;
+  margin-top: -4.75em;
+  right: 0;
+  transform: translateX(100%);
+}
+.theme-3 .card .gridContainer .resizer button {
+  display: block;
+}
+.theme-3 .card .gridContainer .resizer .minus,
+.theme-3 .card .gridContainer .resizer .plus {
+  outline: none;
+  font-family: monospace;
+  margin: 0;
+  position: relative;
+}
+.theme-3 .card .gridContainer .resizer .columns .minus,
+.theme-3 .card .gridContainer .resizer .columns .plus {
+  right: -0.275em;
+  margin-top: 0.25em;
+  padding-left: 0.25em;
+  padding-right: 0.25em;
+}
+.theme-3 .card .gridContainer .resizer .rows .minus,
+.theme-3 .card .gridContainer .resizer .rows .plus {
+  display: inline;
+  left: -5.5em;
+  margin-top: 0.6em;
+  margin-right: 0.25em;
+  padding: 0 0.75em;
+}
+.theme-3 #home {
+  position: fixed;
+  top: 0.5em;
+  left: 1em;
+}
+.theme-3 #mainMenuButton {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  font-size: 1.75em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-3 #mainMenu {
+  padding: 0.25em 0em;
+}
+.theme-3 #mainMenu .action {
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  width: calc(100% - 1.25em);
+}
+.theme-3 #mainMenu .password input {
+  display: block;
+}
+.theme-3 #status {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-left: 0.5em;
+  margin-bottom: 0.3em;
+  cursor: pointer;
+  height: 3em;
+}
+.theme-3 #volume {
+  margin-right: 0.5em;
+  margin-bottom: 0.3em;
+  cursor: pointer;
+}
+.theme-3 #volume img {
+  height: 2em;
+  fill: #fff;
+  margin-top: -0.2em;
+  vertical-align: middle;
+}
+.theme-3 #hub,
+.theme-3 #members,
+.theme-3 #missions,
+.theme-3 #calendar,
+.theme-3 #search,
+.theme-3 #returnPile,
+.theme-3 #shitposts {
+  z-index: 1;
+}
+.theme-3 #hub .actionCircle,
+.theme-3 #members .actionCircle,
+.theme-3 #missions .actionCircle,
+.theme-3 #calendar .actionCircle,
+.theme-3 #search .actionCircle,
+.theme-3 #returnPile .actionCircle,
+.theme-3 #shitposts .actionCircle {
+  position: fixed;
+  left: 0.5em;
+}
+.theme-3 #hub .popupPanel,
+.theme-3 #members .popupPanel,
+.theme-3 #missions .popupPanel,
+.theme-3 #calendar .popupPanel,
+.theme-3 #search .popupPanel,
+.theme-3 #returnPile .popupPanel,
+.theme-3 #shitposts .popupPanel {
+  max-height: 96vh;
+}
+.theme-3 #hub .actionCircle {
+  top: 0.5em;
+  width: 3.5em;
+  height: 3.5em;
+}
+.theme-3 #hub .actionCircle.open img {
+  width: 5em;
+  height: 5em;
+  left: -0.75em;
+  top: -0.75em;
+}
+.theme-3 #hub .popupPanel {
+  width: 90vw;
+  height: 96vh;
+}
+.theme-3 #members .actionCircle {
+  left: 0.5em;
+  transform: translateY(-50%);
+  top: 45vh;
+}
+.theme-3 #members .popupPanel input {
+  margin: 0.5em 0.5em 0.5em 5em;
+}
+.theme-3 #missions .actionCircle,
+.theme-3 .popupPanel > .right > .stack .card.mission .actionCircle {
+  top: calc(45vh - 6em);
+}
+.theme-3 #missions .mission.summary.collapsed,
+.theme-3 .popupPanel > .right > .stack .card.mission .mission.summary.collapsed {
+  display: inline-block;
+}
+.theme-3 #missions .content,
+.theme-3 .popupPanel > .right > .stack .card.mission .content {
+  min-width: 24em;
+  padding-bottom: 0;
+}
+.theme-3 #missions .content > .coin,
+.theme-3 .popupPanel > .right > .stack .card.mission .content > .coin {
+  margin-top: 0.25em;
+}
+.theme-3 #missions .content > .preview,
+.theme-3 .popupPanel > .right > .stack .card.mission .content > .preview {
+  clear: both;
+}
+.theme-3 #missions .content > .preview > .action,
+.theme-3 .popupPanel > .right > .stack .card.mission .content > .preview > .action {
+  font-size: 0.8em;
+  padding: 0.3em;
+}
+.theme-3 #missions .content > .preview > .action:first-child,
+.theme-3 .popupPanel > .right > .stack .card.mission .content > .preview > .action:first-child {
+  float: left;
+  margin-left: 10%;
+}
+.theme-3 #missions .content > .preview > .action:nth-child(2),
+.theme-3 .popupPanel > .right > .stack .card.mission .content > .preview > .action:nth-child(2) {
+  margin-left: 60%;
+  margin-bottom: 0;
+}
+.theme-3 #missions .stack,
+.theme-3 .popupPanel > .right > .stack .card.mission .stack {
+  clear: both;
+}
+.theme-3 #calendar .actionCircle {
+  top: calc(45vh + 2.5em);
+}
+.theme-3 #calendar .card {
+  min-width: 28em;
+}
+.theme-3 #calendar .results.empty {
+  max-width: 18em;
+  margin: 1em;
+}
+.theme-3 #calendar .agendaTail .stack {
+  margin-top: 1em;
+}
+.theme-3 #calendar .agendaTail .stack .action.open {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0.25em 0.5em;
+  background: none;
+  border: none;
+  text-shadow: none;
+}
+.theme-3 #search .popupPanel {
+  max-height: unset;
+}
+.theme-3 #search .popupPanel .results {
+  padding-top: 0.5em;
+  padding-right: 0.5em;
+}
+.theme-3 #search .popupPanel .results div:first-child {
+  margin-bottom: 0.25em;
+}
+.theme-3 #search .popupPanel .results.empty {
+  opacity: 0.8;
+}
+.theme-3 #search .actionCircle {
+  top: unset;
+  bottom: 0.5em;
+}
+.theme-3 #search input {
+  margin: 0.5em;
+}
+.theme-3 #returnPile .actionCircle {
+  top: unset;
+  bottom: 0.5em;
+  left: 5em;
+}
+.theme-3 .previewPopup > p {
+  max-width: 9em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-3 #tickers {
+  position: fixed;
+  top: 45vh;
+  right: 1.5em;
+  transform: translateY(-50%);
+}
+.theme-3 #tickers .ticker {
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
+  position: relative;
+}
+.theme-3 #tickers .ticker .actionCircle {
+  height: 3em;
+  width: 3em;
+}
+.theme-3 #tickers .ticker .actionCircle p {
+  font-size: 0.7em;
+}
+.theme-3 #tickers .ticker .actionCircle.newEntry p {
+  font-size: 2em;
+  font-weight: bold;
+  position: relative;
+  top: -0.8em;
+}
+.theme-3 #tickers .ticker textarea {
+  border-radius: 50%;
+  overflow: hidden;
+  height: 2.25em;
+  width: 3.5em;
+  font-size: 1em;
+  outline: none;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 1.25em;
+  resize: none;
+  margin: 0;
+}
+.theme-3 #tickers .ticker .error {
+  color: #68d44a;
+  font-weight: bold;
+  position: absolute;
+  top: 90%;
+  left: 45%;
+}
+.theme-3 #shitposts .actionCircle {
+  left: unset;
+  right: 1.5em;
+  bottom: 5em;
+}
+.theme-3 #score {
+  position: fixed;
+  right: 5em;
+  bottom: 1em;
+  font-size: 1.2em;
+  cursor: default;
+}
+.theme-3 .discard {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 97vh;
+}
+.theme-3 .discard > .dragZone {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.theme-3 #context .stack {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+.theme-3 #context .stack .zone,
+.theme-3 #context .stack .dropZone {
+  margin: 0 auto;
+}
+.theme-3 #context .stack .zone .content > p,
+.theme-3 #context .stack .dropZone .content > p {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.theme-3 #context .stack .card {
+  margin-top: 0;
+}
+.theme-3 #context .stack .card.context {
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-3 .grid {
+  max-width: 75vw;
+  overflow-x: auto;
+}
+.theme-3 .grid .stack .card.priority {
+  min-width: 26em;
+  font-size: 0.9em;
+}
+.theme-3 .stack .card {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  max-width: 30em;
+}
+.theme-3 .stack .card.priority {
+  min-width: 20em;
+  margin-top: 0.375em;
+  margin-bottom: 0.375em;
+}
+.theme-3 .stack textarea {
+  position: relative;
+  min-height: 7em;
+  margin-top: 2.35em;
+  width: 39em;
+}
+.theme-3 .context.stack ~ .card {
+  box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+}
+.theme-3 .paper img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.25;
+}
+.theme-3 .paper .color {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.25;
+}
+.theme-3 .paper .color.red {
+  background-color: #68d44a;
+}
+.theme-3 .paper .color.yellow {
+  background-color: #fff096;
+}
+.theme-3 .paper .color.green {
+  background-color: #abffab;
+}
+.theme-3 .paper .color.blue {
+  background-color: #7ac2b3;
+}
+.theme-3 .paper .color.purple {
+  background-color: #3b8a3b;
+}
+.theme-3 .paper .color.black {
+  background-color: black;
+}
+.theme-3 .action,
+.theme-3 .summary {
+  position: relative;
+  display: block;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  color: white;
+  margin: 0 auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.theme-3 .action {
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 0.15em solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5em;
+  text-shadow: -0.2em 0.2em 0.2em #000;
+  padding: 0.5em;
+  cursor: pointer;
+}
+.theme-3 .action:hover {
+  text-decoration: underline;
+}
+.theme-3 .action.selected {
+  border: none;
+  font-weight: bold;
+  background: none;
+  cursor: default;
+}
+.theme-3 .action.selected:hover {
+  text-decoration: none;
+}
+.theme-3 .toolbar .action {
+  display: inline-block;
+  margin-right: 0.5em;
+  padding: 0.25em 0.5em;
+}
+.theme-3 .preview .action {
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+.theme-3 .tippy-content .stack > .dropZone > .action {
+  padding-top: 0.25em;
+  margin-bottom: 0.25em;
+  font-size: 0.9em;
+}
+.theme-3 .actionCircle {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 2.5em;
+  height: 2.5em;
+}
+.theme-3 .actionCircle img {
+  width: 100%;
+  height: 100%;
+}
+.theme-3 .actionCircle.open img {
+  width: 4.5em;
+  height: 4.5em;
+  position: relative;
+  left: -1em;
+  top: -1em;
+}
+.theme-3 .actionCircle.open .badge {
+  font-size: 1.5em;
+  padding: 0.25em 0.45em;
+}
+.theme-3 .actionCircle .badge {
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  background-color: rgba(255, 10, 10, 0.85);
+  border-radius: 5em;
+  color: white;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  transform: translateX(50%);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 4em;
+}
+.theme-3 .popupPanel {
+  overflow-y: auto;
+}
+.theme-3 .popupPanel .left {
+  width: 55%;
+  float: left;
+}
+.theme-3 .popupPanel .left > .action {
+  position: absolute;
+  left: 30%;
+  top: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.theme-3 .popupPanel .right {
+  width: 45%;
+  float: right;
+}
+.theme-3 .completed {
+  max-width: 30em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.theme-3 .completed .action {
+  margin-bottom: 1em;
+}
+.theme-3 .completed .dragZone {
+  display: inline;
+}
+.theme-3 .completed .dragZone .card.checkmark {
+  background: unset;
+  display: inline-block;
+  margin: 0;
+  padding: 0 0.25em;
+  transform: unset;
+  left: unset;
+  line-height: 2em;
+}
+.theme-3 .completed .dragZone .card.checkmark img {
+  width: 1.5em;
+}
+.theme-3 .checkmarkImage {
+  height: 2em;
+  fill: white;
+  margin-top: 0.75em;
+  outline: none;
+}
+.theme-3 .checkmarkImage.red {
+  fill: #68d44a;
+}
+.theme-3 .checkmarkImage.yellow {
+  fill: #fff096;
+}
+.theme-3 .checkmarkImage.green {
+  fill: #abffab;
+}
+.theme-3 .checkmarkImage.blue {
+  fill: #7ac2b3;
+}
+.theme-3 .checkmarkImage.purple {
+  fill: #3b8a3b;
+}
+.theme-3 .checkmarkImage.black {
+  fill: black;
+}
+.theme-3 #dragGhost {
+  position: fixed;
+  left: -1000em;
+  top: -1000em;
+}
+.theme-3 .card iframe {
+  max-width: calc(100% - 2em);
+  max-height: calc(100% - 2em);
+  margin: 1em;
+}
+.theme-3 .card.searchedOnPage:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  border: 0.2em solid yellow;
+  pointer-events: none;
+}
+.theme-3 #searchResults {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+.theme-3 #search .popupPanel .results::-webkit-scrollbar,
+.theme-3 .grid::-webkit-scrollbar {
+  background-color: rgba(22, 22, 22, 0.4);
+}
+.theme-3 #search .popupPanel .results::-webkit-scrollbar-thumb,
+.theme-3 .grid::-webkit-scrollbar-thumb {
+  background-color: rgba(89, 89, 89, 0.4);
+}
+.theme-3 #search .popupPanel .results::-webkit-scrollbar-thumb:hover,
+.theme-3 .grid::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.theme-3 .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  color: #ddd;
+  z-index: 3;
+}
+.theme-3 .overlay .label {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}

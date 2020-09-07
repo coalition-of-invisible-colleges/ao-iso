@@ -1,0 +1,16 @@
+version: '3'
+services:
+  ao:
+    build: .
+    container_name: ao
+    command: bash
+    tty: true
+    stdin_open: true
+    user: node
+    volumes:
+      - ~/.ssh:/home/node/.ssh
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+      
