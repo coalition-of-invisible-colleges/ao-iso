@@ -1,3 +1,4 @@
+import React from 'react';
 import { observable, computed, observe, action } from 'mobx';
 import _ from 'lodash';
 import { applyEvent, setCurrent } from './mutations';
@@ -116,6 +117,7 @@ export class AoStore {
   state: AoState = defaultState;
 
   constructor(state: AoState) {
+    console.log("AoState", state);
     this.state = observable(state);
   }
 
@@ -199,10 +201,32 @@ export function removeSensitive(value) {
   return _.omit(value, secretStuff)
 }
 
-const aoStore = {};
-
-export default aoStore;
+let aoStore;
 
 export function createAoStore(state) {
-  aoStore.store = new AoStore(state);
+  if (aoStore == null) {
+    console.log('creating store with state', state);
+    aoStore = new AoStore(state)
+  }
+  return () => aoStore;
+}
+
+export type AOStore = ReturnType<typeof createAoStore>
+
+export const StoreContext = React.createContext<AOStore | null>(null)
+
+export const useStore = () => {
+  const store = React.useContext(StoreContext)
+  if (!store) {
+    // this is especially useful in TypeScript so you don't need to be checking for null all the time
+    throw new Error('useStore must be used within a StoreProvider.')
+  }
+  return store
+}
+
+export function withUseStore(Component) {
+  return (props) => {
+    const aoStore = useStore();
+    return <Component {...props} aoStore={aoStore} />
+  }
 }

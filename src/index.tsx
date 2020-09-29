@@ -6,9 +6,7 @@ import withStyles from 'isomorphic-style-loader/withStyles';
 import styles from './app/css/styles';
 import App from './app';
 import api from './client/api';
-import { createAoStore } from './app/store';
 
-createAoStore(window.__PRELOADED_STATE__);
 api.startSocketListeners();
 
 const Routes = (): ReactElement => {

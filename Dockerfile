@@ -1,8 +1,10 @@
 FROM node:12.16
 
-RUN apt-get update
-RUN apt-get install -y \
-  build-essential\
+ENV EDITOR=vim TORRCPATH=/usr/local/etc/tor/torrc
+
+RUN apt-get update \
+  apt-get install -y \
+  build-essential \
   fakeroot \
   devscripts \
   libevent-dev \
@@ -20,65 +22,30 @@ RUN apt-get install -y \
   libsodium-dev \
   gettext \
   borgbackup \
-  vim
+  vim \
+  git clone https://github.com/ElementsProject/lightning.git; \
+  wget https://dist.torproject.org/tor-0.4.0.5.tar.gz; \
+  wget https://raw.githubusercontent.com/torproject/tor/master/src/config/torrc.sample.in
+  
+RUN lightning=true; cd lightning; ./configure; make; make install \
+    tor=true; tar xf tor-0.4.0.5.tar.gz; cd tor-0.4.0.5; ./configure; make; make install
 
-RUN git clone https://github.com/ElementsProject/lightning.git; \
-  lightning=true; \
-  cd lightning; \
-  ./configure; \
-  make; \
-  make install
+RUN mkdir -p /usr/local/etc/tor \
+    mv torrc.sample.in $TORRCPATH \
+    mkdir -p /var/lib/tor/ao \
+    echo "HiddenServiceDir /var/lib/tor/ao" | tee -a $TORRCPATH 1>/dev/null 2>&1 \
+    echo "HiddenServicePort 80 127.0.0.1:8003" | tee -a $TORRCPATH 1>/dev/null 2>&1
 
-RUN wget https://dist.torproject.org/tor-0.4.0.5.tar.gz; \
-  tor=true; \
-  tar xf tor-0.4.0.5.tar.gz; \
-  cd tor-0.4.0.5; \
-  ./configure; \
-  make; \
-  make install
+RUN npm install -g webpack webpack-cli npm-run-all
 
-ENV EDITOR=vim
-
-RUN mkdir -p /usr/local/etc/tor
-ENV TORRCPATH=/usr/local/etc/tor/torrc
-
-RUN wget https://raw.githubusercontent.com/torproject/tor/master/src/config/torrc.sample.in; \
-  mv torrc.sample.in $TORRCPATH
-
-RUN echo "HiddenServiceDir /var/lib/tor/ao" | tee -a $TORRCPATH 1>/dev/null 2>&1
-RUN echo "HiddenServicePort 80 127.0.0.1:8003" | tee -a $TORRCPATH 1>/dev/null 2>&1
-
-RUN mkdir -p /var/lib/tor/ao
-
-EXPOSE 3000
-EXPOSE 35729
+EXPOSE 3000 35729
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY . ./
 
-RUN npm install -g webpack webpack-cli npm-run-all
 RUN npm install
 
-ENV CONFIG="module.exports = { \
-    bitcoind: { \
-        network: 'mainnet' \
-    }, \
-    bitcoinAverage: { \
-        pub: '', \
-        secret: '' \
-    }, \
-    sqlite3: { \
-        file: 'database.sqlite3' \
-    }, \
-    clightning: { \
-        dir: '$HOME/.lightning/bitcoin' \
-    }, \
-    tor: { \
-      hostname: '$TORHOSTNAME' \
-    } \
-}"
-RUN echo "$CONFIG" > configuration.js; \
-    echo configuration.js file created
+ENTRYPOINT [ "/usr/src/app/entrypoint.sh" ]
 CMD ["bash"]

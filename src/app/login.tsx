@@ -2,10 +2,10 @@ import * as React from 'react';
 import { FunctionComponent, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import api from '../client/api'
-import store from './store';
+import { useStore } from './store';
 
 const Login: FunctionComponent<{}> = () => {
-  const aoStore = store.store;
+  const aoStore = useStore();
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
   const onClick = e => {

@@ -23,10 +23,11 @@ const { default: authApi } = require('./auth/api');
 const { default: api } = require('./api');
 const { default: App, KEY_AUTH_DATA } = require('../app');
 const { startDB, recover, getAll } = require('./db');
-const { default: store, createAoStore, serverState, pubState, applyBackup, removeSensitive } = require('../app/store');
+const { useStaticRendering } = require('mobx-react')
+const { createAoStore, serverState, pubState, applyBackup, removeSensitive } = require('../app/store');
 const { applyEvent } = require('../app/mutations');
 
-
+useStaticRendering(true);
 startDB('database.sqlite3');
 
 const backup = recover();
@@ -44,9 +45,7 @@ events.forEach((event, i) => {
   }
 });
 console.log('applied ', events.length, ' events from the database');
-
-createAoStore(pubState);
-const aoStore = store.store;
+const aoStore = createAoStore(pubState)();
 
 function reactions(event) {
   process.nextTick(err => {
@@ -162,7 +161,7 @@ module.exports = function routes(_options) {
     const css = new Set();
     const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
 
-    const context = {};
+    const context = { url: null };
     const components = renderToString(
       <StyleContext.Provider value={{ insertCss }}>
         <StaticRouter location={req.url} context={context}>
@@ -177,7 +176,7 @@ module.exports = function routes(_options) {
     } else if (components === '') {
       next();
     } else {
-      res.status(200).send(buildHtml(req, components, /*[...css].join('')*/'', aoStore.state));
+      res.status(200).send(buildHtml(req, components, /*[...css].join('')*/'', aoStore.state.loggedIn ? aoStore.state : {}));
     }
   });
 

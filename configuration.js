@@ -1,0 +1,1 @@
+module.exports = {     bitcoind: {         network: 'mainnet'     },     bitcoinAverage: {         pub: '',         secret: ''     },     sqlite3: {         file: 'database.sqlite3'     },     clightning: {         dir: '/home/node/.lightning/bitcoin'     },     tor: {       hostname: ''     } }

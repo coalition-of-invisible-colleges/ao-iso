@@ -1,14 +1,14 @@
 import React, { useEffect, ReactElement } from 'react';
+import { useLocalStore } from 'mobx-react'
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './login';
 import { hot } from 'react-hot-loader/root';
 import { observer } from 'mobx-react';
-import store from './store';
+import { useStore, StoreContext, pubState, createAoStore } from './store';
 import AoMember from './member';
 import AoCard from './card';
 
 export const KEY_AUTH_DATA = 'KEY_AUTH_DATA';
-
 
 const ProtectedRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
   return (
@@ -23,9 +23,9 @@ const ProtectedRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
 }
 
 const App = observer((): ReactElement => {
-  const aoStore = store.store;
+  const aoStore = useStore();
 
-  console.log("App state: ", aoStore.state);
+  console.log("App state: ", aoStore.state.members);
 
   useEffect(() => document.body.classList.add('theme-1'));
   
@@ -47,4 +47,6 @@ const App = observer((): ReactElement => {
   );
 });
 
-export default hot(App);
+const withStore = () => <StoreContext.Provider value={useLocalStore(createAoStore(typeof window == 'undefined' ? pubState : window.__PRELOADED_STATE__))}><App/></StoreContext.Provider>
+
+export default hot(withStore);

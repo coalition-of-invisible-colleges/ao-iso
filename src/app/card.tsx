@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import store from './store';
+import { withUseStore } from './store';
 import AoDiscardZone from './discard-zone';
 
 interface CardProps {
@@ -16,7 +16,7 @@ class RenderCard extends React.Component<RenderProps> {
     super(props)
   }
   render() {
-    const aoStore = store.store;
+    const aoStore = this.props.aoStore;
     const taskId = this.props.taskId
     const card = aoStore.hashMap.get(taskId)
     let cardText = ''
@@ -46,16 +46,19 @@ class RenderCard extends React.Component<RenderProps> {
   }
 }
 
-export default class AoCard extends React.Component<CardProps> {
+class AoCard extends React.Component<CardProps> {
   constructor(props) {
     super(props);
-    const aoStore = store.store;
+    const aoStore = this.props.aoStore;
     const card = aoStore.hashMap.get(this.props.match.params.taskId);
     aoStore.setCurrentCard(this.props.match.params.taskId);
   }
 
   render() {
-    const aoStore = store.store;
-    return <RenderCard taskId={aoStore.currentCard} />
+    const aoStore = this.props.aoStore;
+    const RenderCardWithStore = withUseStore(RenderCard);
+    return <RenderCardWithStore taskId={aoStore.currentCard} aoStore={this.props.aoStore} />
   }
 }
+
+export default withUseStore(AoCard);
