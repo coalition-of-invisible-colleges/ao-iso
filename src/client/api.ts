@@ -387,6 +387,103 @@ class AoApi {
       })
   }
 
+  async bookResource(
+    taskId: string,
+    startTime: number,
+    endTime: number
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const act = {
+      type: 'resource-booked',
+      resourceId: taskId,
+      memberId: aoStore.member.memberId,
+      startTs: startTime,
+      endTs: endTime
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async clockTime(seconds, taskId, date): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const act = {
+      type: 'task-time-clocked',
+      taskId: taskId,
+      memberId: aoStore.member.memberId,
+      seconds: seconds,
+      date: date
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async valueCard(taskId: string, value: number): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const act = {
+      type: 'task-valued',
+      taskId: taskId,
+      value: value,
+      blame: aoStore.member.memberId
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async passCard(
+    taskId: string,
+    toMemberId: string
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const act = {
+      type: 'task-passed',
+      taskId: taskId,
+      toMemberId: toMemberId,
+      fromMemberId: aoStore.member.memberId
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async titleMissionCard(
+    taskId: string,
+    newTitle: string
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const act = {
+      type: 'task-guilded',
+      taskId: taskId,
+      guild: newTitle,
+      blame: aoStore.member.memberId
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
 }
 
 const socket = io.connect(

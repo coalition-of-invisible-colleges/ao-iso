@@ -2,6 +2,7 @@ import React from 'react';
 import { observable, computed, observe, action } from 'mobx';
 import _ from 'lodash';
 import { applyEvent, setCurrent } from './mutations';
+import { blankCard } from './calculations'
 
 export interface Session {
   type: 'session-created'
@@ -26,14 +27,87 @@ export interface Member {
   muted: Boolean
 }
 
-export interface Grid {}
+export interface Grid {
+  rows: {}
+  height: number
+  width: number
+}
 
-export interface Task {}
+export interface Task {
+  taskId: string
+  color: string
+  deck: string[]
+  name: string
+  address: string
+  bolt11: string
+  book: {
+    memberId: string
+    startTs: number
+    endTs: number
+  }
+  boost: number
+  priorities: string[]
+  subTasks: string[]
+  completed: string[]
+  parents: string[]
+  claimed: string[]
+  passed: number[]
+  guild: string
+  lastClaimed: number
+  completeValue: number
+  payment_hash: string
+  highlights: number[]
+  seen: Userseen[]
+  time: Usertime[]
+  created: number
+  grid?: Grid
+}
 
-export interface Meme {}
+export interface Meme {
+  memeId: string
+  filename: string
+  hash: string
+  filetype: string
+}
+
+export interface Resource {
+  resourceId: string
+  name: string
+  charged: number
+  secret: string
+  trackStock: boolean
+  stock: number
+}
+
+export interface ConnectedAo {
+  address: string
+  outboundSecret: false | string
+  inboundSecret: string
+  lastContact: number
+  links: string[]
+}
+
+interface Usertime {
+  memberId: string
+  timelog: number[]
+  date: Date[]
+}
+
+interface Userseen {
+  memberId: string
+  timestamp: Date
+}
+
+interface Output {
+  value: number
+}
+
+interface Channel {
+  channel_sat: number
+}
 
 export interface PublicState {
-  ao: number[]
+  ao: ConnectedAo[]
   sessions: Session[]
   members: Member[]
   tasks: Task[]
@@ -48,8 +122,8 @@ export interface PublicState {
     cap: number
     pay_index: number
     usedTxIds: number[]
-    outputs: number[]
-    channels: number[]
+    outputs: Output[]
+    channels: Channel[]
     info: {}
   }
 }
@@ -113,11 +187,31 @@ const defaultState: AoState = {
   ...pubState
 };
 
+export interface SearchResults {
+  missions: Task[]
+  members: Task[]
+  tasks: Task[]
+  all: Task[]
+  length: number
+}
+
+export const emptySearchResults = {
+  missions: [],
+  members: [],
+  tasks: [],
+  all: [],
+  length: 0
+}
+
 export class AoStore {
   state: AoState = defaultState;
+  @observable searchResults?: SearchResults = undefined
+  @observable context: string[] = []
+  @observable discard: Task[] = []
+  @observable currentCard: string = undefined
+  @observable guiCloseables: ((event?) => void)[] = []
 
   constructor(state: AoState) {
-    console.log("AoState", state);
     this.state = observable(state);
   }
 
@@ -153,6 +247,22 @@ export class AoStore {
     return hashMap
   }
 
+  @computed get memberCard(): Task {
+    let memberCard = _.merge(
+      blankCard('', '', '', ''),
+      this.hashMap.get(this.member.memberId)
+    )
+    return memberCard
+  }
+
+  @computed get memeById(): Map<string, Meme> {
+    let hashMap: Map<string, Meme> = new Map()
+    this.state.memes.forEach(m => {
+      hashMap.set(m.memeId, m)
+    })
+    return hashMap
+  }
+
   @action.bound
   initializeState(state: AoState) {
     Object.keys(state).forEach(key => Object.assign(this.state[key], state[key]));
@@ -162,10 +272,110 @@ export class AoStore {
   applyEvent(ev) {
     applyEvent(this.state, ev);
   }
+  @action.bound
+  resetState() {
+    setCurrent(this.state, defaultState)
+  }
+  @action.bound
+  updateSearchResults(query: string) {
+    if (query.length < 1) {
+      this.searchResults = undefined
+      return
+    }
 
+    // for 1 letter search only first letter of guild names, 2 letters searches 1st word and also 1st initials of guild titles
+    let foundCards: Task[] = []
+    let foundGuilds: Task[] = []
+    let foundMembers: Task[] = []
+    let searchResults: Task[] = []
+
+    try {
+      let regex = new RegExp(query, 'i')
+      this.state.tasks.forEach(t => {
+        const testName = regex.test(t.name)
+        if (t.guild && (testName || regex.test(t.guild))) {
+          foundGuilds.push(t)
+        } else if (regex.test(t.name)) {
+          if (
+            !foundGuilds.some(g => {
+              return g.guild === t.name
+            })
+          ) {
+            foundCards.push(t)
+          }
+        }
+      })
+
+      this.state.members.forEach(member => {
+        if (regex.test(member.name)) {
+          let result = this.hashMap.get(member.memberId)
+          result.name = member.name
+          foundMembers.push(result)
+        }
+      })
+      this.searchResults = observable({
+        missions: foundGuilds,
+        members: foundMembers,
+        tasks: foundCards,
+        all: foundGuilds.concat(foundMembers, foundCards),
+        length: foundGuilds.length + foundMembers.length + foundCards.length
+      })
+    } catch (err) {
+      console.log('regex search terminated in error: ', err)
+    }
+  }
+  @action.bound
+  addToContext(taskIds: string[]) {
+    if (taskIds.length < 1) return
+    this.context = this.context.filter(tId => {
+      return !taskIds.includes(tId)
+    })
+    this.context.push(...taskIds)
+    if (this.context[0] !== this.member.memberId) {
+      this.context = this.context.filter(tId => {
+        return tId !== this.member.memberId
+      })
+      this.context.unshift(this.member.memberId)
+    }
+  }
+  removeFromContext(taskId: string) {
+    this.context = this.context.filter(tId => {
+      return tId !== taskId
+    })
+  }
+  @action.bound
+  clearContextTo(taskId: string) {
+    const index = this.context.findIndex(tId => {
+      return tId === taskId
+    })
+    this.context = this.context.slice(0, index + 1)
+  }
   @action.bound
   setCurrentCard(taskId: string) {
     this.currentCard = taskId
+  }
+  @action.bound
+  addToDiscardHistory(tasks: Task[]) {
+    if (tasks.length < 1) return
+    this.discard.push(...tasks)
+  }
+  @action.bound
+  popDiscardHistory() {
+    return this.discard.pop()
+  }
+  @action.bound
+  registerCloseable(onHide: (event) => void) {
+    this.guiCloseables.push(onHide)
+  }
+  @action.bound
+  unregisterCloseable(onHide: (event) => void) {
+    this.guiCloseables = this.guiCloseables.filter(
+      callback => callback !== onHide
+    )
+  }
+  @action.bound
+  closeAllCloseables() {
+    this.guiCloseables.forEach(callback => callback())
   }
 }
 

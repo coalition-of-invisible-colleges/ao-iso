@@ -4,8 +4,6 @@ import { observer } from 'mobx-react'
 import { withUseStore } from './store'
 import AoContextCard, { DragContext } from './context-card'
 
-type DragContext {}
-
 interface DragZoneProps {
 	taskId: string
 	dragContext?: DragContext

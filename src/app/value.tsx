@@ -2,10 +2,9 @@ import * as React from 'react'
 import { observer } from 'mobx-react'
 import { withUseStore } from './store'
 import api from '../client/api'
-import { HudStyle } from './card-hud'
-import Badge from '../assets/images/badge.svg'
+import { HudStyle } from './cardHud'
 
-interface MissionProps {
+interface ValueProps {
   taskId: string
   hudStyle: HudStyle
 }
@@ -21,16 +20,13 @@ export const defaultState: State = {
 }
 
 @observer
-class AoMission extends React.PureComponent<
-  MissionProps,
-  State
-> {
+class AoValue extends React.PureComponent<ValueProps, State> {
   constructor(props) {
     super(props)
     this.state = defaultState
     this.startEditing = this.startEditing.bind(this)
     this.stopEditing = this.stopEditing.bind(this)
-    this.saveMission = this.saveMission.bind(this)
+    this.saveValue = this.saveValue.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
   }
@@ -47,39 +43,44 @@ class AoMission extends React.PureComponent<
     event.stopPropagation()
 
     const card = this.props.aoStore.hashMap.get(this.props.taskId)
+    if (!card) return null
 
-    if (card.guild) {
+    if (card.completeValue) {
       this.setState({
-        text: card.guild
+        text: card.completeValue.toString()
       })
     }
     this.setState({ editing: true })
   }
 
   stopEditing() {
-    if (this.state.editing) {
-      this.setState({ editing: false, text: '' })
-    }
+    this.setState({ editing: false })
   }
 
-  saveMission(event) {
+  saveValue(event) {
     event.stopPropagation()
 
-    const card = this.props.aoStore.hashMap.get(this.props.taskId)
+    const taskId = this.props.taskId
+    const card = this.props.aoStore.hashMap.get(taskId)
+    if (!card) return null
 
-    if (this.state.text === card.guild) {
+    let newValue: number =
+      this.state.text.length > 0 ? parseInt(this.state.text, 10) : 0
+    if (newValue === card.completeValue) {
       this.setState({ editing: false })
       return
     }
-    api.titleMissionCard(this.props.taskId, this.state.text)
-    this.setState({ editing: false })
+    if (newValue !== NaN) {
+      api.valueCard(taskId, newValue)
+      this.setState({ editing: false })
+    }
   }
 
   onKeyDown(event) {
     if (event.key === 'Enter') {
-      this.saveMission(event)
+      this.saveValue(event)
     } else if (event.key === 'Escape') {
-      this.stopEditing()
+      this.setState({ editing: false, text: '' })
     }
   }
 
@@ -93,59 +94,55 @@ class AoMission extends React.PureComponent<
 
     if (this.state.editing) {
       return (
-        <div className="mission">
+        <div className="value">
           <input
             type="text"
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
             value={this.state.text}
-            size={18}
+            size={1}
             autoFocus
           />
-          <button type="button" onClick={this.saveMission}>
-            Title Mission
+          <button type="button" onClick={this.saveValue}>
+            Set Value
           </button>
         </div>
       )
     }
     switch (this.props.hudStyle) {
       case 'full before':
-        if (!card.guild) {
-          return null
-        }
-        return (
-          <div onClick={this.startEditing} className={'mission full action'}>
-            <img className="badge" src={Badge} />
-            {card.guild}
-          </div>
-        )
-      case 'mini before':
-        if (card.guild) {
+        if (card.completeValue) {
           return (
-            <span className={'mission mini'}>
-              <img className="badge" src={Badge} />
-              {card.guild}
-            </span>
+            <div onClick={this.startEditing} className={'value full action'}>
+              {card.completeValue + ' points'}
+            </div>
+          )
+        }
+        return null
+      case 'mini before':
+        if (card.completeValue) {
+          return (
+            <span className={'value mini'}>{card.completeValue + 'p'}</span>
           )
         }
         return null
       case 'menu':
         return (
-          <div className={'mission menu'}>
+          <div className={'value menu'}>
             <div onClick={this.startEditing} className={'action'}>
-              <img className="badge" src={Badge} />
-              {card.guild ? card.guild : 'add mission title'}
+              {card.completeValue
+                ? 'worth ' + card.completeValue + ' points if checked'
+                : 'set checkmark value'}
             </div>
           </div>
         )
       case 'face before':
       case 'collapsed':
       default:
-        if (card.guild) {
+        if (card.completeValue > 0) {
           return (
-            <div className={'mission summary ' + this.props.hudStyle}>
-              <img className="badge" src={Badge} />
-              {card.guild}
+            <div className={'value summary ' + this.props.hudStyle}>
+              {card.completeValue + 'p'}
             </div>
           )
         }
@@ -153,5 +150,4 @@ class AoMission extends React.PureComponent<
     }
   }
 }
-
-export default withUseStore(AoMission)
+export default withUseStore(AoValue)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { observable, computed } from 'mobx'
 import { observer } from 'mobx-react'
-import aoStore from './store'
+import { withUseStore } from './store'
 import api from '../client/api'
 import { HudStyle } from './card-hud'
 import Completed from '../assets/images/completed.svg'
@@ -13,22 +13,22 @@ interface CheckboxProps {
 }
 
 @observer
-export default class AoCheckbox extends React.PureComponent<CheckboxProps> {
+class AoCheckbox extends React.PureComponent<CheckboxProps> {
   @computed get isCompleted() {
-    const card = aoStore.hashMap.get(this.props.taskId)
+    const card = this.props.aoStore.hashMap.get(this.props.taskId)
     if (!card) return undefined
-    return card.claimed.indexOf(aoStore.member.memberId) >= 0
+    return card.claimed.indexOf(this.props.aoStore.member.memberId) >= 0
   }
 
   @computed get isGrabbed() {
-    const card = aoStore.hashMap.get(this.props.taskId)
+    const card = this.props.aoStore.hashMap.get(this.props.taskId)
     if (!card) return undefined
-    return card.deck.indexOf(aoStore.member.memberId) >= 0
+    return card.deck.indexOf(this.props.aoStore.member.memberId) >= 0
   }
 
   render() {
     const taskId = this.props.taskId
-    const card = aoStore.hashMap.get(taskId)
+    const card = this.props.aoStore.hashMap.get(taskId)
     if (!card) return null
 
     const onClick = event => {
@@ -69,3 +69,5 @@ export default class AoCheckbox extends React.PureComponent<CheckboxProps> {
     }
   }
 }
+
+export default withUseStore(AoCheckbox)

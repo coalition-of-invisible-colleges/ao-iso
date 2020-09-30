@@ -81,7 +81,7 @@ class AoMemberIcon extends React.PureComponent<MemberIconProps> {
           Membership: {renderActiveIcon}
           {this.isActive ? 'Active' : 'Inactive'}
         </p>
-        {!!isSenpai(this.props.memberId) ? (
+        {!!isSenpai(this.props.aoStore, this.props.memberId) ? (
           <p>
             <small>
               <AoBark memberId={this.props.memberId} noPopups={true} /> You may{' '}

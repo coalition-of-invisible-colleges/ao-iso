@@ -27,6 +27,7 @@ const { useStaticRendering } = require('mobx-react')
 const { createAoStore, serverState, pubState, applyBackup, removeSensitive } = require('../app/store');
 const { applyEvent } = require('../app/mutations');
 
+
 useStaticRendering(true);
 startDB('database.sqlite3');
 

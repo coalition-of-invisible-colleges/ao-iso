@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
-import { Task } from './store'
+import { Task, withUseStore } from './store'
 import { Redirect } from 'react-router-dom'
 import api from '../client/api'
 import { delay, cancelablePromise } from './utils'
@@ -54,7 +54,7 @@ interface State {
 }
 
 @observer
-export default class AoContextCard extends React.PureComponent<
+class AoContextCard extends React.PureComponent<
 	CardProps,
 	State
 > {
@@ -129,7 +129,7 @@ export default class AoContextCard extends React.PureComponent<
 	goInCard(event) {
 		event.stopPropagation()
 		hideAllTippys()
-		aoStore.closeAllCloseables()
+		this.props.aoStore.closeAllCloseables()
 
 		const card = this.props.task
 		if (!card) {
@@ -139,12 +139,12 @@ export default class AoContextCard extends React.PureComponent<
 		const taskId = card.taskId
 		console.log('goInCard taskId is ', taskId)
 		if (this.props.cardStyle === 'context') {
-			aoStore.clearContextTo(card.taskId)
+			this.props.aoStore.clearContextTo(card.taskId)
 		} else {
-			aoStore.addToContext([aoStore.currentCard])
+			this.props.aoStore.addToContext([this.props.aoStore.currentCard])
 		}
-		aoStore.setCurrentCard(taskId)
-		aoStore.removeFromContext(taskId)
+		this.props.aoStore.setCurrentCard(taskId)
+		this.props.aoStore.removeFromContext(taskId)
 		this.setState({ redirect: taskId })
 	}
 
@@ -154,7 +154,7 @@ export default class AoContextCard extends React.PureComponent<
 		const card = this.props.task
 		if (
 			card.seen &&
-			card.seen.some(s => s.memberId === aoStore.member.memberId)
+			card.seen.some(s => s.memberId === this.props.aoStore.member.memberId)
 		) {
 			return
 		}
@@ -169,7 +169,7 @@ export default class AoContextCard extends React.PureComponent<
 				if (
 					!card.seen ||
 					(card.seen &&
-						!card.seen.some(s => s.memberId === aoStore.member.memberId))
+						!card.seen.some(s => s.memberId === this.props.aoStore.member.memberId))
 				) {
 					api.markSeen(this.props.task.taskId)
 				}
@@ -190,9 +190,9 @@ export default class AoContextCard extends React.PureComponent<
 			return ''
 		}
 		if (
-			aoStore.searchResults &&
-			aoStore.searchResults.hasOwnProperty('all') &&
-			aoStore.searchResults.all.some(task => {
+			this.props.aoStore.searchResults &&
+			this.props.aoStore.searchResults.hasOwnProperty('all') &&
+			this.props.aoStore.searchResults.all.some(task => {
 				return task.taskId === this.props.task.taskId
 			})
 		) {
@@ -236,7 +236,7 @@ export default class AoContextCard extends React.PureComponent<
 		let allSubCards = card.priorities.concat(card.subTasks, card.completed)
 
 		allSubCards.forEach(tId => {
-			let subCard = aoStore.hashMap.get(tId)
+			let subCard = this.props.aoStore.hashMap.get(tId)
 			if (subCard) {
 				if (subCard.guild && subCard.guild.length >= 1) {
 					projectCards.push(subCard)
@@ -247,7 +247,7 @@ export default class AoContextCard extends React.PureComponent<
 		if (card.grid && card.grid.rows) {
 			Object.entries(card.grid.rows).forEach(([y, row]) => {
 				Object.entries(row).forEach(([x, cell]) => {
-					let gridCard = aoStore.hashMap.get(cell)
+					let gridCard = this.props.aoStore.hashMap.get(cell)
 					if (gridCard && gridCard.guild && gridCard.guild.length >= 1) {
 						projectCards.push(gridCard)
 					}
@@ -277,7 +277,7 @@ export default class AoContextCard extends React.PureComponent<
 		let member
 		let content = card.name
 		if (taskId === content) {
-			member = aoStore.memberById.get(taskId)
+			member = this.props.aoStore.memberById.get(taskId)
 			if (member) {
 				content = member.name
 			}
@@ -285,12 +285,12 @@ export default class AoContextCard extends React.PureComponent<
 
 		let priorityCards: Task[]
 		if (card.priorities && card.priorities.length >= 1) {
-			priorityCards = card.priorities.map(tId => aoStore.hashMap.get(tId))
+			priorityCards = card.priorities.map(tId => this.props.aoStore.hashMap.get(tId))
 		}
 
 		let subTaskCards: Task[]
 		if (card.subTasks && card.subTasks.length >= 1) {
-			subTaskCards = card.subTasks.map(tId => aoStore.hashMap.get(tId))
+			subTaskCards = card.subTasks.map(tId => this.props.aoStore.hashMap.get(tId))
 		}
 
 		let cardStyle = this.props.cardStyle ? this.props.cardStyle : 'face'
@@ -413,7 +413,7 @@ export default class AoContextCard extends React.PureComponent<
 						) : (
 							<div id={'context'}>
 								<AoStack
-									cards={aoStore.contextCards}
+									cards={this.props.aoStore.contextCards}
 									cardStyle={'context'}
 									alwaysShowAll={true}
 									zone={'context'}
@@ -552,3 +552,5 @@ export default class AoContextCard extends React.PureComponent<
 		}
 	}
 }
+
+export default withUseStore(AoContextCard)

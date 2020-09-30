@@ -2,7 +2,7 @@ import React from 'react'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { withUseStore } from './store'
-import AoContextCard from './contextCard'
+import AoContextCard from './context-card'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 

@@ -22,7 +22,7 @@ interface State {
 }
 
 @observer
-export default class AoBird extends React.PureComponent<BirdProps, State> {
+class AoBird extends React.PureComponent<BirdProps, State> {
   constructor(props) {
     super(props)
     this.state = { query: '' }
@@ -56,34 +56,34 @@ export default class AoBird extends React.PureComponent<BirdProps, State> {
   }
 
   @computed get localMembers() {
-    if (!aoStore.state.members || aoStore.state.members.length < 1) {
+    if (!this.props.aoStore.state.members || this.props.aoStore.state.members.length < 1) {
       return []
     }
 
-    return aoStore.state.members.map(member => {
+    return this.props.aoStore.state.members.map(member => {
       return { label: member.name, memberId: member.memberId }
     })
   }
 
   @computed get pendingPasses() {
     const taskId = this.props.taskId
-    const card = aoStore.hashMap.get(taskId)
+    const card = this.props.aoStore.hashMap.get(taskId)
     return card.passed.length
   }
 
   @computed get renderPassList() {
     const taskId = this.props.taskId
-    const card = aoStore.hashMap.get(taskId)
+    const card = this.props.aoStore.hashMap.get(taskId)
     if (!card) {
       return null
     }
 
     const renderedPasses = card.passed.map(pass => {
       const fromId = pass[0]
-      const fromMember = aoStore.memberById.get(fromId)
+      const fromMember = this.props.aoStore.memberById.get(fromId)
       const fromName = fromMember ? fromMember.name : 'deleted member'
       const toId = pass[1]
-      const toMember = aoStore.memberById.get(toId)
+      const toMember = this.props.aoStore.memberById.get(toId)
       const toName = toMember ? toMember.name : 'deleted member'
       return (
         <React.Fragment>
@@ -158,3 +158,5 @@ export default class AoBird extends React.PureComponent<BirdProps, State> {
     )
   }
 }
+
+export default withUseStore(AoBird)

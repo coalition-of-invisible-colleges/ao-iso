@@ -4,6 +4,7 @@ import { withUseStore } from './store'
 import { CardPlay } from './cards'
 import AoDragZone from './drag-zone'
 import AoDropZone from './drop-zone'
+import { hideAll as hideAllTippys } from 'tippy.js'
 import api from '../client/api'
 
 @observer
