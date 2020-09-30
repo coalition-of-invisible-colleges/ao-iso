@@ -484,6 +484,24 @@ class AoApi {
       })
   }
 
+  async markSeen(taskId): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const task: Task = aoStore.hashMap.get(taskId)
+    const act = {
+      type: 'task-seen',
+      taskId: task.taskId,
+      memberId: aoStore.member.memberId
+    }
+    console.log('card marked seen')
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
 }
 
 const socket = io.connect(

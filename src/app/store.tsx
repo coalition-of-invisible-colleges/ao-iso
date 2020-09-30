@@ -212,6 +212,7 @@ export class AoStore {
   @observable guiCloseables: ((event?) => void)[] = []
 
   constructor(state: AoState) {
+    console.log("Inializing state", state);
     this.state = observable(state);
   }
 
@@ -263,6 +264,12 @@ export class AoStore {
     return hashMap
   }
 
+  @computed
+  get myCards() {
+    return this.state.tasks.filter(
+      t => t.deck.indexOf(this.member.memberId) !== -1
+    )
+  }
   @action.bound
   initializeState(state: AoState) {
     Object.keys(state).forEach(key => Object.assign(this.state[key], state[key]));

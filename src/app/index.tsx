@@ -25,8 +25,6 @@ const ProtectedRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
 const App = observer((): ReactElement => {
   const aoStore = useStore();
 
-  console.log("App state: ", aoStore.state.members);
-
   useEffect(() => document.body.classList.add('theme-1'));
   
   return (

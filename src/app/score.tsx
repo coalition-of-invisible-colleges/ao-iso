@@ -13,7 +13,7 @@ interface ScoreProps {
 }
 
 @observer
-export default class AoScore extends React.PureComponent<ScoreProps> {
+class AoScore extends React.PureComponent<ScoreProps> {
   constructor(props) {
     super(props)
   }
@@ -91,3 +91,5 @@ export default class AoScore extends React.PureComponent<ScoreProps> {
     )
   }
 }
+
+export default withUseStore(AoScore)
