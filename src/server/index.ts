@@ -6,6 +6,8 @@ import http from 'http';
 
 import app from './app';
 import config from '../../webpack.config';
+
+import bodyParser from 'body-parser'
  
 const clientOptions = {
   quiet: false,
@@ -23,6 +25,7 @@ const compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, clientOptions));
 app.use(webpackHotMiddleware(compiler));
 app.use(webpackHotServerMiddleware(compiler, { chunkName: 'routes' }));
+app.use(bodyParser.json())
 
 const server = http.createServer(app);
 

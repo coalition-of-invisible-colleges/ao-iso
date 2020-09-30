@@ -1,8 +1,14 @@
 import { Router } from 'express';
 import { createAoStore, pubState } from '../app/store';
 import * as validators from './validators'
+import events from './events'
+import * as utils from './utils'
+import bodyParser from 'body-parser'
+import { v1 as uuidV1 } from 'uuid';
+import lightning from './lightning'
 
 const router = Router();
+
 
 router.post('/state', (req, res) => {
   res.json(pubState);
@@ -10,7 +16,7 @@ router.post('/state', (req, res) => {
 
 router.post('/events', (req, res, next) => {
   const aoStore = createAoStore(pubState)();
-  aoStore.sessions.forEach(s => {
+  aoStore.state.sessions.forEach(s => {
     if (s.token === req.headers.authorization) {
       req.body.blame = s.ownerId
     }
@@ -18,14 +24,15 @@ router.post('/events', (req, res, next) => {
   next()
 })
 
-router.post('/events', (req, res, next) => {
+router.post('/events', bodyParser.json(), (req, res, next) => {
+  console.log(req.body);
   const aoStore = createAoStore(pubState)();
   let errRes = []
   switch (req.body.type) {
     case 'ao-linked':
       if (
         validators.isAddress(req.body.address, errRes) &&
-        validators.isTaskId(req.body.taskId)
+        validators.isTaskId(req.body.taskId, errRes)
       ) {
         events.aoLinked(
           req.body.address,
@@ -420,12 +427,13 @@ router.post('/events', (req, res, next) => {
       break
     case 'meme-added':
       if (
-        validators.isNotes(req.body.hash) &&
-        validators.isNotes(reqbody.filename)
+        validators.isNotes(aoStore, req.body.hash) &&
+        validators.isNotes(aoStore, req.body.filename)
       ) {
         events.memeAdded(
           req.body.filename,
           req.body.hash,
+          req.body.filetype,
           utils.buildResCallback(res)
         )
       } else {

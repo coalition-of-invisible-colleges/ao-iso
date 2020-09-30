@@ -110,6 +110,10 @@ class DB {
     if (callback) {
       callback(err, { event: ev, result })
     }
+  }  
+
+  public triggerShadow(x) {
+    shadowEmitter.emit(x)
   }
 }
 
