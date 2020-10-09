@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, computed, observe, action } from 'mobx';
+import { observable, computed, observe, action, makeObservable } from 'mobx';
 import _ from 'lodash';
 import { applyEvent, setCurrent } from './mutations';
 import { blankCard } from './calculations'
@@ -204,7 +204,7 @@ export const emptySearchResults = {
 }
 
 export class AoStore {
-  state: AoState = defaultState;
+  @observable state: AoState = defaultState;
   @observable searchResults?: SearchResults = undefined
   @observable context: string[] = []
   @observable discard: Task[] = []
@@ -213,7 +213,12 @@ export class AoStore {
 
   constructor(state: AoState) {
     console.log("Inializing state", state);
-    this.state = observable(state);
+    
+    this.state = state;
+    
+    if (__CLIENT__) {
+      makeObservable(this)
+    }
   }
 
   @computed get member(): Member {
@@ -270,6 +275,14 @@ export class AoStore {
       t => t.deck.indexOf(this.member.memberId) !== -1
     )
   }
+  @action.bound
+  login(session, token, user, loggedIn) {
+    this.state.session = session
+    this.state.token = token
+    this.state.user = user
+    this.state.loggedIn = loggedIn
+  }
+
   @action.bound
   initializeState(state: AoState) {
     Object.keys(state).forEach(key => Object.assign(this.state[key], state[key]));
@@ -438,7 +451,7 @@ export const useStore = () => {
     // this is especially useful in TypeScript so you don't need to be checking for null all the time
     throw new Error('useStore must be used within a StoreProvider.')
   }
-  return store
+  return __SERVER__ ? store.value_ : store;
 }
 
 export function withUseStore(Component) {

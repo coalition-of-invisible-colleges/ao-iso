@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
-import { withUseStore } from './store'
+import { AoStore, withUseStore } from './store'
 import api from '../client/api'
 import Bird from '../assets/images/send.svg'
 import Tippy from '@tippyjs/react'
@@ -13,7 +13,8 @@ import TextField from '@material-ui/core/TextField'
 import AoMemberIcon from './member-icon'
 
 interface BirdProps {
-  taskId: string
+  taskId: string,
+  aoStore: AoStore,
 }
 
 interface State {
@@ -86,7 +87,7 @@ class AoBird extends React.PureComponent<BirdProps, State> {
       const toMember = this.props.aoStore.memberById.get(toId)
       const toName = toMember ? toMember.name : 'deleted member'
       return (
-        <React.Fragment>
+        <React.Fragment key={`${fromId}:${toId}`}>
           <AoMemberIcon memberId={fromId} /> {fromName}{' '}
           <img src={Bird} style={{ height: '1em' }} />{' '}
           <AoMemberIcon memberId={toId} /> {toName}

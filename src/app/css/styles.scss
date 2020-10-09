@@ -3,7 +3,7 @@ html {
   height: 100%;
 }
 
-span,
+.mini .content > span,
 button,
 textarea {
   margin: 0.5em;
@@ -105,6 +105,12 @@ textarea {
 
         @media only screen and (min-width: 600px) {
           min-width: 30em;
+        }
+
+        .unread {
+          position: absolute;
+          top: 0.25em;
+          left: 0.25em;
         }
 
         & > .hud > .coin > .hodls {
@@ -212,7 +218,8 @@ textarea {
 
           .mission,
           .preview,
-          .countdown {
+          .countdown,
+          .barkButton {
             margin-right: 0.75em;
           }
 
@@ -249,6 +256,12 @@ textarea {
 
       &.priority {
         min-height: 2.325em;
+
+        .unread {
+          position: absolute;
+          top: 47%;
+          left: -0.9em;
+        }
       }
 
       &.mission {
@@ -294,6 +307,11 @@ textarea {
           h6 {
             font-size: 1.05em;
           }
+
+          ol {
+            list-style-position: inside;
+            padding-inline-start: 0;
+          }
         }
 
         & > .hud {
@@ -301,15 +319,10 @@ textarea {
           pointer-events: none;
 
           &.mini.before {
-            .seen {
+            .unread {
               position: absolute;
-              content: '';
               top: 0.25em;
               left: 0.25em;
-              height: 0.375em;
-              width: 0.375em;
-              border-radius: 50%;
-              background-color: rgba(255, 10, 10, 0.85);
             }
 
             & > .mission,
@@ -421,6 +434,11 @@ textarea {
             position: relative;
             top: 0.33em;
           }
+        }
+
+        & > span:first-child {
+          // margin-top: 0.7em;
+          display: block;
         }
       }
 
@@ -607,110 +625,109 @@ textarea {
           }
         }
       }
+    }
 
-      .gridContainer {
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-        width: min-content;
-        margin-top: 1em;
-        z-index: 1; // So grid resize button show above of main stack drop zone.
+    // grid
+    .gridContainer {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min-content;
+      margin-top: 1em;
+      z-index: 1; // So grid resize button show above of main stack drop zone.
 
-        &.padbottom {
-          margin-bottom: 2em;
-        }
+      &.padbottom {
+        margin-bottom: 2em;
+      }
 
-        & > .grid {
-          display: grid;
+      & > .grid {
+        display: grid;
 
-          & > .zone,
-          & > .dropZone.grid {
-            position: relative;
-            background: $square-bg;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: $square-border;
-            color: $body-color;
+        & > .zone,
+        & > .dropZone.grid {
+          position: relative;
+          background: $square-bg;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: $square-border;
+          color: $body-color;
 
-            &.empty {
-              cursor: text;
+          &.empty {
+            cursor: text;
 
-              .dzu-dropzone {
-                width: 100%;
-                height: 100%;
+            .dzu-dropzone {
+              width: 100%;
+              height: 100%;
 
-                &:hover .dzu-inputLabel {
-                  visibility: visible;
-                  margin-top: 50%;
-                  transform: translateY(-50%);
-                }
+              &:hover .dzu-inputLabel {
+                visibility: visible;
+                margin-top: 50%;
+                transform: translateY(-50%);
+              }
 
-                .dzu-inputLabel {
-                  visibility: hidden;
-                  font-size: 0.8em;
-                }
+              .dzu-inputLabel {
+                visibility: hidden;
+                font-size: 0.8em;
+              }
 
-                img {
-                  max-width: 100%;
-                  max-height: 100%;
-                }
+              img {
+                max-width: 100%;
+                max-height: 100%;
               }
             }
-
-            .hud .menu .action {
-              left: unset;
-              transform: unset;
-            }
-          }
-        }
-        .resizer {
-          position: absolute;
-          margin-top: -4.75em;
-          right: 0;
-          transform: translateX(100%);
-
-          button {
-            display: block;
           }
 
-          .minus,
-          .plus {
-            outline: none;
-            font-family: monospace;
-            margin: 0;
-            position: relative;
-          }
-
-          .columns {
-            .minus,
-            .plus {
-              right: -0.275em;
-              margin-top: 0.25em;
-              padding-left: 0.25em;
-              padding-right: 0.25em;
-            }
-          }
-
-          .rows {
-            .minus,
-            .plus {
-              display: inline;
-              left: -5.5em;
-              margin-top: 0.6em;
-              margin-right: 0.25em;
-              padding: 0 0.75em;
-            }
+          .hud .menu .action {
+            left: unset;
+            transform: unset;
           }
         }
       }
-    }
 
-    // home: home link, currently unused
-    #home {
-      position: fixed;
-      top: 0.5em;
-      left: 1em;
+      .resizer {
+        position: absolute;
+        margin-top: -4.75em;
+        right: 0;
+        transform: translateX(100%);
+
+        button {
+          display: block;
+        }
+
+        .minus,
+        .plus {
+          outline: none;
+          font-family: monospace;
+          margin: 0;
+          position: relative;
+        }
+
+        .columns {
+          .minus,
+          .plus {
+            right: -0.275em;
+            margin-top: 0.25em;
+            padding-left: 0.25em;
+            padding-right: 0.25em;
+          }
+        }
+
+        .rows {
+          .minus,
+          .plus {
+            display: inline;
+            left: -5.5em;
+            margin-top: 0.6em;
+            margin-right: 0.25em;
+            padding: 0 0.75em;
+          }
+        }
+      }
+
+      .action {
+        margin-top: -0.5em;
+      }
     }
 
     // main menu in bottom right of screen
@@ -771,6 +788,8 @@ textarea {
 
     //
     #hub,
+    #controls,
+    #gifts,
     #members,
     #missions,
     #calendar,
@@ -789,8 +808,19 @@ textarea {
       }
     }
 
+    #gifts,
+    #members,
+    #missions,
+    #calendar,
+    #shitposts {
+      .results {
+        margin-right: 0.5em;
+      }
+    }
+
     // community hub popup panel
-    #hub {
+    #hub,
+    #controls {
       .actionCircle {
         top: 0.5em;
         width: 3.5em;
@@ -805,10 +835,34 @@ textarea {
           }
         }
       }
+    }
 
+    #hub {
       .popupPanel {
-        width: 90vw;
-        height: 96vh;
+        padding-right: 0;
+        width: calc(100vw - 17em);
+        height: calc(100vh - 7.5em);
+      }
+    }
+
+    #controls {
+      .actionCircle {
+        left: unset;
+        right: 0.5em;
+
+        img {
+          position: relative;
+          left: -0.05em;
+          top: -0.2em;
+        }
+      }
+    }
+
+    // gifts popup panel
+    #gifts {
+      .actionCircle {
+        left: 0.5em;
+        top: 8em;
       }
     }
 
@@ -847,11 +901,11 @@ textarea {
         & > .preview {
           clear: both;
           & > .action {
-            &:first-child {
+            &.togglePriorities {
               float: left;
               margin-left: 10%;
             }
-            &:nth-child(2) {
+            &.toggleProjects {
               margin-left: 60%;
               margin-bottom: 0;
             }
@@ -922,16 +976,19 @@ textarea {
         top: unset;
         bottom: 0.5em;
       }
+
       input {
         margin: 0.5em;
       }
     }
 
     #returnPile {
-      .actionCircle {
+      img.actionIcon {
+        position: absolute;
+        left: calc(100% + 3.25em);
         top: unset;
         bottom: 0.5em;
-        left: 5em;
+        height: 4.5em;
       }
     }
 
@@ -1009,7 +1066,7 @@ textarea {
     }
 
     // score / points in bottom right of screen
-    #score {
+    #hud > .score {
       position: fixed;
       right: 5em;
       bottom: 1em;
@@ -1047,11 +1104,15 @@ textarea {
       .dropZone {
         margin: 0 auto;
 
-        .content > p {
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
+        .content {
           text-align: center;
+
+          & > p {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: center;
+          }
         }
       }
       .card {
@@ -1061,6 +1122,8 @@ textarea {
           margin-top: 0;
           margin-bottom: 0;
           box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5);
+          max-height: 3em;
+          overflow: hidden;
         }
       }
     }
@@ -1162,6 +1225,14 @@ textarea {
       color: white;
       margin: 0 auto;
       user-select: none;
+      outline: none;
+
+      img {
+        max-height: 1em;
+        margin-right: 0.5em;
+        position: relative;
+        top: 0.1em;
+      }
     }
 
     // action button
@@ -1172,6 +1243,15 @@ textarea {
       text-shadow: -0.2em 0.2em 0.2em #000;
       padding: 0.5em;
       cursor: pointer;
+
+      &:disabled {
+        color: #888;
+
+        &:hover {
+          text-decoration: none;
+          cursor: default;
+        }
+      }
 
       &:hover {
         text-decoration: underline;
@@ -1186,6 +1266,17 @@ textarea {
         &:hover {
           text-decoration: none;
         }
+      }
+
+      &.mission {
+        margin-bottom: 1em;
+      }
+
+      &.inline {
+        display: inline-block;
+        font-size: 0.85em;
+        padding: 0.3em 0.5em;
+        margin-left: 0.5em;
       }
     }
 
@@ -1207,8 +1298,14 @@ textarea {
     }
 
     // action inside stack inside of a Tippy popup (to make show/hide button on grid priority popup smaller)
-    .tippy-content {
-      .stack > .dropZone > .action {
+    .tippy-tooltip {
+      padding: 0;
+
+      &.tooltip {
+        padding: 0.5em;
+      }
+
+      .tippy-content > .stack > .dropZone > .action {
         padding-top: 0.25em;
         margin-bottom: 0.25em;
         font-size: 0.9em;
@@ -1244,24 +1341,37 @@ textarea {
           padding: 0.25em 0.45em;
         }
       }
+    }
 
-      .badge {
-        position: absolute;
-        top: -0.5em;
-        right: -0.5em;
-        background-color: rgba(255, 10, 10, 0.85);
-        border-radius: 5em;
-        color: white;
-        font-size: 0.9em;
-        padding: 0.2em 0.4em;
-        transform: translateX(50%);
-        width: max-content;
-        max-width: 4em;
+    // badge used on .actionCircle and on the bird on cards
+    .actionCircle .badge,
+    .bird > .badge {
+      position: absolute;
+      top: -0.5em;
+      right: -0.5em;
+      background-color: rgba(255, 10, 10, 0.85);
+      border-radius: 5em;
+      color: white;
+      font-size: 0.9em;
+      padding: 0.2em 0.4em;
+      transform: translateX(50%);
+      width: max-content;
+      max-width: 4em;
+      cursor: pointer;
+
+      // on bird
+      &.subscript {
+        background-color: transparent;
+        right: 0.225em;
+        top: 0.625em;
+        font-size: 0.65em;
+        opacity: 0.5;
       }
     }
 
     // panel opened by an .actionCircle button
     .popupPanel {
+      padding-left: 0.5em;
       overflow-y: auto;
 
       .left {
@@ -1382,8 +1492,15 @@ textarea {
     }
 
     // search results and grid scrollbars
+    #hub .popupPanel,
+    #controls .popupPanel,
     #search .popupPanel .results,
-    .grid {
+    #calendar .popupPanel,
+    #gifts .popupPanel,
+    #members .popupPanel,
+    #missions .popupPanel,
+    .grid,
+    .cardComposer {
       &::-webkit-scrollbar {
         background-color: rgba(22, 22, 22, 0.4);
       }
@@ -1413,6 +1530,152 @@ textarea {
         position: relative;
         top: 50%;
         transform: translateY(-50%);
+      }
+    }
+
+    // unread dot on cards
+    .unread {
+      content: '';
+      height: 0.375em;
+      width: 0.375em;
+      border-radius: 50%;
+      background-color: rgba(255, 10, 10, 0.85);
+    }
+
+    // the dock at the bottom of the screen
+    #dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    // the card that is the current page (Card.tsx)
+    #root > .card {
+      margin-bottom: 7em;
+    }
+
+    // the card menu
+    .hud.menu {
+      padding-top: 0.25em;
+    }
+
+    // server name display/editor, on options page
+    .serverName {
+      display: inline-block;
+    }
+
+    // bark button on member cards
+    .barkButton {
+      max-height: 1.5em;
+      display: inline-block;
+      position: relative;
+      top: 0.45em;
+      cursor: pointer;
+
+      &.senpai {
+        filter: hue-rotate(42deg);
+      }
+
+      &.kohai {
+        filter: hue-rotate(-38deg);
+        transform: scaleX(-1);
+      }
+
+      &.noPopups {
+        cursor: default;
+      }
+    }
+
+    // member online/offline status icon
+    .memberIcon {
+      height: 1em;
+      display: inline-block;
+      position: relative;
+      top: 0.1em;
+    }
+
+    // member icon on the full-sized card
+    .full .memberIcon {
+      height: 1.5em;
+      top: 0.35em;
+      margin-right: 0.25em;
+    }
+
+    // member icon on a priority or context
+    .priority .memberIcon,
+    .context .memberIcon {
+      margin-right: 0.4em;
+    }
+
+    // membership active/inactive status icon
+    .membership,
+    .inlineIcon {
+      height: 1.5em;
+      display: inline-block;
+      position: relative;
+      top: 0.35em;
+      margin-right: 0.5em;
+
+      &.inactive {
+        opacity: 0.25;
+      }
+    }
+
+    // checkmark when it's inline as an icon
+    .inlineIcon > svg {
+      transform: scale(0.75);
+      margin-right: -1em;
+      position: relative;
+      top: 0.25em;
+    }
+
+    // membership icon when it's in the bark menu
+    .menu .membership {
+      height: 1.5em;
+      max-height: unset;
+      margin-right: 0.75em;
+      margin-top: -0.35em;
+    }
+
+    // score when it's in the member icon popup
+    .memberInfo .score {
+      margin: -1.5em 0 0.5em -1em;
+    }
+
+    // home button (unicorn)
+    #home {
+      height: 4.5em;
+      position: absolute;
+      left: -6.75em;
+      bottom: 0;
+      cursor: pointer;
+      transform: scaleX(-1);
+
+      &.dabbed {
+        transform: unset;
+      }
+    }
+
+    // bird icon in top-left of card
+    .bird {
+      cursor: pointer;
+      position: absolute;
+      top: 0.75em;
+      left: 0.65em;
+      opacity: 0.5;
+
+      img {
+        height: 1em;
+      }
+    }
+
+    // tooltip with more extensive info than a one-line popup
+    .infoTooltip {
+      padding: 0.5em;
+
+      h4 {
+        margin: 0.5em 0;
       }
     }
   }

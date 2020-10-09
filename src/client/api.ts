@@ -70,10 +70,7 @@ class AoApi {
       .set('session', session)
       .set('name', user)
       .then(res => {
-        aoStore.state.session = session;
-        aoStore.state.token = token;
-        aoStore.state.user = user;
-        aoStore.state.loggedIn = true;
+        aoStore.login(session, token, user, true)
           
         aoStore.initializeState(res.body);
         return true;

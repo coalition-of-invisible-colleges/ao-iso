@@ -5,7 +5,7 @@ import events from './events'
 import * as utils from './utils'
 import bodyParser from 'body-parser'
 import { v1 as uuidV1 } from 'uuid';
-import lightning from './lightning'
+import * as lightning from './lightning'
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import { getNextId } from "mobx/lib/internal";
+// import { getNextId } from "mobx/lib/internal";
 
 const express = require('express');
 const Server = require('socket.io');
@@ -46,7 +46,7 @@ events.forEach((event, i) => {
   }
 });
 console.log('applied ', events.length, ' events from the database');
-const aoStore = createAoStore(pubState)();
+const aoStore = createAoStore({session: null, token: null, user: null, loggedIn: false, ...pubState})();
 
 function reactions(event) {
   process.nextTick(err => {

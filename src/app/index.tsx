@@ -45,6 +45,7 @@ const App = observer((): ReactElement => {
   );
 });
 
-const withStore = () => <StoreContext.Provider value={useLocalStore(createAoStore(typeof window == 'undefined' ? pubState : window.__PRELOADED_STATE__))}><App/></StoreContext.Provider>
+const store = createAoStore(__CLIENT__ ? window.__PRELOADED_STATE__ : {session: null, token: null, user: null, loggedIn: false, ...pubState});
+const withStore = () => <StoreContext.Provider value={useLocalStore(store)}><App/></StoreContext.Provider>
 
 export default hot(withStore);

@@ -100,6 +100,10 @@ module.exports = [
       extractStyle,
       new webpack.NamedModulesPlugin(),
       new webpack.DefinePlugin(envKeys),
+      new webpack.DefinePlugin({
+        __SERVER__: true,
+        __CLIENT__: false,
+      })
     ].concat(
       isEnvDevelopment
         ? [new webpack.HotModuleReplacementPlugin()]
@@ -213,6 +217,10 @@ module.exports = [
       extractStyle,
       new webpack.NamedModulesPlugin(),
       new webpack.DefinePlugin(envKeys),
+      new webpack.DefinePlugin({
+        __SERVER__: false,
+        __CLIENT__: true,
+      })
     ].concat(
       isEnvDevelopment
         ? [new webpack.HotModuleReplacementPlugin()]
