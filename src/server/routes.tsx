@@ -143,6 +143,7 @@ module.exports = function routes(_options) {
       });
     }
     if (aoStore) {
+      // ensure that rendering starts in a logged out state before session is read.
       aoStore.state.session = null;
       aoStore.state.token = null;
       aoStore.state.user = null;
@@ -154,6 +155,7 @@ module.exports = function routes(_options) {
 
   router.use((req, res, next) => {
     if (aoStore && req.session.token && serverState.sessions.map(session => session.token).includes(req.session.token)) {
+      // if there's a session for this request use it for the rendering
       aoStore.state.session = req.session.session;
       aoStore.state.token = req.session.token;
       aoStore.state.user = req.session.name;

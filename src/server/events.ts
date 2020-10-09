@@ -1,4 +1,7 @@
 import db from './db';
+import { createHash } from 'crypto';
+import { v1 as uuidV1 } from 'uuid';
+import { createAoStore, pubState } from '../app/store';
 
 class Events {
   highlighted(taskId, memberId, valence, callback) {
@@ -306,12 +309,14 @@ class Events {
   }
   
   taskCreated(name, color, deck, inId, prioritized, callback) {
-    let h = crypto.createHash('sha256')
+    const aoStore = createAoStore(pubState)();
+
+    let h = createHash('sha256')
     h.update(name)
     let hash = h.digest('hex')
     let isExist = false
   
-    serverState.tasks.forEach(t => {
+    aoStore.state.tasks.forEach(t => {
       if (t.hash === hash) {
         isExist = true
       }

@@ -212,8 +212,6 @@ export class AoStore {
   @observable guiCloseables: ((event?) => void)[] = []
 
   constructor(state: AoState) {
-    console.log("Inializing state", state);
-    
     this.state = state;
     
     if (__CLIENT__) {
@@ -275,6 +273,24 @@ export class AoStore {
       t => t.deck.indexOf(this.member.memberId) !== -1
     )
   }
+
+  @computed get cardByName(): Map<string, Task> {
+    let hashMap: Map<string, Task> = new Map()
+    this.state.tasks.forEach(t => {
+      hashMap.set(t.name.toLowerCase(), t)
+    })
+    this.allGuilds.forEach(t => {
+      hashMap.set(t.guild.toLowerCase(), t)
+    })
+    return hashMap
+  }
+
+  @computed get allGuilds(): Task[] {
+    return this.state.tasks.filter(task => {
+      return task.hasOwnProperty('guild') && task.guild.length >= 1
+    })
+  }
+
   @action.bound
   login(session, token, user, loggedIn) {
     this.state.session = session
@@ -435,7 +451,6 @@ let aoStore;
 
 export function createAoStore(state) {
   if (aoStore == null) {
-    console.log('creating store with state', state);
     aoStore = new AoStore(state)
   }
   return () => aoStore;
