@@ -1,13 +1,14 @@
 import * as React from 'react'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
-import { withUseStore } from './store'
+import { AoStore, withUseStore } from './store'
 import api from '../client/api'
 import { HudStyle } from './card-hud'
 
 interface TimeClockProps {
   taskId: string
   hudStyle: HudStyle
+  aoStore: AoStore
 }
 
 interface TimeClockState {
@@ -84,7 +85,7 @@ class AoTimeClock extends React.PureComponent<TimeClockProps, TimeClockState> {
         </div>
         <div className={'history'}>
           <p>Activity Log</p>
-          <AoTimeHistory taskId={this.props.taskId} />
+          <AoTimeHistory aoStore={this.props.aoStore} taskId={this.props.taskId} />
         </div>
         {this.state.timer || this.state.seconds > 0 ? (
           <div>{this.toHHMMSS()}</div>
@@ -104,7 +105,8 @@ class AoTimeClock extends React.PureComponent<TimeClockProps, TimeClockState> {
 }
 
 interface TimeHistoryProps {
-  taskId: string
+  taskId: string,
+  aoStore: AoStore,
 }
 
 @observer

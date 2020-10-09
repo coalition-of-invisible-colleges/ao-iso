@@ -499,6 +499,24 @@ class AoApi {
       })
   }
 
+  async colorCard(taskId: string, color: string): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const act = {
+      type: 'task-colored',
+      taskId: taskId,
+      color: color,
+      inId: null, // add this when we have context, mutation works on server
+      blame: aoStore.member.memberId
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
 }
 
 const socket = io.connect(

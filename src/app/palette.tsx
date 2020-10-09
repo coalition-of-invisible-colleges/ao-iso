@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
-import { withUseStore, Task } from './store'
+import { withUseStore, Task, AoStore } from './store'
 import api from '../client/api'
 import AoPaper from './paper'
 
 interface PaletteProps {
-  taskId: string
+  taskId: string,
+  aoStore: AoStore
 }
 
 interface State {
