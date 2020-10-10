@@ -46,15 +46,10 @@ class AoApi {
       .set('name', user)
       .on('error', () => false)
       .then(res => {
-        aoStore.state.token = token;
-        aoStore.state.session = session;
-        aoStore.state.user = user;
         
         window.localStorage.setItem('user', user);
         window.localStorage.setItem('token', token);
         window.localStorage.setItem('session', session);
-
-        return true;
       });
   }
  
@@ -70,9 +65,7 @@ class AoApi {
       .set('session', session)
       .set('name', user)
       .then(res => {
-        aoStore.login(session, token, user, true)
-          
-        aoStore.initializeState(res.body);
+        aoStore.initializeState({...res.body, session: session, token: token, user: user, loggedIn: true});
         return true;
       })
       .catch(() => false);

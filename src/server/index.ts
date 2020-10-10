@@ -30,7 +30,7 @@ app.use(bodyParser.json())
 const server = http.createServer(app);
 
 server
-  .listen(process.env.PORT || 3000, () => {
-    console.log(`🚧 server listening on port : ${process.env.PORT || 3000}`);
+  .listen(process.env.PORT || 3000, process.env.HOST || '0.0.0.0', () => {
+    console.log(`🚧 server listening on ${server.address().address}:${server.address().port}`);
   })
   .on('error', (e) => console.log(e));

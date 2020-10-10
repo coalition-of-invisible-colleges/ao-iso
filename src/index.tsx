@@ -10,13 +10,6 @@ import api from './client/api';
 api.startSocketListeners();
 
 const Routes = (): ReactElement => {
-  useEffect(() => {
-    async function fetchState() {
-      api.fetchState();
-    }
-    fetchState();
-  });
-
   return (
     <BrowserRouter>
       <App />

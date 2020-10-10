@@ -292,16 +292,8 @@ export class AoStore {
   }
 
   @action.bound
-  login(session, token, user, loggedIn) {
-    this.state.session = session
-    this.state.token = token
-    this.state.user = user
-    this.state.loggedIn = loggedIn
-  }
-
-  @action.bound
   initializeState(state: AoState) {
-    Object.keys(state).forEach(key => Object.assign(this.state[key], state[key]));
+    this.state = state;
   }
   
   @action.bound
