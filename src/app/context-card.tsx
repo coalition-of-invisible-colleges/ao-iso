@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
-import { Task, withUseStore } from './store'
+import { AOStore, Task, withUseStore } from './store'
 import { Redirect } from 'react-router-dom'
 import api from '../client/api'
 import { delay, cancelablePromise } from './utils'
@@ -45,6 +45,7 @@ interface CardProps {
 	noContextOnFull?: boolean
 	noPopups?: boolean
 	noFindOnPage?: boolean
+	aoStore: AOStore
 }
 
 interface State {

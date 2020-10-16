@@ -2,7 +2,7 @@ import * as React from 'react'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { Redirect } from 'react-router-dom'
-import { withUseStore, Task, Grid } from './store'
+import { withUseStore, Task, Grid, AOStore } from './store'
 import api from '../client/api'
 import AoDragZone from './drag-zone'
 import AoDropZone from './drop-zone'
@@ -14,6 +14,7 @@ import AoCardComposer from './card-composer'
 interface GridProps {
   taskId: string
   dropActsLikeFolder?: boolean
+  aoStore: AOStore
 }
 
 interface GridViewProps extends GridProps {

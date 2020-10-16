@@ -56,7 +56,8 @@ export default class AoDropZone extends React.PureComponent<
 		let sameAsOrigin = false
 
 		if (dataTransfer.items && dataTransfer.items.length > 0) {
-			dataTransfer.items.forEach((dt, i) => {
+			for (let i = 0; i < dataTransfer.items.length; ++i) {
+				let dt = dataTransfer.items[i]
 				if (sameAsOrigin || filetype === 'card') {
 					return
 				}
@@ -66,7 +67,7 @@ export default class AoDropZone extends React.PureComponent<
 				} else if (dt.type === 'text/taskid') {
 					filetype = 'card'
 				}
-			})
+			}
 		}
 
 		if (sameAsOrigin) {

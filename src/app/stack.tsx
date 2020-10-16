@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
-import { withUseStore, Task } from './store'
+import { withUseStore, Task, AOStore } from './store'
 import AoContextCard, { CardStyle } from './context-card'
 import AoDragZone from './drag-zone'
 import AoDropZone from './drop-zone'
@@ -23,6 +23,7 @@ interface StackProps {
   noPopups?: boolean
   noFindOnPage?: boolean
   cardsBeforeFold?: number
+  aoStore: AOStore
 }
 
 interface StackState {
