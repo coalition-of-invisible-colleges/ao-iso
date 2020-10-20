@@ -144,9 +144,8 @@ class AoContextCard extends React.PureComponent<CardProps, State> {
 			this.props.aoStore.addToContext([this.props.aoStore.currentCard])
 		}
 		this.props.aoStore.setCurrentCard(taskId)
-		this.props.aoStore.removeFromContext(taskId)
 		this.setState({ redirect: taskId }, () => {
-			console.log('state was set to ', taskId)
+			this.props.aoStore.removeFromContext(taskId)
 		})
 	}
 
