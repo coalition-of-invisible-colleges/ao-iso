@@ -1,44 +1,44 @@
-import io from 'socket.io-client';
-import request from 'superagent';
-import { v1 as uuidV1 } from 'uuid';
+import io from 'socket.io-client'
+import request from 'superagent'
+import { v1 as uuidV1 } from 'uuid'
 
-import { createHash, hmacHex } from '../app/crypto';
-import { createAoStore, Task } from '../app/store';
+import { createHash, hmacHex } from '../app/crypto'
+import { createAoStore, Task } from '../app/store'
 
 class AoApi {
   constructor(public socket) {}
 
   startSocketListeners() {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
-    this.socket.connect();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    this.socket.connect()
     this.socket.on('connect', () => {
-      console.log('socket connected');
+      console.log('socket connected')
 
-      const { session, token } = aoStore.state;
+      const { session, token } = aoStore.state
 
       this.socket.emit('authentication', {
         session: session,
-        token: token
-      });
-    });
+        token: token,
+      })
+    })
     this.socket.on('authenticated', () => {
       console.log('authenticated')
       this.socket.on('eventstream', ev => {
-        console.log('event', ev);
-        aoStore.applyEvent(ev);
-      });
-    });
+        console.log('event', ev)
+        aoStore.applyEvent(ev)
+      })
+    })
     this.socket.on('disconnect', reason => {
-      console.log('disconnected');
-      this.socket.connect();
-    });
+      console.log('disconnected')
+      this.socket.connect()
+    })
   }
 
   async createSession(user: string, pass: string): Promise<boolean> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
-    const session = uuidV1();
-    const sessionKey = createHash(session + createHash(pass));
-    const token = hmacHex(session, sessionKey);
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const session = uuidV1()
+    const sessionKey = createHash(session + createHash(pass))
+    const token = hmacHex(session, sessionKey)
     return request
       .post('/session')
       .set('authorization', token)
@@ -46,29 +46,34 @@ class AoApi {
       .set('name', user)
       .on('error', () => false)
       .then(res => {
-        
-        window.localStorage.setItem('user', user);
-        window.localStorage.setItem('token', token);
-        window.localStorage.setItem('session', session);
-      });
+        window.localStorage.setItem('user', user)
+        window.localStorage.setItem('token', token)
+        window.localStorage.setItem('session', session)
+      })
   }
- 
+
   async fetchState(): Promise<boolean> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const session = window.localStorage.getItem('session')
     const token = window.localStorage.getItem('token')
     const user = window.localStorage.getItem('user')
-    
+
     return request
       .post('/state')
       .set('Authorization', token)
       .set('session', session)
       .set('name', user)
       .then(res => {
-        aoStore.initializeState({...res.body, session: session, token: token, user: user, loggedIn: true});
-        return true;
+        aoStore.initializeState({
+          ...res.body,
+          session: session,
+          token: token,
+          user: user,
+          loggedIn: true,
+        })
+        return true
       })
-      .catch(() => false);
+      .catch(() => false)
   }
 
   async prioritizeCard(
@@ -76,12 +81,31 @@ class AoApi {
     inId: string,
     position: number = 0
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-prioritized',
       taskId: taskId,
       inId: inId,
-      position: position
+      position: position,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async createCard(name: string): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'task-created',
+      name: name,
+      color: 'blue',
+      deck: [aoStore.member.memberId],
+      inId: aoStore.memberCard.taskId,
+      prioritized: false,
     }
     return request
       .post('/events')
@@ -97,7 +121,7 @@ class AoApi {
     inId: string,
     prioritized: boolean = false
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     let found = aoStore.cardByName.get(name.toLowerCase())
     let act
     if (found) {
@@ -108,7 +132,7 @@ class AoApi {
           type: 'task-sub-tasked',
           taskId: inId,
           subTask: found.taskId,
-          memberId: aoStore.member.memberId
+          memberId: aoStore.member.memberId,
         }
       }
     } else {
@@ -118,7 +142,7 @@ class AoApi {
         color: 'blue',
         deck: [aoStore.member.memberId],
         inId: inId,
-        prioritized: prioritized
+        prioritized: prioritized,
       }
     }
     return request
@@ -135,12 +159,12 @@ class AoApi {
     y: number,
     inId: string
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'grid-unpin',
       x,
       y,
-      inId
+      inId,
     }
     return request
       .post('/events')
@@ -152,12 +176,12 @@ class AoApi {
   }
 
   async refocusCard(taskId: string, inId: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-refocused',
       taskId: taskId,
       inId: inId,
-      blame: aoStore.member.memberId
+      blame: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -172,12 +196,12 @@ class AoApi {
     taskId: string,
     inId: string
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-de-sub-tasked',
       taskId: inId,
       subTask: taskId,
-      blame: aoStore.member.memberId
+      blame: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -194,7 +218,7 @@ class AoApi {
     name: string,
     inId: string
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const task: Task = aoStore.cardByName.get(name.toLowerCase())
     if (_.isObject(task)) {
       const act = {
@@ -202,7 +226,7 @@ class AoApi {
         taskId: task.taskId,
         x: x,
         y: y,
-        inId: inId
+        inId: inId,
       }
       return request
         .post('/events')
@@ -218,7 +242,7 @@ class AoApi {
         color: 'blue',
         deck: [aoStore.member.memberId],
         inId: inId,
-        prioritized: false
+        prioritized: false,
       }
       return request
         .post('/events')
@@ -231,7 +255,7 @@ class AoApi {
             taskId: taskId,
             x: x,
             y: y,
-            inId: inId
+            inId: inId,
           }
           return request
             .post('/events')
@@ -240,18 +264,18 @@ class AoApi {
         })
     }
   }
-  
+
   async addGridToCard(
     taskId: string,
     height: number,
     width: number
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'grid-added',
       taskId: taskId,
       height: height,
-      width: width
+      width: width,
     }
     return request
       .post('/events')
@@ -267,12 +291,12 @@ class AoApi {
     newHeight: number,
     newWidth: number
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'grid-resized',
       taskId: taskId,
       height: newHeight,
-      width: newWidth
+      width: newWidth,
     }
     return request
       .post('/events')
@@ -284,10 +308,10 @@ class AoApi {
   }
 
   async activateMember(memberId: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'member-activated',
-      memberId: memberId
+      memberId: memberId,
     }
     return request
       .post('/events')
@@ -299,10 +323,10 @@ class AoApi {
   }
 
   async deactivateMember(memberId: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'member-deactivated',
-      memberId: memberId
+      memberId: memberId,
     }
     return request
       .post('/events')
@@ -314,11 +338,11 @@ class AoApi {
   }
 
   async dropCard(taskId: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-dropped',
       taskId: taskId,
-      memberId: aoStore.member.memberId
+      memberId: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -327,14 +351,14 @@ class AoApi {
       .then(res => {
         return res
       })
-  } 
+  }
 
   async grabCard(taskId: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-grabbed',
       taskId: taskId,
-      memberId: aoStore.member.memberId
+      memberId: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -346,11 +370,11 @@ class AoApi {
   }
 
   async completeCard(taskId: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-claimed',
       taskId: taskId,
-      memberId: aoStore.member.memberId
+      memberId: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -362,11 +386,11 @@ class AoApi {
   }
 
   async uncheckCard(taskId: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-unclaimed',
       taskId: taskId,
-      memberId: aoStore.member.memberId
+      memberId: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -382,13 +406,13 @@ class AoApi {
     startTime: number,
     endTime: number
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'resource-booked',
       resourceId: taskId,
       memberId: aoStore.member.memberId,
       startTs: startTime,
-      endTs: endTime
+      endTs: endTime,
     }
     return request
       .post('/events')
@@ -400,13 +424,13 @@ class AoApi {
   }
 
   async clockTime(seconds, taskId, date): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-time-clocked',
       taskId: taskId,
       memberId: aoStore.member.memberId,
       seconds: seconds,
-      date: date
+      date: date,
     }
     return request
       .post('/events')
@@ -418,12 +442,12 @@ class AoApi {
   }
 
   async valueCard(taskId: string, value: number): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-valued',
       taskId: taskId,
       value: value,
-      blame: aoStore.member.memberId
+      blame: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -438,12 +462,12 @@ class AoApi {
     taskId: string,
     toMemberId: string
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-passed',
       taskId: taskId,
       toMemberId: toMemberId,
-      fromMemberId: aoStore.member.memberId
+      fromMemberId: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -458,12 +482,12 @@ class AoApi {
     taskId: string,
     newTitle: string
   ): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-guilded',
       taskId: taskId,
       guild: newTitle,
-      blame: aoStore.member.memberId
+      blame: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -475,12 +499,12 @@ class AoApi {
   }
 
   async markSeen(taskId): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const task: Task = aoStore.hashMap.get(taskId)
     const act = {
       type: 'task-seen',
       taskId: task.taskId,
-      memberId: aoStore.member.memberId
+      memberId: aoStore.member.memberId,
     }
     console.log('card marked seen')
     return request
@@ -493,13 +517,13 @@ class AoApi {
   }
 
   async colorCard(taskId: string, color: string): Promise<request.Response> {
-    const aoStore = createAoStore(window.__PRELOADED_STATE__)();
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
       type: 'task-colored',
       taskId: taskId,
       color: color,
       inId: null, // add this when we have context, mutation works on server
-      blame: aoStore.member.memberId
+      blame: aoStore.member.memberId,
     }
     return request
       .post('/events')
@@ -509,14 +533,10 @@ class AoApi {
         return res
       })
   }
-
 }
 
-const socket = io.connect(
-  '/',
-  {
-    autoConnect: false
-  }
-)
-const api = new AoApi(socket);
-export default api;
+const socket = io.connect('/', {
+  autoConnect: false,
+})
+const api = new AoApi(socket)
+export default api

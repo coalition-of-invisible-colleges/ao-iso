@@ -10,6 +10,7 @@ import 'tippy.js/themes/translucent.css'
 interface ScoreProps {
   memberId?: string
   prefix?: JSX.Element
+  aoStore: AOStore
 }
 
 @observer

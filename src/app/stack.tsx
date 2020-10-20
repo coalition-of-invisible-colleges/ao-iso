@@ -40,14 +40,11 @@ interface CounterWord {
 export const defaultState: StackState = {
   selected: undefined,
   showAll: false,
-  showCompose: false
+  showCompose: false,
 }
 
 @observer
-class AoStack extends React.PureComponent<
-  StackProps,
-  StackState
-> {
+class AoStack extends React.PureComponent<StackProps, StackState> {
   constructor(props) {
     super(props)
     this.state = defaultState
@@ -138,7 +135,7 @@ class AoStack extends React.PureComponent<
           dragContext={{
             zone: this.props.zone ? this.props.zone : 'panel',
             inId: this.props.inId,
-            y: i
+            y: i,
           }}
           key={task.taskId + this.props.inId + this.props.cardStyle}>
           <AoContextCard
@@ -150,7 +147,7 @@ class AoStack extends React.PureComponent<
               this.props.cardStyle === 'context'
                 ? {
                     maxWidth:
-                      (30 - (cardsToRender.length - i)).toString() + 'em'
+                      (30 - (cardsToRender.length - i)).toString() + 'em',
                   }
                 : {}
             }
@@ -167,7 +164,7 @@ class AoStack extends React.PureComponent<
             dragContext={{
               zone: this.props.zone ? this.props.zone : 'panel',
               inId: this.props.inId,
-              y: 0
+              y: 0,
             }}
             key={task.taskId + this.props.inId + this.props.cardStyle}>
             <AoContextCard

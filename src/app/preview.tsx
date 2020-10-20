@@ -1,7 +1,7 @@
 import React from 'react'
 import { observable, computed } from 'mobx'
 import { observer } from 'mobx-react'
-import { withUseStore, Task } from './store'
+import { AOStore, withUseStore, Task } from './store'
 import { HudStyle } from './card-hud'
 import AoStack from './stack'
 import { prioritizeCard } from './cards'
@@ -19,6 +19,7 @@ interface PreviewProps {
   projectsShown?: boolean
   onToggleProjects?: (any) => void
   hideSubcardCountOnCollapsed?: boolean
+  aoStore: AOStore
 }
 
 @observer

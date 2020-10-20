@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { withUseStore } from './store';
 import AoDiscardZone from './discard-zone';
 import AoContextCard from './context-card'
+import AoHud from './hud'
 
 interface CardProps {
   match;
@@ -41,7 +42,7 @@ class RenderCard extends React.Component<RenderProps> {
         </Helmet>
         <AoDiscardZone />
         <AoContextCard task={card} cardStyle={'full'} />
-        {/* <AoHud /> */}
+        <AoHud />
       </React.Fragment>
     );
   }

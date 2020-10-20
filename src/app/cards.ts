@@ -1,4 +1,5 @@
 import api from '../client/api'
+import { createAoStore, pubState } from '../app/store'
 
 export type CardZone =
 	| 'card'
@@ -27,7 +28,12 @@ export interface CardPlay {
 	to: CardLocation
 }
 
-export function prioritizeCard(aoStore, move: CardPlay) {
+export function prioritizeCard(move: CardPlay) {
+	const aoStore = createAoStore(
+		__CLIENT__
+			? window.PRELOADED_STATE
+			: { session: null, token: null, user: null, loggedIn: false, ...pubState }
+	)
 	if (!move.from.taskId) {
 		return
 	}
@@ -69,7 +75,12 @@ export function prioritizeCard(aoStore, move: CardPlay) {
 	}
 }
 
-export function subTaskCard(aoStore, move: CardPlay) {
+export function subTaskCard(move: CardPlay) {
+	const aoStore = createAoStore(
+		__CLIENT__
+			? window.PRELOADED_STATE
+			: { session: null, token: null, user: null, loggedIn: false, ...pubState }
+	)
 	if (!move.from.taskId) {
 		return
 	}
@@ -109,7 +120,12 @@ export function subTaskCard(aoStore, move: CardPlay) {
 }
 
 // this is actually about members, not cards, but not gonna split the file yet
-export function isSenpai(aoStore, memberId: string) {
+export function isSenpai(memberId: string) {
+	const aoStore = createAoStore(
+		__CLIENT__
+			? window.PRELOADED_STATE
+			: { session: null, token: null, user: null, loggedIn: false, ...pubState }
+	)
 	const theirCard = aoStore.hashMap.get(memberId)
 	if (!theirCard) {
 		console.log('invalid member detected')
@@ -133,4 +149,19 @@ export function isSenpai(aoStore, memberId: string) {
 		return -1
 	}
 	return 0
+}
+
+export function countCurrentSignatures(signed: Signature[]) {
+	let mostRecentSignaturesOnly = signed.filter((signature, index) => {
+		let lastIndex
+		for (let i = signed.length - 1; i >= 0; i--) {
+			if (signed[i].memberId === signature.memberId) {
+				lastIndex = i
+				break
+			}
+		}
+		return lastIndex === index
+	})
+	return mostRecentSignaturesOnly.filter(signature => signature.opinion >= 1)
+		.length
 }

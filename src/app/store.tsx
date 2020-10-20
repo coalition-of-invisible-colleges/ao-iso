@@ -1,7 +1,7 @@
-import React from 'react';
-import { observable, computed, observe, action, makeObservable } from 'mobx';
-import _ from 'lodash';
-import { applyEvent, setCurrent } from './mutations';
+import React from 'react'
+import { observable, computed, observe, action, makeObservable } from 'mobx'
+import _ from 'lodash'
+import { applyEvent, setCurrent } from './mutations'
 import { blankCard } from './calculations'
 
 export interface Session {
@@ -146,9 +146,9 @@ export const serverState: PublicState = {
     usedTxIds: [],
     outputs: [],
     channels: [],
-    info: {}
-  }
-};
+    info: {},
+  },
+}
 
 export const pubState: PublicState = {
   ao: [],
@@ -168,9 +168,9 @@ export const pubState: PublicState = {
     usedTxIds: [],
     outputs: [],
     channels: [],
-    info: {}
-  }
-};
+    info: {},
+  },
+}
 
 export interface AoState extends PublicState {
   session: string
@@ -184,8 +184,8 @@ const defaultState: AoState = {
   token: '',
   user: '',
   loggedIn: false,
-  ...pubState
-};
+  ...pubState,
+}
 
 export interface SearchResults {
   missions: Task[]
@@ -200,11 +200,11 @@ export const emptySearchResults = {
   members: [],
   tasks: [],
   all: [],
-  length: 0
+  length: 0,
 }
 
 export class AoStore {
-  @observable state: AoState = defaultState;
+  @observable state: AoState = defaultState
   @observable searchResults?: SearchResults = undefined
   @observable context: string[] = []
   @observable discard: Task[] = []
@@ -212,8 +212,8 @@ export class AoStore {
   @observable guiCloseables: ((event?) => void)[] = []
 
   constructor(state: AoState) {
-    this.state = state;
-    
+    this.state = state
+
     if (__CLIENT__) {
       makeObservable(this)
     }
@@ -242,7 +242,7 @@ export class AoStore {
     })
     return hashMap
   }
-  
+
   @computed get hashMap(): Map<string, Task> {
     let hashMap: Map<string, Task> = new Map()
     this.state.tasks.forEach(t => {
@@ -285,20 +285,110 @@ export class AoStore {
     return hashMap
   }
 
+  @computed get allUnheldCards() {
+    // Will not catch cards that are still held by deleted members (need to filter task.deck for existing members for that)
+    return aoStore.state.tasks
+      .filter(task => {
+        return task.deck.length <= 0 && task.name !== task.taskId
+      })
+      .reverse()
+  }
+
   @computed get allGuilds(): Task[] {
     return this.state.tasks.filter(task => {
       return task.hasOwnProperty('guild') && task.guild.length >= 1
     })
   }
 
+  @computed get myGuilds(): Task[] {
+    let my = this.state.tasks.filter(t => {
+      if (!t.guild) return false
+      if (t.deck.indexOf(this.member.memberId) === -1) {
+        return false
+      }
+      return true
+    })
+    my = my.filter(st => {
+      if (!st.hasOwnProperty('taskId')) {
+        console.log(
+          'Invalid mission card detected while retrieving member missions list.'
+        )
+        return false
+      }
+      return true
+    })
+    let tempLastClaimeds = {}
+    my.forEach(g => {
+      tempLastClaimeds[g.taskId] = 0
+      let completions = g.completed.map(t => this.hashMap.get(t))
+      completions.forEach(c => {
+        if (typeof c === 'undefined') {
+          console.log(
+            'invalid data due to broken subTaskId links in completed list'
+          )
+          return
+        }
+        if (c.lastClaimed > tempLastClaimeds[g.taskId]) {
+          tempLastClaimeds[g.taskId] = c.lastClaimed
+        }
+      })
+    })
+    my.sort((a, b) => {
+      return tempLastClaimeds[b.taskId] - tempLastClaimeds[a.taskId]
+    })
+    return my
+  }
+
+  @computed get subGuildsByGuild(): Map<string, Task[]> {
+    let subGuildsByGuild: Map<string, Task[]> = new Map()
+
+    this.allGuilds.forEach(card => {
+      let projectCards: Task[] = []
+      let allSubCards = card.priorities.concat(card.subTasks, card.completed)
+
+      allSubCards.forEach(tId => {
+        let subCard = aoStore.hashMap.get(tId)
+        if (subCard) {
+          if (subCard.guild && subCard.guild.length >= 1) {
+            projectCards.push(subCard)
+          }
+        }
+      })
+
+      if (card.grid && card.grid.rows) {
+        Object.entries(card.grid.rows).forEach(([y, row]) => {
+          Object.entries(row).forEach(([x, cell]) => {
+            let gridCard = aoStore.hashMap.get(cell)
+            if (gridCard && gridCard.guild && gridCard.guild.length >= 1) {
+              projectCards.push(gridCard)
+            }
+          })
+        })
+      }
+      subGuildsByGuild.set(card.taskId, projectCards)
+    })
+
+    return subGuildsByGuild
+  }
+
+  @computed get allEvents(): Task[] {
+    return aoStore.state.tasks
+      .filter(task => {
+        return task.book.hasOwnProperty('startTs') && task.book.startTs > 0
+      })
+      .sort((a, b) => {
+        return b.book.startTs - a.book.startTs
+      })
+  }
+
   @action.bound
   initializeState(state: AoState) {
-    this.state = state;
+    this.state = state
   }
-  
+
   @action.bound
   applyEvent(ev) {
-    applyEvent(this.state, ev);
+    applyEvent(this.state, ev)
   }
   @action.bound
   resetState() {
@@ -346,7 +436,7 @@ export class AoStore {
         members: foundMembers,
         tasks: foundCards,
         all: foundGuilds.concat(foundMembers, foundCards),
-        length: foundGuilds.length + foundMembers.length + foundCards.length
+        length: foundGuilds.length + foundMembers.length + foundCards.length,
       })
     } catch (err) {
       console.log('regex search terminated in error: ', err)
@@ -408,15 +498,18 @@ export class AoStore {
 }
 
 export function applyBackup(backup) {
-  console.log("backup:", backup)
-  let server = Object.assign({}, backup);
-  setCurrent(serverState, server);
-  backup.memes = backup.memes && backup.memes.length > 0 ? backup.memes.map(removeSensitive) : [];
-  backup.resources = backup.resources.map(removeSensitive);
-  backup.members = backup.members.map(removeSensitive);
-  backup.ao = backup.ao.map(removeSensitive);
-  backup.tasks = backup.tasks.map(removeSensitive);
-  setCurrent(pubState, backup);
+  console.log('backup:', backup)
+  let server = Object.assign({}, backup)
+  setCurrent(serverState, server)
+  backup.memes =
+    backup.memes && backup.memes.length > 0
+      ? backup.memes.map(removeSensitive)
+      : []
+  backup.resources = backup.resources.map(removeSensitive)
+  backup.members = backup.members.map(removeSensitive)
+  backup.ao = backup.ao.map(removeSensitive)
+  backup.tasks = backup.tasks.map(removeSensitive)
+  setCurrent(pubState, backup)
 }
 
 export function removeSensitive(value) {
@@ -427,10 +520,10 @@ export function removeSensitive(value) {
     'email',
     'payment_hash',
     'inboundSecret',
-    'outboundSecret'
+    'outboundSecret',
   ]
   if (value.type === 'member-field-updated') {
-    ['fob', 'secret', 'email'].forEach(str => {
+    ;['fob', 'secret', 'email'].forEach(str => {
       if (value.field === str) {
         secretStuff.push('newfield')
       }
@@ -439,13 +532,13 @@ export function removeSensitive(value) {
   return _.omit(value, secretStuff)
 }
 
-let aoStore;
+let aoStore
 
 export function createAoStore(state) {
   if (aoStore == null) {
     aoStore = new AoStore(state)
   }
-  return () => aoStore;
+  return () => aoStore
 }
 
 export type AOStore = ReturnType<typeof createAoStore>
@@ -458,12 +551,12 @@ export const useStore = () => {
     // this is especially useful in TypeScript so you don't need to be checking for null all the time
     throw new Error('useStore must be used within a StoreProvider.')
   }
-  return __SERVER__ ? store.value_ : store;
+  return __SERVER__ ? store.value_ : store
 }
 
 export function withUseStore(Component) {
-  return (props) => {
-    const aoStore = useStore();
+  return props => {
+    const aoStore = useStore()
     return <Component {...props} aoStore={aoStore} />
   }
 }
