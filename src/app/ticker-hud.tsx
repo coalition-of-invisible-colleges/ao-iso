@@ -17,7 +17,6 @@ interface TickerProps {
   ticker: TickerInfo
   index: number
   validator: (string) => boolean
-  aoStore: AOStore
 }
 
 interface TickerState {
@@ -145,13 +144,17 @@ class AoTicker extends React.PureComponent<TickerProps, TickerState> {
   }
 }
 
+interface TickerHudProps {
+  aoStore: AOStore
+}
+
 interface TickerHudState {
   tickerData?: any
   extendedTickerData?: any
 }
 
 @observer
-class AoTickerHud extends React.Component<{}, TickerHudState> {
+class AoTickerHud extends React.Component<TickerHudProps, TickerHudState> {
   constructor(props) {
     super(props)
     this.state = {}

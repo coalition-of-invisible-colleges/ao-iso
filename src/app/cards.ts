@@ -1,5 +1,5 @@
 import api from '../client/api'
-import { createAoStore, pubState } from '../app/store'
+import { AOStore } from './store'
 
 export type CardZone =
 	| 'card'
@@ -28,104 +28,93 @@ export interface CardPlay {
 	to: CardLocation
 }
 
-export function prioritizeCard(move: CardPlay) {
-	const aoStore = createAoStore(
-		__CLIENT__
-			? window.PRELOADED_STATE
-			: { session: null, token: null, user: null, loggedIn: false, ...pubState }
-	)
-	if (!move.from.taskId) {
-		return
-	}
-	const nameFrom = aoStore.hashMap.get(move.from.taskId).name
+export function prioritizeCard(aoStore: AOStore) {
+	return function (move: CardPlay) {
+		if (!move.from.taskId) {
+			return
+		}
+		const nameFrom = aoStore.hashMap.get(move.from.taskId).name
 
-	switch (move.from.zone) {
-		case 'card':
-			// maybe this doesn't make sense, it's supposed to be for the whole card
-			break
-		case 'priorities':
-			if (move.from.inId === move.to.inId) {
-				api.prioritizeCard(move.from.taskId, move.from.inId)
-			} else {
+		switch (move.from.zone) {
+			case 'card':
+				// maybe this doesn't make sense, it's supposed to be for the whole card
+				break
+			case 'priorities':
+				if (move.from.inId === move.to.inId) {
+					api.prioritizeCard(move.from.taskId, move.from.inId)
+				} else {
+					api.findOrCreateCardInCard(nameFrom, move.to.inId, true)
+				}
+				break
+			case 'grid':
+				api
+					.unpinCardFromGrid(
+						move.from.coords.x,
+						move.from.coords.y,
+						move.from.inId
+					)
+					.then(() => api.prioritizeCard(move.from.taskId, move.to.inId))
+				break
+			case 'completed':
+			case 'completed':
+				api.prioritizeCard(move.from.taskId, move.to.inId)
+				break
+			case 'discard':
+				aoStore.popDiscardHistory()
+			case 'subTasks':
+			case 'context':
+			case 'panel':
 				api.findOrCreateCardInCard(nameFrom, move.to.inId, true)
-			}
-			break
-		case 'grid':
-			api
-				.unpinCardFromGrid(
+				break
+			default:
+				break
+		}
+	}
+}
+
+export function subTaskCard(aoStore: AOStore) {
+	return function (move: CardPlay) {
+		if (!move.from.taskId) {
+			return
+		}
+		const nameFrom = aoStore.hashMap.get(move.from.taskId).name
+
+		switch (move.from.zone) {
+			case 'card':
+				// maybe this doesn't make sense, it's supposed to be for the whole card
+				break
+			case 'priorities':
+				if (move.from.inId) {
+					api
+						.refocusCard(move.from.taskId, move.from.inId)
+						.then(() => api.findOrCreateCardInCard(nameFrom, move.to.inId))
+				} else {
+					api.findOrCreateCardInCard(nameFrom, move.to.inId)
+				}
+				break
+			case 'grid':
+				api.unpinCardFromGrid(
 					move.from.coords.x,
 					move.from.coords.y,
 					move.from.inId
 				)
-				.then(() => api.prioritizeCard(move.from.taskId, move.to.inId))
-			break
-		case 'completed':
-		case 'completed':
-			api.prioritizeCard(move.from.taskId, move.to.inId)
-			break
-		case 'discard':
-			aoStore.popDiscardHistory()
-		case 'subTasks':
-		case 'context':
-		case 'panel':
-			api.findOrCreateCardInCard(nameFrom, move.to.inId, true)
-			break
-		default:
-			break
-	}
-}
-
-export function subTaskCard(move: CardPlay) {
-	const aoStore = createAoStore(
-		__CLIENT__
-			? window.PRELOADED_STATE
-			: { session: null, token: null, user: null, loggedIn: false, ...pubState }
-	)
-	if (!move.from.taskId) {
-		return
-	}
-	const nameFrom = aoStore.hashMap.get(move.from.taskId).name
-
-	switch (move.from.zone) {
-		case 'card':
-			// maybe this doesn't make sense, it's supposed to be for the whole card
-			break
-		case 'priorities':
-			if (move.from.inId) {
-				api
-					.refocusCard(move.from.taskId, move.from.inId)
-					.then(() => api.findOrCreateCardInCard(nameFrom, move.to.inId))
-			} else {
+				break
+			case 'discard':
+				aoStore.popDiscardHistory()
+			case 'completed':
+			case 'subTasks':
+			case 'context':
+			case 'panel':
 				api.findOrCreateCardInCard(nameFrom, move.to.inId)
-			}
-			break
-		case 'grid':
-			api.unpinCardFromGrid(
-				move.from.coords.x,
-				move.from.coords.y,
-				move.from.inId
-			)
-			break
-		case 'discard':
-			aoStore.popDiscardHistory()
-		case 'completed':
-		case 'subTasks':
-		case 'context':
-		case 'panel':
-			api.findOrCreateCardInCard(nameFrom, move.to.inId)
-			break
-		default:
-			break
+				break
+			default:
+				break
+		}
 	}
 }
 
 // this is actually about members, not cards, but not gonna split the file yet
-export function isSenpai(memberId: string) {
-	const aoStore = createAoStore(
-		__CLIENT__
-			? window.PRELOADED_STATE
-			: { session: null, token: null, user: null, loggedIn: false, ...pubState }
-	)
+export function isSenpai(aoStore: AOStore, memberId: string) {
 	const theirCard = aoStore.hashMap.get(memberId)
 	if (!theirCard) {
 		console.log('invalid member detected')

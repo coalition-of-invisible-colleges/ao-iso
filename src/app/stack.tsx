@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
-import { withUseStore, Task, AOStore } from './store'
+import { AOStore, withUseStore, Task } from './store'
 import AoContextCard, { CardStyle } from './context-card'
+import { CardZone } from './cards'
 import AoDragZone from './drag-zone'
 import AoDropZone from './drop-zone'
-import { CardPlay, Coords, CardZone } from './cards'
+import { CardPlay, Coords } from './cards'
 import AoCardComposer from './card-composer'
 
 interface StackProps {
@@ -23,6 +24,8 @@ interface StackProps {
   noPopups?: boolean
   noFindOnPage?: boolean
   cardsBeforeFold?: number
+  decorators?: {}
+  className?: string
   aoStore: AOStore
 }
 
@@ -52,6 +55,7 @@ class AoStack extends React.PureComponent<StackProps, StackState> {
     this.show = this.show.bind(this)
     this.hide = this.hide.bind(this)
     this.toggleCompose = this.toggleCompose.bind(this)
+    this.decorate = this.decorate.bind(this)
   }
 
   componentDidMount() {
@@ -84,6 +88,22 @@ class AoStack extends React.PureComponent<StackProps, StackState> {
 
   toggleCompose() {
     this.setState({ showCompose: !this.state.showCompose })
+  }
+
+  decorate(contents, taskId) {
+    if (
+      !this.props.decorators ||
+      !this.props.decorators.hasOwnProperty(taskId)
+    ) {
+      return contents
+    }
+
+    return (
+      <div style={{ position: 'relative' }}>
+        {contents}
+        {this.props.decorators[taskId]}
+      </div>
+    )
   }
 
   render() {
@@ -138,20 +158,23 @@ class AoStack extends React.PureComponent<StackProps, StackState> {
             y: i,
           }}
           key={task.taskId + this.props.inId + this.props.cardStyle}>
-          <AoContextCard
-            task={task}
-            cardStyle={this.props.cardStyle ? this.props.cardStyle : 'face'}
-            noPopups={this.props.noPopups}
-            noFindOnPage={this.props.noFindOnPage}
-            inlineStyle={
-              this.props.cardStyle === 'context'
-                ? {
-                    maxWidth:
-                      (30 - (cardsToRender.length - i)).toString() + 'em',
-                  }
-                : {}
-            }
-          />
+          {this.decorate(
+            <AoContextCard
+              task={task}
+              cardStyle={this.props.cardStyle ? this.props.cardStyle : 'face'}
+              noPopups={this.props.noPopups}
+              noFindOnPage={this.props.noFindOnPage}
+              inlineStyle={
+                this.props.cardStyle === 'context'
+                  ? {
+                      maxWidth:
+                        (30 - (cardsToRender.length - i)).toString() + 'em',
+                    }
+                  : {}
+              }
+            />,
+            task.taskId
+          )}
         </AoDragZone>
       ))
     } else if (this.props.noFirstCard) {
@@ -167,12 +190,15 @@ class AoStack extends React.PureComponent<StackProps, StackState> {
               y: 0,
             }}
             key={task.taskId + this.props.inId + this.props.cardStyle}>
-            <AoContextCard
-              task={task}
-              cardStyle={this.props.cardStyle ? this.props.cardStyle : 'face'}
-              noPopups={this.props.noPopups}
-              noFindOnPage={this.props.noFindOnPage}
-            />
+            {this.decorate(
+              <AoContextCard
+                task={task}
+                cardStyle={this.props.cardStyle ? this.props.cardStyle : 'face'}
+                noPopups={this.props.noPopups}
+                noFindOnPage={this.props.noFindOnPage}
+              />,
+              task.taskId
+            )}
           </AoDragZone>
         ))
     }
@@ -217,7 +243,12 @@ class AoStack extends React.PureComponent<StackProps, StackState> {
       </>
     )
     return (
-      <div className={'stack' + (this.state.showAll ? ' open' : '')}>
+      <div
+        className={
+          'stack' +
+          (this.props.className ? ' ' + this.props.className : '') +
+          (this.state.showAll ? ' open' : '')
+        }>
         <AoDropZone
           inId={this.props.inId}
           y={0}

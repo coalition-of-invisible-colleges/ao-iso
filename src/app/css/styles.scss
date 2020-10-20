@@ -1797,6 +1797,14 @@ textarea {
         }
       }
     }
+
+    // all Tippy tooltip popups. this used to have background color by default, where'd it go?
+    .tippy-box {
+      // background-color: rgba(40, 40, 40, 0.8);
+      border-radius: 0.5em;
+      padding-bottom: 0.5em;
+      padding-right: 0.5em;
+    }
   }
 }
 

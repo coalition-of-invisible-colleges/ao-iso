@@ -267,6 +267,16 @@ export class AoStore {
     return hashMap
   }
 
+  @computed get contextCards(): Task[] {
+    let cards: Task[] = []
+    this.context.forEach(tId => {
+      cards.push(this.hashMap.get(tId))
+    })
+    cards.reverse()
+
+    return cards
+  }
+
   @computed
   get myCards() {
     return this.state.tasks.filter(
@@ -442,6 +452,7 @@ export class AoStore {
       console.log('regex search terminated in error: ', err)
     }
   }
+
   @action.bound
   addToContext(taskIds: string[]) {
     if (taskIds.length < 1) return
@@ -456,11 +467,14 @@ export class AoStore {
       this.context.unshift(this.member.memberId)
     }
   }
+
+  @action.bound
   removeFromContext(taskId: string) {
     this.context = this.context.filter(tId => {
       return tId !== taskId
     })
   }
+
   @action.bound
   clearContextTo(taskId: string) {
     const index = this.context.findIndex(tId => {
@@ -468,29 +482,35 @@ export class AoStore {
     })
     this.context = this.context.slice(0, index + 1)
   }
+
   @action.bound
   setCurrentCard(taskId: string) {
     this.currentCard = taskId
   }
+
   @action.bound
   addToDiscardHistory(tasks: Task[]) {
     if (tasks.length < 1) return
     this.discard.push(...tasks)
   }
+
   @action.bound
   popDiscardHistory() {
     return this.discard.pop()
   }
+
   @action.bound
   registerCloseable(onHide: (event) => void) {
     this.guiCloseables.push(onHide)
   }
+
   @action.bound
   unregisterCloseable(onHide: (event) => void) {
     this.guiCloseables = this.guiCloseables.filter(
       callback => callback !== onHide
     )
   }
+
   @action.bound
   closeAllCloseables() {
     this.guiCloseables.forEach(callback => callback())

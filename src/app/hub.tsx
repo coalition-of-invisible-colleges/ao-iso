@@ -59,20 +59,22 @@ class AoHub extends React.PureComponent<{}, State> {
       if (this.props.aoStore.context.length <= 0) {
         redirectCard = this.props.aoStore.memberCard.taskId
       } else {
-        redirectCard = this.props.aoStore.context[this.props.aoStore.context.length - 1]
+        redirectCard = this.props.aoStore.context[
+          this.props.aoStore.context.length - 1
+        ]
       }
       this.props.aoStore.setCurrentCard(redirectCard)
       this.props.aoStore.removeFromContext(redirectCard)
       this.setState({
-        redirect: redirectCard
+        redirect: redirectCard,
       })
     } else {
       console.log('goInCard taskId is ', taskId)
-      this.props.aoStore.addToContext([aoStore.currentCard])
+      this.props.aoStore.addToContext([this.props.aoStore.currentCard])
       this.props.aoStore.setCurrentCard(taskId)
       this.props.aoStore.removeFromContext(taskId)
       this.setState({
-        redirect: taskId
+        redirect: taskId,
       })
     }
   }

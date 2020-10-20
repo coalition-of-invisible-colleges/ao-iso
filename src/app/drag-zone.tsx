@@ -52,13 +52,13 @@ class AoDragZone extends React.PureComponent<DragZoneProps> {
 		let fromZone = event.dataTransfer.getData('text/fromZone')
 		let fromCoords = {
 			x: event.dataTransfer.getData('text/fromX'),
-			y: event.dataTransfer.getData('text/fromY')
+			y: event.dataTransfer.getData('text/fromY'),
 		}
 		let fromLocation = {
 			taskId: fromId,
 			inId: fromInId,
 			zone: fromZone,
-			coords: fromCoords
+			coords: fromCoords,
 		}
 
 		// Do this last, because some cards don't render properly
@@ -67,7 +67,9 @@ class AoDragZone extends React.PureComponent<DragZoneProps> {
 		// since there is no drag image, setting other data fields
 		// fails too
 		let cardHTML = ReactDOMServer.renderToStaticMarkup(
-			withUseStore(<AoContextCard task={card} cardStyle={'compact'} noPopups={true} />)
+			withUseStore(
+				<AoContextCard task={card} cardStyle={'compact'} noPopups={true} />
+			)
 		)
 		let dragGhostElement: Element = document.createElement('div')
 		dragGhostElement.innerHTML = cardHTML

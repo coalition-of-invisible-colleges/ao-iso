@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
-import { withUseStore } from './store'
+import { AOStore, withUseStore } from './store'
 import api from '../client/api'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -17,12 +17,13 @@ interface State {
 
 export const defaultState: State = {
   editing: false,
-  startTime: undefined
+  startTime: undefined,
 }
 
 interface CountdownProps {
   taskId: string
   hudStyle: HudStyle
+  aoStore: AOStore
 }
 
 interface DatePickerProps {
@@ -50,10 +51,7 @@ class RenderDatePicker extends React.PureComponent<DatePickerProps> {
 }
 
 @observer
-class AoCountdown extends React.Component<
-  CountdownProps,
-  State
-> {
+class AoCountdown extends React.Component<CountdownProps, State> {
   constructor(props) {
     super(props)
     this.state = defaultState
@@ -71,7 +69,7 @@ class AoCountdown extends React.Component<
       let newStartTime: Date = new Date(0)
       newStartTime.setUTCMilliseconds(card.book.startTs)
       this.setState({
-        startTime: newStartTime
+        startTime: newStartTime,
       })
     }
     this.setState({ editing: true })

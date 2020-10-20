@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
-import { withUseStore } from './store'
+import { AOStore, withUseStore } from './store'
 import AoPalette from './palette'
 import AoBird from './bird'
 import AoUnread from './unread'
@@ -24,6 +24,7 @@ export type HudStyle =
 	| 'collapsed-mission'
 	| 'mini before'
 	| 'mini after'
+	| 'badge'
 	| 'menu'
 
 interface CardHudProps {
@@ -32,10 +33,11 @@ interface CardHudProps {
 	prioritiesShown?: boolean
 	onTogglePriorities?: (any) => void
 	noPopups?: boolean
+	aoStore: AOStore
 }
 
 @observer
-class CardHud extends React.PureComponent<CardHudProps> {
+class AoCardHud extends React.PureComponent<CardHudProps> {
 	render() {
 		const taskId = this.props.taskId
 		const card = this.props.aoStore.hashMap.get(taskId)
@@ -99,8 +101,8 @@ class CardHud extends React.PureComponent<CardHudProps> {
 				return (
 					<React.Fragment>
 						<AoBird taskId={taskId} />
+						<AoUnread taskId={taskId} />
 						<div className={'hud ' + hudStyle}>
-							<AoUnread taskId={taskId} />
 							<AoCountdown taskId={taskId} hudStyle={hudStyle} />
 							<AoValue taskId={taskId} hudStyle={hudStyle} />
 							<AoCheckbox taskId={taskId} hudStyle={hudStyle} />
@@ -144,6 +146,14 @@ class CardHud extends React.PureComponent<CardHudProps> {
 						<AoCardMenu taskId={taskId} hudStyle={hudStyle} />
 					</div>
 				)
+			case 'badge':
+				return (
+					<div className={'hud ' + hudStyle}>
+						<AoCountdown taskId={taskId} hudStyle={hudStyle} />
+						<AoPreview taskId={taskId} hudStyle={hudStyle} />
+						<AoCardMenu taskId={taskId} hudStyle={hudStyle} />
+					</div>
+				)
 			case 'menu':
 				return (
 					<div className={'hud menu'}>
@@ -158,4 +168,4 @@ class CardHud extends React.PureComponent<CardHudProps> {
 	}
 }
 
-export default withUseStore(CardHud)
+export default withUseStore(AoCardHud)

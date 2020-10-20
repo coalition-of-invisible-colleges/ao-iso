@@ -17,14 +17,11 @@ interface State {
 
 export const defaultState: State = {
   editing: false,
-  text: ''
+  text: '',
 }
 
 @observer
-class AoMission extends React.PureComponent<
-  MissionProps,
-  State
-> {
+class AoMission extends React.PureComponent<MissionProps, State> {
   constructor(props) {
     super(props)
     this.state = defaultState
@@ -50,7 +47,7 @@ class AoMission extends React.PureComponent<
 
     if (card.guild) {
       this.setState({
-        text: card.guild
+        text: card.guild,
       })
     }
     this.setState({ editing: true })
@@ -127,6 +124,11 @@ class AoMission extends React.PureComponent<
               {card.guild}
             </span>
           )
+        }
+        return null
+      case 'badge':
+        if (card.guild) {
+          return <span className={'mission badge'}>{card.guild}</span>
         }
         return null
       case 'menu':

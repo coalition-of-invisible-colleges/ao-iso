@@ -1,21 +1,20 @@
-import { Router } from 'express';
-import { createAoStore, pubState } from '../app/store';
+import { Router } from 'express'
+import { createAoStore, pubState } from '../app/store'
 import * as validators from './validators'
 import events from './events'
 import * as utils from './utils'
 import bodyParser from 'body-parser'
-import { v1 as uuidV1 } from 'uuid';
+import { v1 as uuidV1 } from 'uuid'
 import * as lightning from './lightning'
 
-const router = Router();
-
+const router = Router()
 
 router.post('/state', (req, res) => {
-  res.json(pubState);
+  res.json(pubState)
 })
 
 router.post('/events', (req, res, next) => {
-  const aoStore = createAoStore(pubState)();
+  const aoStore = createAoStore(pubState)()
   aoStore.state.sessions.forEach(s => {
     if (s.token === req.headers.authorization) {
       req.body.blame = s.ownerId
@@ -25,8 +24,8 @@ router.post('/events', (req, res, next) => {
 })
 
 router.post('/events', bodyParser.json(), (req, res, next) => {
-  console.log(req.body);
-  const aoStore = createAoStore(pubState)();
+  console.log(req.body)
+  const aoStore = createAoStore(pubState)()
   let errRes = []
   switch (req.body.type) {
     case 'ao-linked':
@@ -94,7 +93,7 @@ router.post('/events', bodyParser.json(), (req, res, next) => {
         {
           type: 'ao-inbound-connected',
           address: aoStore.cash.address,
-          secret: req.body.secret //
+          secret: req.body.secret, //
         },
         subscriptionResponse => {
           if (!subscriptionResponse.lastInsertRowid) {
@@ -293,9 +292,7 @@ router.post('/events', bodyParser.json(), (req, res, next) => {
       envelope.subTasks = [...new Set(taskIds)]
       envelope.passed = [[req.body.address, req.body.toMemberId]]
 
-      tasks = aoStore.tasks.filter(
-        t => taskIds.indexOf(t.taskId) >= 0
-      )
+      tasks = aoStore.tasks.filter(t => taskIds.indexOf(t.taskId) >= 0)
       tasks.push(envelope)
 
       let serverAddress
@@ -312,7 +309,7 @@ router.post('/events', bodyParser.json(), (req, res, next) => {
       while (next100.length > 0) {
         let newEvent = {
           type: 'tasks-received',
-          tasks: next100
+          tasks: next100,
         }
         setTimeout(() => {
           connector.postEvent(
@@ -321,7 +318,7 @@ router.post('/events', bodyParser.json(), (req, res, next) => {
             newEvent,
             connectorRes => {
               console.log('migrate connection response', {
-                connectorRes
+                connectorRes,
               })
             }
           )
@@ -518,7 +515,7 @@ router.post('/events', bodyParser.json(), (req, res, next) => {
       if (
         validators.isTaskId(req.body.taskId, errRes) &&
         validators.isTaskId(req.body.subTask, errRes) &&
-        validators.isMemberId(req.body.blame)
+        validators.isMemberId(req.body.blame, errRes)
       ) {
         events.taskSubTasked(
           req.body.taskId,
@@ -909,4 +906,4 @@ router.post('/events', bodyParser.json(), (req, res, next) => {
   }
 })
 
-export default router;
+export default router

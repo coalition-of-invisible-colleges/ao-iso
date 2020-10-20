@@ -17,6 +17,7 @@ import AoCoin from './coin'
 import AoPreview from './preview'
 import AoCheckmark from './checkmark'
 import AoMemberIcon from './member-icon'
+import BlankBadge from '../assets/images/badge_blank.svg'
 import { prioritizeCard, subTaskCard, CardZone } from './cards'
 import { hideAll as hideAllTippys } from 'tippy.js'
 
@@ -55,10 +56,7 @@ interface State {
 }
 
 @observer
-class AoContextCard extends React.PureComponent<
-	CardProps,
-	State
-> {
+class AoContextCard extends React.PureComponent<CardProps, State> {
 	constructor(props) {
 		super(props)
 		this.state = {}
@@ -73,6 +71,7 @@ class AoContextCard extends React.PureComponent<
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+		console.log('componentDidUpdate redirect is ', this.state.redirect)
 		if (this.state.redirect !== undefined) {
 			this.setState({ redirect: undefined })
 		}
@@ -140,13 +139,15 @@ class AoContextCard extends React.PureComponent<
 		const taskId = card.taskId
 		console.log('goInCard taskId is ', taskId)
 		if (this.props.cardStyle === 'context') {
-			this.props.aoStore.clearContextTo(card.taskId)
+			this.props.aoStore.clearContextTo(taskId)
 		} else {
 			this.props.aoStore.addToContext([this.props.aoStore.currentCard])
 		}
 		this.props.aoStore.setCurrentCard(taskId)
 		this.props.aoStore.removeFromContext(taskId)
-		this.setState({ redirect: taskId })
+		this.setState({ redirect: taskId }, () => {
+			console.log('state was set to ', taskId)
+		})
 	}
 
 	async onHover(event) {
@@ -170,7 +171,9 @@ class AoContextCard extends React.PureComponent<
 				if (
 					!card.seen ||
 					(card.seen &&
-						!card.seen.some(s => s.memberId === this.props.aoStore.member.memberId))
+						!card.seen.some(
+							s => s.memberId === this.props.aoStore.member.memberId
+						))
 				) {
 					api.markSeen(this.props.task.taskId)
 				}
@@ -212,15 +215,15 @@ class AoContextCard extends React.PureComponent<
 					overrides: {
 						a: {
 							props: {
-								target: '_blank'
-							}
+								target: '_blank',
+							},
 						},
 						iframe: {
 							props: {
-								display: hideIframes ? 'inherit' : 'none'
-							}
-						}
-					}
+								display: hideIframes ? 'inherit' : 'none',
+							},
+						},
+					},
 				}}>
 				{content}
 			</Markdown>
@@ -260,7 +263,8 @@ class AoContextCard extends React.PureComponent<
 	}
 
 	render() {
-		if (this.state.redirect !== undefined) {
+		if (this.state.redirect) {
+			console.log('redirecting')
 			return <Redirect to={this.state.redirect} />
 		}
 
@@ -275,6 +279,10 @@ class AoContextCard extends React.PureComponent<
 		}
 
 		const taskId = card.taskId
+
+		const subTaskCardCallback = subTaskCard(this.props.aoStore)
+		const prioritizeCardCallback = prioritizeCard(this.props.aoStore)
+
 		let member
 		let content = card.name
 		if (taskId === content) {
@@ -286,12 +294,16 @@ class AoContextCard extends React.PureComponent<
 
 		let priorityCards: Task[]
 		if (card.priorities && card.priorities.length >= 1) {
-			priorityCards = card.priorities.map(tId => this.props.aoStore.hashMap.get(tId))
+			priorityCards = card.priorities.map(tId =>
+				this.props.aoStore.hashMap.get(tId)
+			)
 		}
 
 		let subTaskCards: Task[]
 		if (card.subTasks && card.subTasks.length >= 1) {
-			subTaskCards = card.subTasks.map(tId => this.props.aoStore.hashMap.get(tId))
+			subTaskCards = card.subTasks.map(tId =>
+				this.props.aoStore.hashMap.get(tId)
+			)
 		}
 
 		let cardStyle = this.props.cardStyle ? this.props.cardStyle : 'face'
@@ -392,7 +404,7 @@ class AoContextCard extends React.PureComponent<
 											addButtonText={'+priority'}
 											cardStyle={'priority'}
 											onNewCard={this.newPriority}
-											onDrop={prioritizeCard}
+											onDrop={prioritizeCardCallback}
 											zone={'priorities'}
 										/>
 									) : null}
@@ -447,7 +459,7 @@ class AoContextCard extends React.PureComponent<
 								addButtonText={'+priority'}
 								cardStyle={'priority'}
 								onNewCard={this.newPriority}
-								onDrop={prioritizeCard}
+								onDrop={prioritizeCardCallback}
 								zone={'priorities'}
 							/>
 							<AoGrid taskId={taskId} />
@@ -456,7 +468,7 @@ class AoContextCard extends React.PureComponent<
 								cards={subTaskCards}
 								showAdd={true}
 								onNewCard={this.newSubTask}
-								onDrop={subTaskCard}
+								onDrop={subTaskCardCallback}
 								zone={'subTasks'}
 							/>
 							<AoCompleted taskId={taskId} />
@@ -524,7 +536,22 @@ class AoContextCard extends React.PureComponent<
 						<div style={{ clear: 'both', height: '1px' }} />
 					</div>
 				)
-
+			case 'badge':
+				return (
+					<div
+						id={'card-' + taskId}
+						className={'card badge' + this.applyClassIfCurrentSearchResult}
+						onClick={this.goInCard}
+						onMouseEnter={this.onHover}
+						onMouseOver={this.onHover}
+						onMouseOut={this.clearPendingPromise}>
+						<AoPaper taskId={taskId} />
+						<img className="background" src={BlankBadge} />
+						<AoMission taskId={taskId} hudStyle={'badge'} />
+						<AoCardHud taskId={taskId} hudStyle={'badge'} />
+					</div>
+				)
+				break
 			case 'mini':
 			default:
 				let shortened = content

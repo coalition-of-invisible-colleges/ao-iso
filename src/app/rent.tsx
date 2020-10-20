@@ -19,7 +19,7 @@ class AoRent extends React.PureComponent<Props> {
 
   @computed get activeMembers() {
     let a = 0
-    aoStore.state.members.forEach(m => {
+    this.props.aoStore.state.members.forEach(m => {
       if (m.active > 0) {
         a++
       }
@@ -28,17 +28,23 @@ class AoRent extends React.PureComponent<Props> {
   }
 
   @computed get perMember() {
-    return aoStore.state.cash.rent / this.activeMembers
+    return this.props.aoStore.state.cash.rent / this.activeMembers
   }
 
   @computed get pendingDeactivations() {
-    return aoStore.state.members
-      .filter(m => m.active > 0 && aoStore.hashMap.get(m.memberId).boost <= 0)
+    return this.props.aoStore.state.members
+      .filter(
+        m =>
+          m.active > 0 && this.props.aoStore.hashMap.get(m.memberId).boost <= 0
+      )
       .map(m => m.memberId)
   }
 
   renderPendingDeactivation() {
-    if (this.pendingDeactivations.length <= 0 || aoStore.state.cash.rent <= 0) {
+    if (
+      this.pendingDeactivations.length <= 0 ||
+      this.props.aoStore.state.cash.rent <= 0
+    ) {
       return <p>No users are pending deactivation</p>
     }
 
@@ -55,8 +61,8 @@ class AoRent extends React.PureComponent<Props> {
   }
 
   render() {
-    const monthlyCost = aoStore.state.cash.rent
-    const monthlyCap = aoStore.state.cash.cap
+    const monthlyCost = this.props.aoStore.state.cash.rent
+    const monthlyCap = this.props.aoStore.state.cash.cap
 
     return (
       <React.Fragment>

@@ -52,6 +52,12 @@ class AoApi {
       })
   }
 
+  logout() {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    aoStore.resetState()
+    window.localStorage.clear()
+  }
+
   async fetchState(): Promise<boolean> {
     const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const session = window.localStorage.getItem('session')
@@ -76,17 +82,11 @@ class AoApi {
       .catch(() => false)
   }
 
-  async prioritizeCard(
-    taskId: string,
-    inId: string,
-    position: number = 0
-  ): Promise<request.Response> {
+  async nameAo(newName: string): Promise<request.Response> {
     const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
-      type: 'task-prioritized',
-      taskId: taskId,
-      inId: inId,
-      position: position,
+      type: 'ao-named',
+      alias: newName,
     }
     return request
       .post('/events')
@@ -97,6 +97,50 @@ class AoApi {
       })
   }
 
+  async bark(): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'doge-barked',
+      memberId: aoStore.member.memberId,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async mute(): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'doge-muted',
+      memberId: aoStore.member.memberId,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async unmute(): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'doge-unmuted',
+      memberId: aoStore.member.memberId,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
   async createCard(name: string): Promise<request.Response> {
     const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
@@ -144,6 +188,27 @@ class AoApi {
         inId: inId,
         prioritized: prioritized,
       }
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async prioritizeCard(
+    taskId: string,
+    inId: string,
+    position: number = 0
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'task-prioritized',
+      taskId: taskId,
+      inId: inId,
+      position: position,
     }
     return request
       .post('/events')
@@ -337,6 +402,30 @@ class AoApi {
       })
   }
 
+  async updateMemberField(
+    field: string,
+    newValue: string
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const secret = createHash(name)
+    if (field === 'secret') {
+      newValue = createHash(newValue)
+    }
+    const act = {
+      type: 'member-field-updated',
+      memberId: aoStore.member.memberId,
+      field: field,
+      newfield: newValue,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
   async dropCard(taskId: string): Promise<request.Response> {
     const aoStore = createAoStore(window.__PRELOADED_STATE__)()
     const act = {
@@ -401,6 +490,95 @@ class AoApi {
       })
   }
 
+  async createResource(
+    resourceId: string,
+    name: string,
+    charged: number,
+    secret: string,
+    trackStock: boolean
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'resource-created',
+      resourceId: resourceId,
+      name: name,
+      charged: charged,
+      secret: secret,
+      trackStock: trackStock,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async useResource(
+    resourceId: string,
+    amount: number,
+    charged: number,
+    notes: string = ''
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'resource-used',
+      resourceId: resourceId,
+      memberId: aoStore.member.memberId,
+      amount: amount,
+      charged: charged,
+      notes: notes,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async stockResource(
+    resourceId: string,
+    amount: number,
+    paid: number,
+    notes: string = ''
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'resource-stocked',
+      resourceId: resourceId,
+      memberId: aoStore.member.memberId,
+      amount: amount,
+      paid: paid,
+      notes: notes,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  async purgeResource(resourceId: string): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'resource-purged',
+      resourceId: resourceId,
+      blame: aoStore.member.memberId,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
   async bookResource(
     taskId: string,
     startTime: number,
@@ -413,6 +591,28 @@ class AoApi {
       memberId: aoStore.member.memberId,
       startTs: startTime,
       endTs: endTime,
+    }
+    return request
+      .post('/events')
+      .set('Authorization', aoStore.state.token)
+      .send(act)
+      .then(res => {
+        return res
+      })
+  }
+
+  // Each member has a list of tickers. Each ticker is a string.
+  // Sets the ticker at position tickerListIndex to symbol coinSymbol.
+  async setTicker(
+    coinSymbol: string,
+    tickerListIndex: number
+  ): Promise<request.Response> {
+    const aoStore = createAoStore(window.__PRELOADED_STATE__)()
+    const act = {
+      type: 'member-ticker-set',
+      memberId: aoStore.member.memberId,
+      symbol: coinSymbol,
+      index: tickerListIndex,
     }
     return request
       .post('/events')

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { Redirect } from 'react-router-dom'
-import { withUseStore, Task, Grid, AOStore } from './store'
+import { AOStore, withUseStore, Task, Grid } from './store'
 import api from '../client/api'
 import AoDragZone from './drag-zone'
 import AoDropZone from './drop-zone'
@@ -19,6 +19,7 @@ interface GridProps {
 
 interface GridViewProps extends GridProps {
   grid: Grid
+  aoStore: AOStore
 }
 
 interface GridViewState {
@@ -257,9 +258,18 @@ class GridView extends React.PureComponent<GridViewProps, GridViewState> {
                   zone: 'grid',
                   inId: taskId,
                   x: i,
-                  y: j
+                  y: j,
                 }}>
-                <AoContextCard task={card} cardStyle={'mini'} />
+                <AoContextCard
+                  task={card}
+                  cardStyle={
+                    this.props.dropActsLikeFolder &&
+                    card.guild &&
+                    card.guild.length >= 1
+                      ? 'badge'
+                      : 'mini'
+                  }
+                />
               </AoDragZone>
             ) : null}
           </AoDropZone>
@@ -275,7 +285,7 @@ interface GridState {
 }
 
 export const defaultState: GridState = {
-  redirect: undefined
+  redirect: undefined,
 }
 
 @observer
@@ -320,7 +330,7 @@ class AoGrid extends React.PureComponent<GridProps, GridState> {
         </div>
       )
     }
-    const GridViewWithStore =withUseStore(GridView)
+
     return (
       <div className={'gridContainer' + (grid.width <= 2 ? ' padbottom' : '')}>
         <div
@@ -328,12 +338,13 @@ class AoGrid extends React.PureComponent<GridProps, GridState> {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(' + grid.width.toString() + ', 5em)',
-            gridTemplateRows: 'repeat(' + grid.height.toString() + ', 5em)'
+            gridTemplateRows: 'repeat(' + grid.height.toString() + ', 5em)',
           }}>
-          <GridViewWithStore
+          <GridView
             taskId={taskId}
             grid={grid}
             dropActsLikeFolder={this.props.dropActsLikeFolder}
+            aoStore={this.props.aoStore}
           />
         </div>
         <AoGridResizer taskId={taskId} />
